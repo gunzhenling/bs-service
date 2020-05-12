@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bs.payment.modules.trade.dao.PayQueryResultMapper">
+
+	<insert id="save" parameterType="PayQueryResult" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO pay_center3_pay_query_result (id, app_id, pay_type, order_No, trade_No, fee_Type, cash_Amount, total_Amount, extra, trade_Time, details)
+		VALUES (#{id}, #{appId}, #{payType}, #{orderNo}, #{tradeNo}, #{feeType}, #{cashAmount}, #{totalAmount}, #{extra}, #{tradeTime}, #{details, typeHandler=com.bs.payment.common.mybatis.JsonTypeHandler})
+	</insert>
+	
+	<select id="findByOrderNo" resultType="payQueryResult">
+		select id, app_id, pay_type, order_no, trade_no, fee_type, cash_amount, total_amount, extra, trade_time, create_time, details
+		from pay_center3_pay_query_result 
+		where  app_id = #{appId} and order_no = #{orderNo}
+		and pay_type = #{payType} 
+	</select>
+	
+	<select id="findByOrderNoLike" resultType="payQueryResult">
+		select id, app_id, pay_type, order_no, trade_no, fee_type, cash_amount, total_amount, extra, trade_time, create_time, details
+		from pay_center3_pay_query_result 
+		where order_no like CONCAT(#{orderNo},'%')
+		<if test="payType != null"> and pay_type = #{payType} </if>
+	</select>
+	
+	<select id="findInOrders" parameterType="java.util.HashSet" resultMap="payQueryResult">
+		select id, app_id, pay_type, order_no, trade_no, fee_type, cash_amount, total_amount, extra, trade_time, create_time, details
+		from pay_center3_pay_query_result 
+		where order_no in <foreach collection="orders" item="id" open="(" separator="," close=")">#{id}</foreach>
+		and pay_type in <foreach collection="payTypes" item="payType" open="(" separator="," close=")">#{payType}</foreach>
+	</select>
+
+	<resultMap type="PayQueryResult" id="payQueryResult">
+		<id column="id" property="id" />
+		<result column="app_id"  property="appId" />
+		<result column="pay_type"  property="payType" />
+		<result column="order_no"  property="orderNo" />
+		<result column="trade_no"  property="tradeNo" />
+		<result column="fee_type"  property="feeType" />
+		<result column="cash_amount"  property="cashAmount" />
+		<result column="total_amount"  property="totalAmount" />
+		<result column="extra"  property="extra" />
+		<result column="trade_time"  property="tradeTime" />
+		<result column="create_time"  property="createTime" />
+		<result column="details"  property="details" typeHandler="com.bs.payment.common.mybatis.JsonTypeHandler" />
+	</resultMap>
+</mapper>

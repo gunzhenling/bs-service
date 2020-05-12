@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bs.payment.modules.trade.dao.PayNotifyLogMapper">
+
+	<insert id="save" parameterType="PayNotifyLog" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO pay_center3_pay_notify (id, app_id, pay_type, order_No, trade_No, fee_Type, cash_Amount, total_Amount, extra, trade_Time, details)
+		VALUES (#{id}, #{appId}, #{payType}, #{orderNo}, #{tradeNo}, #{feeType}, #{cashAmount}, #{totalAmount}, #{extra}, #{tradeTime}, #{details, typeHandler=com.bs.payment.common.mybatis.JsonTypeHandler})
+	</insert>
+	
+	<select id="findByOrderNo" resultMap="payNotifyLog">
+		select id, app_id, pay_type, order_no, trade_no, fee_type, cash_amount, total_amount, extra, trade_time, create_time, details
+		from pay_center3_pay_notify 
+		where order_no = #{orderNo}
+		and pay_type = #{payType}
+	</select>
+	
+	<select id="findByOrderNoLike" resultMap="payNotifyLog">
+		select id, app_id, pay_type, order_no, trade_no, fee_type, cash_amount, total_amount, extra, trade_time, create_time, details
+		from pay_center3_pay_notify 
+		where order_no like CONCAT(#{orderNo},'%')
+		<if test="payType != null"> and pay_type = #{payType} </if>
+	</select>
+
+	<resultMap type="PayNotifyLog" id="payNotifyLog">
+		<id column="id" property="id" />
+		<result column="app_id"  property="appId" />
+		<result column="pay_type"  property="payType" />
+		<result column="order_no"  property="orderNo" />
+		<result column="trade_no"  property="tradeNo" />
+		<result column="fee_type"  property="feeType" />
+		<result column="cash_amount"  property="cashAmount" />
+		<result column="total_amount"  property="totalAmount" />
+		<result column="extra"  property="extra" />
+		<result column="trade_time"  property="tradeTime" />
+		<result column="create_time"  property="createTime" />
+		<result column="details"  property="details" typeHandler="com.bs.payment.common.mybatis.JsonTypeHandler" />
+	</resultMap>
+</mapper>

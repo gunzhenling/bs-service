@@ -1,0 +1,214 @@
+
+### 支付宝-扫码支付
+POST http://localhost:8080/api/trade/payment/pay
+content-type: application/json
+
+{
+    "channel": "alipay_qr",
+    "app_id": 123,
+    "order_no": "fanhangtest0001",
+    "client_id": "127.0.0.1",
+    "amount": "15",
+    "subject": "fanhangtest-0001",
+    "extra":{
+        "a": "b",
+        "c": 1
+    }
+}
+
+
+
+### 支付宝-app支付
+POST http://localhost:8080/api/trade/payment/pay
+content-type: application/json
+
+{
+    "channel": "alipay_qr",
+    "app_id": 123,
+    "order_no": "fanhangtest0001",
+    "client_id": "127.0.0.1",
+    "amount": "15",
+    "subject": "fanhangtest-0001",
+    "extra":{
+        "a": "b",
+        "c": 1
+    }
+}
+
+
+
+### 微信-扫码支付
+POST http://localhost:8080/api/trade/payment/pay
+content-type: application/json
+
+{
+    "channel": "wx_qr",
+    "app_id": 123,
+    "order_no": "fanhangtest0002",
+    "client_id": "127.0.0.1",
+    "amount": "12",
+    "subject": "fanhangtest-0002",
+    "client_ip": "192.168.2.1",
+    "extra":{
+        "a": "b",
+        "c": 1
+    }
+}
+
+
+
+### 微信-app支付
+POST http://localhost:8080/api/trade/payment/pay
+content-type: application/json
+
+{
+    "channel": "wx_qr",
+    "app_id": 123,
+    "order_no": "fanhangtest0002",
+    "client_id": "127.0.0.1",
+    "amount": "12",
+    "subject": "fanhangtest-0002",
+    "client_ip": "192.168.2.1",
+    "extra":{
+        "a": "b",
+        "c": 1
+    }
+}
+
+
+### 支付查询
+POST http://localhost:8080/api/trade/payment/payQuery
+content-type: application/json
+
+{
+    "pay_type": "wx",
+    "app_id": 123,
+    "order_no": "fanhangtest0002",
+    "client_id": "127.0.0.1",
+    "amount": "12",
+    "subject": "fanhangtest-0002",
+    "client_ip": "192.168.2.1",
+    "extra":{
+        "a": "b",
+        "c": 1
+    }
+}
+
+
+### 退款
+POST http://localhost:8080/api/trade/payment/refund
+content-type: application/json
+
+{
+    "channel": "wx_app",
+    "app_id": 123,
+    "order_no": "fanhangtest0002",
+    "client_id": "127.0.0.1",
+    "amount": "12",
+    "subject": "fanhangtest-0002",
+    "client_ip": "192.168.2.1",
+    "extra":{
+        "a": "b",
+        "c": 1
+    }
+}
+
+
+### 退款查询
+POST http://localhost:8080/api/trade/payment/refundQuery
+content-type: application/json
+
+{
+    "channel": "wx_app",
+    "app_id": 123,
+    "order_no": "fanhangtest0002",
+    "client_id": "127.0.0.1",
+    "amount": "12",
+    "subject": "fanhangtest-0002",
+    "client_ip": "192.168.2.1",
+    "extra":{
+        "a": "b",
+        "c": 1
+    }
+}
+
+
+
+### 转账
+POST http://localhost:8080/api/trade/payment/transfer
+content-type: application/json
+
+{
+    "channel": "wx_app",
+    "app_id": 123,
+    "order_no": "fanhangtest0002",
+    "client_id": "127.0.0.1",
+    "amount": "12",
+    "subject": "fanhangtest-0002",
+    "client_ip": "192.168.2.1",
+    "extra":{
+        "a": "b",
+        "c": 1
+    }
+}
+
+
+### 转账查询
+POST http://localhost:8080/api/trade/payment/transferQuery
+content-type: application/json
+
+{
+    "channel": "wx_app",
+    "app_id": 123,
+    "order_no": "fanhangtest0002",
+    "client_id": "127.0.0.1",
+    "amount": "12",
+    "subject": "fanhangtest-0002",
+    "client_ip": "192.168.2.1",
+    "extra":{
+        "a": "b",
+        "c": 1
+    }
+}
+
+
+
+### 转账查询
+POST http://116.85.33.137:21999/api/trade/payment/alipay/pay/notify?a=1&bb=22
+content-type: application/json
+
+{
+    "wx": "test"
+}
+
+
+
+### 转账查询
+POST http://localhost:8080/api/trade/payment/wx/pay/notify
+content-type: application/json
+
+<xml><appid><![CDATA[wx9b5cb757426e00d9]]></appid>
+<bank_type><![CDATA[CFT]]></bank_type>
+<cash_fee><![CDATA[2]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1429146602]]></mch_id>
+<nonce_str><![CDATA[cWVFs1aDk0yri3wPPZWYpbxNkRCFLkB2]]></nonce_str>
+<openid><![CDATA[ok1_lw8uKy47yvw9DiKBuiDbA-x8]]></openid>
+<out_trade_no><![CDATA[fanhang-test31-31-56479]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[1B2B12E8D16712F9F6B63489BF4BAA0FD65DDBF434262FEAA8C53F359CDAD04C]]></sign>
+<time_end><![CDATA[20180831154217]]></time_end>
+<total_fee>2</total_fee>
+<trade_type><![CDATA[NATIVE]]></trade_type>
+<transaction_id><![CDATA[4200000208201808313525887685]]></transaction_id>
+</xml>
+
+
+
+### 转账查询
+POST http://localhost:8080/api/trade/payment/alipay/pay/notify?total_amount=2.00&buyer_id=2088102116773037&body=大乐透2.1&trade_no=2016071921001003030200089909&refund_fee=0.00¬ify_time=2016-07-19 14:10:49&subject=大乐透2.1&sign_type=RSA2&charset=utf-8¬ify_type=trade_status_sync&out_trade_no=0719141034-6418&gmt_close=2016-07-19 14:10:46&gmt_payment=2016-07-19 14:10:47&trade_status=TRADE_SUCCESS&version=1.0&sign=kPbQIjX+xQc8F0/A6/AocELIjhhZnGbcBN6G4MM/HmfWL4ZiHM6fWl5NQhzXJusaklZ1LFuMo+lHQUELAYeugH8LYFvxnNajOvZhuxNFbN2LhF0l/KL8ANtj8oyPM4NN7Qft2kWJTDJUpQOzCzNnV9hDxh5AaT9FPqRS6ZKxnzM=&gmt_create=2016-07-19 14:10:44&app_id=2015102700040153&seller_id=2088102119685838¬ify_id=4a91b7a78a503640467525113fb7d8bg8e
+content-type: application/json
+
+

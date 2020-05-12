@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bs.payment.modules.trade.dao.BillCompareBatchMapper">
+
+	<insert id="create" parameterType="BillCompareBatch" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO pay_center3_bill_compare_batch (`id`, `app_id`,`name`, `pay_type`, `bill_date`, `mistake_count`, `unhandle_mistake_count`, `bill_pay_count`, `request_pay_count`, `bill_refund_count`, `request_refund_count`, `bill_pay_amount`, `request_pay_amount`, `bill_refund_amount`, `request_refund_amount`, `pay_service_charge`, `refund_service_charge`, `create_time`)
+		VALUES (#{id}, #{appId}, #{name}, #{payType}, #{billDate}, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, #{createTime})
+	</insert>
+	
+	<update id="update">
+		update pay_center3_bill_compare_batch set 
+		`mistake_count` = #{mistakeCount},
+		`unhandle_mistake_count` = #{unhandleMistakeCount},
+		`bill_pay_count` = #{billPayCount},
+		`request_pay_count` = #{requestPayCount},
+		`bill_refund_count` = #{billRefundCount},
+		`request_refund_count` = #{requestRefundCount},
+		`bill_pay_amount` = #{billPayAmount},
+		`request_pay_amount` = #{requestPayAmount},
+		`bill_refund_amount` = #{billRefundAmount},
+		`request_refund_amount` = #{requestRefundAmount},
+		`pay_service_charge` = #{payServiceCharge},
+		`refund_service_charge` = #{refundServiceCharge} 
+		where id = #{id}
+	</update>
+	
+	<update id="decrementUnhandleMistakeCount">
+		update pay_center3_bill_compare_batch 
+		set `update_time` = ${updateTime}, `unhandle_mistake_count` = unhandle_mistake_count-1 
+		where id={id}
+	</update>
+	
+	<select id="findById" resultMap="billCompareBatch" >
+		select `id`,`app_id`, `name`, `pay_type`, `bill_date`, `mistake_count`, `unhandle_mistake_count`, `bill_pay_count`, `request_pay_count`, `bill_refund_count`, `request_refund_count`, `bill_pay_amount`, `request_pay_amount`, `bill_refund_amount`, `request_refund_amount`, `pay_service_charge`, `refund_service_charge`, `create_time`, `update_time`
+		from pay_center3_bill_compare_batch
+		where id = #{id}
+	</select>
+	<select id="findByappIdAndName" resultMap="billCompareBatch" >
+		select `id`,`app_id`, `name`, `pay_type`, `bill_date`, `mistake_count`, `unhandle_mistake_count`, `bill_pay_count`, `request_pay_count`, `bill_refund_count`, `request_refund_count`, `bill_pay_amount`, `request_pay_amount`, `bill_refund_amount`, `request_refund_amount`, `pay_service_charge`, `refund_service_charge`, `create_time`, `update_time`
+		from pay_center3_bill_compare_batch
+		where app_id=#{appId}  and name = #{name}
+	</select>
+	<select id="findByName" resultMap="billCompareBatch" >
+		select `id`,`app_id`, `name`, `pay_type`, `bill_date`, `mistake_count`, `unhandle_mistake_count`, `bill_pay_count`, `request_pay_count`, `bill_refund_count`, `request_refund_count`, `bill_pay_amount`, `request_pay_amount`, `bill_refund_amount`, `request_refund_amount`, `pay_service_charge`, `refund_service_charge`, `create_time`, `update_time`
+		from pay_center3_bill_compare_batch
+		where name = #{name}
+	</select>
+	
+	<select id="findByBillDate" resultMap="billCompareBatch" >
+		select `id`,`app_id`, `name`, `pay_type`, `bill_date`, `mistake_count`, `unhandle_mistake_count`, `bill_pay_count`, `request_pay_count`, `bill_refund_count`, `request_refund_count`, `bill_pay_amount`, `request_pay_amount`, `bill_refund_amount`, `request_refund_amount`, `pay_service_charge`, `refund_service_charge`, `create_time`, `update_time`
+		from pay_center3_bill_compare_batch
+		where bill_date = #{billDate} and pay_type=#{payType} and app_id=#{appId}
+	</select>
+	
+	<select id="compareBatchList" resultMap="billCompareBatch"  >
+		select `id`,`app_id`, `name`, `pay_type`, `bill_date`, `mistake_count`, `unhandle_mistake_count`, `bill_pay_count`, `request_pay_count`, `bill_refund_count`, `request_refund_count`, `bill_pay_amount`, `request_pay_amount`, `bill_refund_amount`, `request_refund_amount`, `pay_service_charge`, `refund_service_charge`, `create_time`, `update_time`
+		from pay_center3_bill_compare_batch
+		<where>
+			<if test="params.appId!=null">
+				and app_id = #{params.appId}
+			</if>
+			<if test="params.batchName!=null">
+				and name = #{params.batchName}
+			</if>
+			<if test="params.billDate!=null">
+				and bill_date = #{params.billDate}
+			</if>
+			<if test="params.payType!=null">
+				and pay_type = #{params.payType}
+			</if>
+			<if test="params.billStatus==0">
+				and mistake_count = 0
+			</if>
+			<if test="params.billStatus==1">
+				and mistake_count > 0
+			</if>
+			<if test="params.billStatus==2">
+				and mistake_count > 0 and unhandle_mistake_count = 0
+			</if>
+		</where> 
+		ORDER BY bill_date DESC,create_time DESC 
+		limit #{params.offset},#{params.limit}
+		 
+	</select>
+	
+	<select id="compareBatchCount" resultType="java.lang.Integer"  >
+		select count(1)
+		from pay_center3_bill_compare_batch
+		<where>
+			<if test="params.appId!=null">
+				and app_id = #{params.appId}
+			</if>
+			<if test="params.batchName!=null">
+				and name = #{params.batchName}
+			</if>
+			<if test="params.billDate!=null">
+				and bill_date = #{params.billDate}
+			</if>
+			<if test="params.payType!=null">
+				and pay_type = #{params.payType}
+			</if>
+			<if test="params.billStatus==0">
+				and mistake_count = 0
+			</if>
+			<if test="params.billStatus==1">
+				and mistake_count > 0
+			</if>
+			<if test="params.billStatus==2">
+				and mistake_count > 0 and unhandle_mistake_count = 0
+			</if>
+		</where> 
+		 
+	</select>
+	
+	<resultMap type="BillCompareBatch" id="billCompareBatch">
+		<id column="id" property="id" />
+		<result column="app_id" property="appId" />
+		<result column="name" property="name" />
+		<result column="pay_type" property="payType" />
+		<result column="bill_date" property="billDate" />
+		<result column="mistake_count" property="mistakeCount" />
+		<result column="unhandle_mistake_count" property="unhandleMistakeCount" />
+		<result column="bill_pay_count" property="billPayCount" />
+		<result column="request_pay_count" property="requestPayCount" />
+		<result column="bill_refund_count" property="billRefundCount" />
+		<result column="request_refund_count" property="requestRefundCount" />
+		<result column="bill_pay_amount" property="billPayAmount" />
+		<result column="request_pay_amount" property="requestPayAmount" />
+		<result column="bill_refund_amount" property="billRefundAmount" />
+		<result column="request_refund_amount" property="requestRefundAmount" />
+		<result column="pay_service_charge" property="payServiceCharge" />
+		<result column="refund_service_charge" property="refundServiceCharge" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+	</resultMap>
+</mapper>

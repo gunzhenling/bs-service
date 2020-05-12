@@ -1,0 +1,176 @@
+
+### 支付下单
+POST http://localhost:9999/api/trade/payment/pay
+content-type: application/json;charset=utf-8
+access_token: eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOm51bGwsImF1ZCI6IjUwMSIsInN1YiI6IjViYzAzZGVkODk3MDExMDAwN2E5MTk0MyIsImFwcGlkIjoiNTAxIiwiZXhwIjo5MjM5NDE0NjUxNDIzMiwianRpIjoiUXUwNXZIMzBvRVNoY2lVaWY1U200USIsImlhdCI6MTUzOTg1MTU3Nn0.RDydEPa0sYjg2-GVbTcguOR26Pr7EwoXaq7h_A2hSgA
+
+{
+  "amount": 10000,
+  "app_id": "101",
+  "channel": "wx_qr",
+  "client_ip": "183.15.178.20",
+  "extra": {
+    "openid": "oFWee4ul0N1CBvYp2JAQRfu5ydp0"
+  },
+  "order_no": "fanhangtest-048",
+  "subject": "fanhangtest"
+}
+
+
+
+### 支付下单查询
+GET http://localhost:9999/api/trade/payment/payQuery
+content-type: application/json;charset=utf-8
+access_token: eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOm51bGwsImF1ZCI6IjUwMSIsInN1YiI6IjViYzAzZGVkODk3MDExMDAwN2E5MTk0MyIsImFwcGlkIjoiNTAxIiwiZXhwIjo5MjM5NDE0NjUxNDIzMiwianRpIjoiUXUwNXZIMzBvRVNoY2lVaWY1U200USIsImlhdCI6MTUzOTg1MTU3Nn0.RDydEPa0sYjg2-GVbTcguOR26Pr7EwoXaq7h_A2hSgA
+
+{
+  "app_id": "101",
+  "client_ip": "183.15.178.20",
+  "extra": {},
+  "order_no": "fanhangtest-048",
+  "pay_type": "wx"
+}
+
+
+
+### 申请退款
+POST http://localhost:9999/api/trade/payment/refund
+content-type: application/json;charset=utf-8
+access_token: eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOm51bGwsImF1ZCI6IjUwMSIsInN1YiI6IjViYzAzZGVkODk3MDExMDAwN2E5MTk0MyIsImFwcGlkIjoiNTAxIiwiZXhwIjo5MjM5NDE0NjUxNDIzMiwianRpIjoiUXUwNXZIMzBvRVNoY2lVaWY1U200USIsImlhdCI6MTUzOTg1MTU3Nn0.RDydEPa0sYjg2-GVbTcguOR26Pr7EwoXaq7h_A2hSgA
+
+{
+  "app_id": "101",
+  "extra": {},
+  "order_no": "fanhangtest-037",
+  "pay_type": "wx",
+  "refund_amount": 20,
+  "refund_no": "fanhangtest-037-r",
+  "total_amount": 20
+}
+
+
+
+### 退款查询
+GET http://localhost:9999/api/trade/payment/refundQuery
+content-type: application/json;charset=utf-8
+access_token: eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOm51bGwsImF1ZCI6IjUwMSIsInN1YiI6IjViYzAzZGVkODk3MDExMDAwN2E5MTk0MyIsImFwcGlkIjoiNTAxIiwiZXhwIjo5MjM5NDE0NjUxNDIzMiwianRpIjoiUXUwNXZIMzBvRVNoY2lVaWY1U200USIsImlhdCI6MTUzOTg1MTU3Nn0.RDydEPa0sYjg2-GVbTcguOR26Pr7EwoXaq7h_A2hSgA
+
+{
+  "app_id": "501",
+  "pay_type": "wx",
+  "order_no": "101154055264737123",
+  "refund_no": "101154055264737123r"
+}
+
+
+
+### 转账
+POST http://localhost:9999/api/trade/payment/transfer
+content-type: application/json;charset=utf-8
+access_token: eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOm51bGwsImF1ZCI6IjUwMSIsInN1YiI6IjViYzAzZGVkODk3MDExMDAwN2E5MTk0MyIsImFwcGlkIjoiNTAxIiwiZXhwIjo5MjM5NDE0NjUxNDIzMiwianRpIjoiUXUwNXZIMzBvRVNoY2lVaWY1U200USIsImlhdCI6MTUzOTg1MTU3Nn0.RDydEPa0sYjg2-GVbTcguOR26Pr7EwoXaq7h_A2hSgA
+
+{
+  "account": "oFWee4ul0N1CBvYp2JAQRfu5ydp0",
+  "amount": "100",
+  "app_id": "501",
+  "client_ip": "183.15.178.20",
+  "extra": {
+    "app": false
+  },
+  "pay_type": "wx",
+  "real_name": "陈佳鸿",
+  "remark": "dev-test-by-樊航",
+  "transfer_no": "fanhang0004"
+}
+
+
+
+### 转账查询
+GET http://localhost:9999/api/trade/payment/transferQuery
+content-type: application/json;charset=utf-8
+access_token: eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOm51bGwsImF1ZCI6IjUwMSIsInN1YiI6IjViYzAzZGVkODk3MDExMDAwN2E5MTk0MyIsImFwcGlkIjoiNTAxIiwiZXhwIjo5MjM5NDE0NjUxNDIzMiwianRpIjoiUXUwNXZIMzBvRVNoY2lVaWY1U200USIsImlhdCI6MTUzOTg1MTU3Nn0.RDydEPa0sYjg2-GVbTcguOR26Pr7EwoXaq7h_A2hSgA
+
+{
+  "app_id": "101",
+  "extra": {
+    "app": false
+  },
+  "pay_type": "wx",
+  "transfer_no": "fanhang0004"
+}
+
+
+
+### 模拟回调-微信退款
+POST http://localhost:9999/api/trade/payment/wx/101/refundNotify
+content-type: application/xml;charset=utf-8
+
+<xml><return_code>SUCCESS</return_code><appid><![CDATA[wxf9206620f5f39aad]]></appid><mch_id><![CDATA[1426644302]]></mch_id><nonce_str><![CDATA[dc20f6b6f40242a0c2fa03217c582fe2]]></nonce_str><req_info><![CDATA[J310j/bdFJBVrg50haFJ0zARVbU0i7d8pWt/j65p3q4cJOeGoPHEC+Rh4sUTxRTTb85NHgzlaoTmhOHuvTpZVoScsi0VKO0UTGnq2/7eYhuvywPiC9P6/IMkC6dW8Ieve9he9a91tSzmYBUVLtHyyzneH8TGz/NX2e/3vEa9NuK+0XyMvO6xHHT45MLvr8R5dWGuzi4ClR/pLt9jlGNn2KGVxv+QezN7qhD9zhrv+4g/LDnZXo9fO+di3084xl8DnPXUxFsMze2quYmnXJbvJEWNhVMLlOzWfj4o3e2MIRlJgBcnjdpEH2sX1BdrsN42whtpVcxPyTVWxKaxNBHch/uxLoDL004MgmwlyTDAvIL4syDPq+/BCscs1xistg1l7j27k/zmF68TjEH5oh4k4WkgtNjmNOZW1Qy2KCGa5ML/06jMQcCZaBY1xPScUI4SbkGJPcECGy+HwCB91opbX/JvC8stJt3uvcM8YLDjyfAxRbB79qwYSTNOhja42NEGP31HcilpG9gwZOKln7jxeTz7Y5ibBRmj7hkGOrDPw5FkcVTCbX7V+bVaL1683a4kbZ57JURm+ahNm0Ea71wnKywu82AOzH8hH6gIDvFQjA5opsYvnMz48GKuSj70owcxKDoQwKZ9lCBFBZ12px0yJecPNTiwWgYno7l1jaVxbGoC9iA4uef6ZxfnF5LETGLdad7lWeQexebjCuZ89QnYLMvg6H5hXB8zWZB0g1wa4UeRyc/T3AuUMDWVrorEZFs/DIMkFUNLy7lGy9rv7+Aq2NhojmW6B3HVE35Xenk6ri7g9LEFct1mvKORPjNn8KJL+hwt4VHC566nnLk9Qkb0zBz2e5yLk5c5NyXZVHX7XBGZxHJKrEbIsMiPkRNKmmMNXLsI8Dj9DIGofPdHP0mgIW6SnDrheTTvpxLCv6EHcSln5whF+mo8yR2/XGcdUBfkE6tIsoFWz8k+C82PQ8x1gjJH8tvsKvdbypCy8JzQ6T6ZF8onXrVxbjgBINWIqMYW40Bz6NbgFxZ/TDBeGB9BmJWJH4xLvCYXyPGKkMZGU38=]]></req_info></xml>
+
+
+### 模拟回调-微信支付
+POST http://localhost:9999/api/trade/payment/wx/101/payNotify
+content-type: application/xml;charset=utf-8
+
+<xml>
+    <transaction_id>4200000206201810234403601016</transaction_id>
+    <nonce_str>Ywb8YRqZDWUWaTOSqSUWaoBBHEjLW6h4</nonce_str>
+    <bank_type>WEB_DEBIT</bank_type>
+    <openid>oo_hUwg5I0VumM8xobr0RluO7NkU</openid>
+    <sign>B85AE6D87A19ED3D3C1D56EB0F489A3A04C22B28B8FD1D42355211A2A067734F</sign>
+    <fee_type>CNY</fee_type>
+    <mch_id>1426644302</mch_id>
+    <cash_fee>10</cash_fee>
+    <out_trade_no>fanhangtest-008</out_trade_no>
+    <appid>wxf9206620f5f39aad</appid>
+    <total_fee>10</total_fee>
+    <trade_type>NATIVE</trade_type>
+    <result_code>SUCCESS</result_code>
+    <time_end>20181023104728</time_end>
+    <is_subscribe>N</is_subscribe>
+    <return_code>SUCCESS</return_code>
+</xml>
+
+
+
+### 支付宝对账单比对
+POST http://localhost:9999/api/trade/bill/alipay/101/compare?date=2018-10-31
+content-type: application/json;charset=utf-8
+access_token: eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOm51bGwsImF1ZCI6IjUwMSIsInN1YiI6IjViYzAzZGVkODk3MDExMDAwN2E5MTk0MyIsImFwcGlkIjoiNTAxIiwiZXhwIjo5MjM5NDE0NjUxNDIzMiwianRpIjoiUXUwNXZIMzBvRVNoY2lVaWY1U200USIsImlhdCI6MTUzOTg1MTU3Nn0.RDydEPa0sYjg2-GVbTcguOR26Pr7EwoXaq7h_A2hSgA
+
+
+
+### 微信对账单比对
+POST http://localhost:9999/api/trade/bill/wx/101/compare?date=2018-10-25
+content-type: application/json;charset=utf-8
+access_token: eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOm51bGwsImF1ZCI6IjUwMSIsInN1YiI6IjViYzAzZGVkODk3MDExMDAwN2E5MTk0MyIsImFwcGlkIjoiNTAxIiwiZXhwIjo5MjM5NDE0NjUxNDIzMiwianRpIjoiUXUwNXZIMzBvRVNoY2lVaWY1U200USIsImlhdCI6MTUzOTg1MTU3Nn0.RDydEPa0sYjg2-GVbTcguOR26Pr7EwoXaq7h_A2hSgA
+
+
+
+### 对账单比对
+POST http://localhost:9999/api/trade/bill/download
+content-type: application/json;charset=utf-8
+access_token: eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOm51bGwsImF1ZCI6IjUwMSIsInN1YiI6IjViYzAzZGVkODk3MDExMDAwN2E5MTk0MyIsImFwcGlkIjoiNTAxIiwiZXhwIjo5MjM5NDE0NjUxNDIzMiwianRpIjoiUXUwNXZIMzBvRVNoY2lVaWY1U200USIsImlhdCI6MTUzOTg1MTU3Nn0.RDydEPa0sYjg2-GVbTcguOR26Pr7EwoXaq7h_A2hSgA
+
+{
+  "app_id": "101",
+  "pay_type": "alipay",
+  "bill_type": "trade",
+  "bill_date": "2018-10-26"
+}
+
+
+
+###  获取账单批次列表
+POST http://localhost:9999/api/trade/bill/compareBatchList
+content-type: application/json;charset=utf-8
+access_token: eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOm51bGwsImF1ZCI6IjUwMSIsInN1YiI6IjViYzAzZGVkODk3MDExMDAwN2E5MTk0MyIsImFwcGlkIjoiNTAxIiwiZXhwIjo5MjM5NDE0NjUxNDIzMiwianRpIjoiUXUwNXZIMzBvRVNoY2lVaWY1U200USIsImlhdCI6MTUzOTg1MTU3Nn0.RDydEPa0sYjg2-GVbTcguOR26Pr7EwoXaq7h_A2hSgA
+
+{
+  "bill_date": "20190505",
+  "bill_status": "0",
+  "pay_type": "wx",
+  "batch_name": "";
+  "offset": "";
+  "limit": ""
+}

@@ -1,0 +1,113 @@
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://mysql.server.com:3306/paycenter?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=round
+      username: intbee
+      password: mysql@intbee88678
+      initial-size: 20
+      min-idle: 30
+      max-active: 150
+      max-wait: 3000
+  kafka:
+    bootstrap-servers: kafka.server.com:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: zc-payment-consumer-group
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      auto-commit-interval: 100
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+douyin:
+  appid: 800095759394
+  mchid: 1900009575
+  sercet: vhc2y80sg6xzss7tz23hm1ee6jikg15u2qv1tdwc
+  public-key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDOZZ7iAkS3oN970+yDONe5TPhPrLHoNOZOjJjackEtgbptdy4PYGBGdeAUAz75TO7YUGESCM+JbyOz1YzkMfKl2HwYdoePEe8qzfk5CPq6VAhYJjDFA/M+BAZ6gppWTjKnwMcHVK4l2qiepKmsw6bwf/kkLTV9l13r6Iq5U+vrmwIDAQAB
+  url: https://tp-pay.snssdk.com/gateway
+
+payment:
+  domain: http://payv3.intbee.com
+  bill-download-folder: ./bill
+  app:
+    101:
+      alipay_lite:
+        remark: 小程序-支付宝
+        mchid: 2088221861486600
+        environment: prod
+        sign-type: RSA
+        appid: 2019090566908649
+        private-key: MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCSLmuuALlXNDCjkzpivsh/EfCRIeNSppCk8xwm38/hcWUMXFQgVoZq80ZVVacnuS1kO4ZJVRlgGHd0yQgT6EWifZk6IuiikGFQ7DCklLzZ9gqiZ9zy2Ab9DV7aHL0SayhWAc1AtDfjp+8cAkTaq1ilUtbuNVItIsN1W8ILm65e3YuWemfmJuHyd7IJ8cj+HKCltuITQdDnGLLwrlacv2ZRHcUk5jWx5gsm0/uYrS2SHRCFRBDW6NLO+0mVC/wZxuFau9cF3TjHDKVmHABAp2AUh9+kyEMAR8n5vguFQB3+a+u5AYRnuqYpP5GrUEtR/0H4LDvklAeyJN0TGIJ8JbCHAgMBAAECggEBAIzXauoISoppf19qz7sqA/TiLP04QFR2pTA4B2yxARI99dTV9DwAAZxz7dT0JIwST1iePUDUXBGJITcFJeJATS9EgehQkAFoyEp2dltr7xS1iQN2vJvBZeJUCoptXAGt+vv62m439Q1D1Q4QZZSluE/5I5n5B8bzEo01Lh2PDo7Yu1IV3YR9ZYxFiM+yOIrnK7MNaoCi+M2GwYgybxLeZr2e9b9PLwHxOY6dstrDBZRnB4rYNMJPzq+eWuXUTvqXUR2FJ7Lj7bVKJvkUsy5e9coO7IgtPFRnGoGvhcXhZlBS3Sdv9qijXoAQkp+6IIS+smvbBJDfzaSiDfUwN2g9/hECgYEA7Qhpv3O+g5bvm5oBWuuwGP2goior/QSY6tNZGdtO3mwzAfCg6mYocqzXQsp2dDGg0Fx5lqWPRxBTl7U+sxK+8/C7Lr8Upxt/kT6a/QKGOt2ewPRbKEQ7poZwGyrB4WXcUPVt0lcgCrWRgydWCGUVXdmzkKfwMZuMWTdkmZbpNIkCgYEAneDtBsXGwZ/F5y7/WEBT6On+M4+Xz3rTG/lEIZUh4ybxPmvKV6tGYqPnSPMqQXxcNKuEuZE8STyIUAHJxV5uoLc3JWZY/hfVZ/vhkY1ROXtYGX/P6NLb8QMIbzC3jjKfjFJFb2sCqwnyouKV30aMjn6HIgUXNg46m3L60icwmI8CgYAtf8PswCb902dDExjXfw5afbTr6/RtqQhBazhbQkGtaE+SO8JnvBxfhtX7OCnsu+oGlPmx9S2/kl65bE0QyrRk1vzXSE6KlTizhLTzhByICCqFF2K4JADfQkcar+ZvgcH8uF/QVHEOHTRFXLOjAORNE5DoX5Q3sYgLSBrDcLhrIQKBgQCWUvE9LpmWCQxFmKE2pWF/9zS8YW/59QgHrarqkvYGNDEl7zpliUZma4uwESBd5AxjdiDVE+2kCgf8rgcxbz3Et07BxJbdsVHYRaO8lCMPqVr0RJdxJzyWWf3w6SENOzRhRoComuqacsldwINVafYxQ1Zl1RUJujihhLQ/32LNDwKBgDrIiZB7CaX+pAV4d05L5w6Z69yZrIkunzPK+UcvDvSa1Q+oN8BqJ4F4qhvo3LwExEuPap2txQmVvOWWztCrAo9Ezuv9x+sJqVO7HEMRKSJJsdqnSijPRNJS90XKnNVhDdEjb9BIHb+Q/rMB7BhClp5YAUWJDcD0Do6LcMA3Qaw5
+        public-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiupgAgDsPsvSFvUHaLSrORS+UiHa74ZH+JX0uxneJMcslnAR0nkNNu/FUShPwBP0bNJU2X5JET4NGxcyPU5y/v4shzbUWrL2MuARyaXW2JFcabQxntdByhutsm7GOiaHhiuSzq0jIPEqCT9PNXyW/Y7oGdCO8JNMOVjrzMPcAuCerXyC9m3SBDCo69UaDJKy9V6dFR1OdtxMNPF24GKSymV0TpcXxBos1ckkJfPFWqq5MQbPNFdviYOceeuQL2cNtHX3eOhlaaZiXPyI/IuSpfabXOSaTiaop/cNBuCA0Kb4mWmBAowsT+mUHzasPNx4Dv/tRPyunReV7IWyXBlZ+wIDAQAB
+      alipay:
+        remark: 智蜂-支付宝
+        appid: 2016052401436400
+        mchid: 2088221861486600
+        environment: prod
+        sign-type: RSA
+        private-key: MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAJzAkjQpzJ34jaCSwhuIVWL+1cHBmtv8L5e/3ABufLB+23QqGHqXwpOYM25TAeHzzcjsFZi8s2sIcxADbZZrBZS+30S/DxzTEJlufoVYg4jPnfjwedKhcvfvr79iNSEFUTOxP04ESxOHoBIW+Ob57x01e/+la++CS22T2rmvPksvAgMBAAECgYAET181w/h2V4E9awufSi5e3HbwLuydI+ADIilgcalICRTrqsSlikq1WDgBzpJ8rgF4htVJL9cXGFJhnFaFDkhG9bxY2IZJmx9uVyJVOzc9kDpaYhsNiBe1RHfrst5wOs29p3T3tlt5z5ERSAK6FPzcA7YVzEIuH9U+0KY+Dk0P8QJBAMoT+KlORI71ckjhghLcQCs0UyWzSlcpTGzhah3CtmJGau0Uqc2banCh+xjFSYibB8Y/cEjnnEAu6miH3a0Uhf0CQQDGlGCz2h0b5Ydi47V8I58Xx+Q8ORZ52GS84jLGjvUdgXwqXVWbGVUfrP4e4BFoYwALNYbJ6No3sCrR9P8pyEebAkApB/MWlYDQMkA5UiiyIayZ2S8E2am/lvAgr4h3cIDN5ZRyfR6ZU/RB2HH+rphmt2vVsi3fb7/HPH92KBg3u5IVAkBSv0+Qgknw7vM8fOCKKxnHQg9UHQHFoitQHf3EiZuQQP2pdZ0PdT3oZiC6Yuo+EkrZYOOazUHpRKqDNNEC6ycTAkEAqCd9GrBrW7K5eJ9+kReD2Tad7jDEI49sAwrTrpQccYwFdYIsBD57KTSanjn1BsuOBxTXOu0Lw4EkaJjq0+NTOQ==
+        public-key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDI6d306Q8fIfCOaTXyiUeJHkrIvYISRcc73s3vF1ZT7XN8RNPwJxo8pWaJMmvyTn9N4HQ632qJBVHf8sxHi/fEsraprwCtzvzQETrNRwVxLO5jVmRGi60j8Ue1efIlzPXV9je9mkjzOmdssymZkh2QhUrCmZYI/FCEa3/cNMW0QIDAQAB
+      wx:
+        remark: 智蜂-微信公众号
+        key: d195f111fd3bf436951b90973f0ccac8
+        appid: wxf712db1e1042a294
+        mchid: 1367026602
+        cert-path: classpath:cert/wx/apiclient_cert-1367026602.p12
+      wx_lite:
+          remark: 小程序-微信
+          key: d195f111fd3bf436951b90973f0ccac8
+          appid: wxde9d2081b4401862
+          mchid: 1367026602
+          cert-path: classpath:cert/wx/apiclient_cert-1367026602.p12
+    10109:
+      wx:
+        remark: 智蜂-微信(test)临时
+        key: d195f111fd3bf436951b90973f0ccac8
+        appid: wxf9206620f5f39aad
+        mchid: 1426644302
+        cert-path: classpath:cert/wx/apiclient_cert-101-app.p12
+    10108:
+      wx:
+        remark: 智蜂-微信(暂时保留支持)
+        key: d195f111fd3bf436951b90973f0ccac8
+        appid: wxdea7888870d79fcf
+        mchid: 1355607202
+        cert-path: classpath:cert/wx/apiclient_cert-1355607202.p12
+    501:
+      wx:
+        remark: 高校通-微信
+        key: c67eb05c5344ef007e8ffe1283d08b3c
+        appid: wx5a8cc9a1a4a6c90b
+        mchid: 1508829551
+        cert-path: classpath:cert/wx/apiclient_cert-1508829551.p12
+      wx_lite:
+        remark: 高校通-微信小程序
+        key: c67eb05c5344ef007e8ffe1283d08b3c
+        appid: wx5a8cc9a1a4a6c90b
+        mchid: 1508829551
+        cert-path: classpath:cert/wx/apiclient_cert-1508829551.p12
+    503:
+      alipay:
+        remark: 全球带-支付宝
+        appid: 2018042660058300
+        mchid: 2088221861802194
+        environment: prod
+        sign-type: RSA2
+        private-key: MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC1CJrFUDa7IPp6gCK6vbAIlzMDmQc43LWRzK8wATEBE/EqzR/Di4GgNK58Ufe5jXBijvD76b62yaXE+WrFXYgG6CfOZV05DtToElm0fcFF3CYfn9K2f5ixvvu3GVmSO06iZah6HFWdGvj0w2YgTycCMREYlibLNw8zVD2kvzOwdMv/3+Nx0rO6hqntw11/zAFFzyPUZRwHWd89MD9MI1mbdW44FdKybc8Ffm51QbTAt2/uvDmk6YojZjiuptgiPdM1I1x5w58oXglFhxdoz0tvke8OMlXy7vERzbuIbOC1XX8nX7okxqIM3G+jVJ32B9qiLRfEJ+zbv418R5ehznX5AgMBAAECggEARfdyYcoTrRUc2ZWGVqgTTe6p770IFojuv8/c8W+0cdc0QTeQDDJxweo6eZ/wX01z3xOhvarkY57hq5Q+GNOCTDETmWiBtBiwXpUhCGoF9asVLOnHNXNxH1lRzb1Fagfz5z3k9HTY/eQ7zdVrNheBWw59rgPyMF4ySMNJI9Al+Q8zpBfx0WCO5HzkxquGPb8Vns/chQTq5anFjNL+7OP6MSiJ5PCFxDfhkcRHsPzDZ4/yVngmwXa1/KyBQ2KSjGU+Xilaabt6VX3H0eGoqhrFtKLOKsBTJDMZTGrOr7ZI6MMT4WE18bZ9LIvVezn7sCRZRXst1RIu2VQst8FBZiLGNQKBgQDva/XPDOovJNKVcVOwhNpPcT3iP6Lr+3Cw4xWMLsFPAT6lCqzvJdWj4+/D6htO98iDnBgdz4gpj5e65OFtEVvwGveN5HgVx+AEgwUuhCbv9zU9DJZXhv/jCeWkXUqABGej6DvSoLdpHLEYLmDh5Mpt7tKJmtnlvVFJII4GfNi0bwKBgQDBkaT9Occm6ad+gLLG5E+vm5wROv5ySCl4MAiR/DZ6vPRXiiWzV2o7/jwgu2VrvBBEYX5OaazxU2j1CBUaOG7hze/Ysw0YT3DLpgqUwT+ZqhqBswhaG2Dvc7eBUSWgOSwlCxQF410wW2JajImAO5FRjhCCIanr4BcvSTLzTK3AFwKBgHoq643QODsAHhg1cI/U6pS44uvsrtSdQ75u0VLrlKYcq3uJu/53ntD3ASRF89NSqlVFtCSZ/g++/pxWKBUAU5psGD+mAgSTLeL/fAhlVH0D9n2FS72z3CRcq3o4REiYds3zNXtfmNcg1djR6Yu6s/Ruda3TfzY0aSLYYsA6ulUvAoGAKAqt26g5F0acXGHZGaWfCk+hUDso6ZEd6vvcuf43ctplnTo5pEi/9Bsaaxb42vlzUAHu89+OY/mCK7X5T4w++7zzEZuwaMf+KFJ3u9/h/TKf+xaC8sjZG4+PdVPI+cT56cvJ35Hx9A/jX6HUy88Gt50wswqtsNqRUTnOLWA+TQ8CgYEAueLJq01HEPY2ts0Cc08VG6QAz8bKLgc2KZZMXOUuRV/SRBXtD4xiPhR4vWlrPePWwHrrwTAmBj8P7uWVL3RQmwJ06W+DCaMG/DhN6kyCuf3A1+w32AR6P6vgsTIh5LSRJUGwZsXdtMyE7MldLM3kEgO7SWM4/bVRA2vwxjvfCHM=
+        public-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0vzt4C5hkRx2RyRpajy6vO5XoehBeljtXbRPRMYTtGl9sGZraJFF+uQMIjhI8vzEl5w+gRxTmqSeeX8vZLhhzNDb+4fZQHrIFPVEpXuekL2G3JhQwnbjTkrdE/4dRDHvoNVp0o2sSFqeHdT9JjXieGwmvUqcU0sOJ81Wa1aijmcM1gk1yHtBHIsxJqJO+XFOieKZU1gS/K4CdpdBm7i5S+ejLW708MkAR7vER1s/t+HENDMAmA6pFqaS3xiRCarE5NVw+mYyWBmx5TQB2XGCNsdKelsi9H00ve3uzFLe4uiZtmTvJNueHhKhaFn8w/L0AzVsDVZBaXqjCv63tOvspQIDAQAB
+      wx:
+        remark: 全球带-微信
+        key: UskSWL8eYGYWBNyHU25kyBGzMfJeQC1Q
+        appid: wx5a3699efefcc1275
+        mchid: 1504977781
+        cert-path: classpath:cert/wx/apiclient_cert-1504977781.p12
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - health

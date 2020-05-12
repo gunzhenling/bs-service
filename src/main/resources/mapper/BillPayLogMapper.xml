@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bs.payment.modules.trade.dao.BillPayLogMapper">
+
+	<insert id="save" parameterType="BillPayLog" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO pay_center3_bill_pay_log (`id`, `app_id`, `pay_type`, `bill_date`, `order_no`, `trade_no`, `pay_amount`, `service_charge`, `trade_time`, `details`, `create_time`)
+		VALUES (#{id}, #{appId}, #{payType}, #{billDate}, #{orderNo}, #{tradeNo}, #{payAmount}, #{serviceCharge}, #{tradeTime}, #{details, typeHandler=com.bs.payment.common.mybatis.JsonTypeHandler}, #{createTime})
+	</insert>
+	
+	<select id="findByOrderNo" resultMap="billPayLog" >
+		select `id`, `app_id`, `pay_type`, `bill_date`, `order_no`, `trade_no`, `pay_amount`, `service_charge`, `trade_time`, `details`, `create_time`
+		from pay_center3_bill_pay_log 
+		where   order_no = #{orderNo} 
+			   and pay_type = #{payType} 
+			   and app_id = #{appId} 
+		
+	</select>
+	
+	<select id="findBetweenDate" resultMap="billPayLog" >
+		select `id`, `app_id`, `pay_type`, `bill_date`, `order_no`, `trade_no`, `pay_amount`, `service_charge`, `trade_time`, `details`, `create_time` 
+		from pay_center3_bill_pay_log 
+		where trade_time between #{startDate} and #{endDate}
+		and pay_type = #{payType}
+	</select>
+	
+	<select id="findByBillDate" resultMap="billPayLog" >
+		select `id`, `app_id`, `pay_type`, `bill_date`, `order_no`, `trade_no`, `pay_amount`, `service_charge`, `trade_time`, `details`, `create_time` 
+		from pay_center3_bill_pay_log 
+		where app_id = #{appId} and bill_date = #{billDate} 
+		and pay_type = #{payType}
+	</select>
+	
+	<select id="findInOrders" resultMap="billPayLog" >
+		select `id`, `app_id`, `pay_type`, `bill_date`, `order_no`, `trade_no`, `pay_amount`, `service_charge`, `trade_time`, `details`, `create_time` 
+		from pay_center3_bill_pay_log 
+		where order_no in <foreach collection="orders" item="id" open="(" separator="," close=")">#{id}</foreach>
+		and pay_type = #{payType}
+	</select>
+	
+	<select id="sumServiceCharge" resultMap="billPayLog" >
+		select pay_type, sum(abs(service_charge)) service_charge
+		from pay_center3_bill_pay_log 
+		where app_id = #{appId}
+		and bill_date between #{startDate} and #{endDate}
+		group by pay_type
+	</select>
+	
+	<resultMap type="BillPayLog" id="billPayLog">
+		<id column="id" property="id" />
+		<result column="app_id" property="appId" />
+		<result column="pay_type" property="payType" />
+		<result column="bill_date" property="billDate" />
+		<result column="order_no" property="orderNo" />
+		<result column="trade_no" property="tradeNo" />
+		<result column="pay_amount" property="payAmount" />
+		<result column="service_charge" property="serviceCharge" />
+		<result column="trade_time" property="tradeTime" />
+		<result column="details" property="details" typeHandler="com.bs.payment.common.mybatis.JsonTypeHandler" />
+		<result column="create_time" property="createTime" />
+	</resultMap>
+</mapper>

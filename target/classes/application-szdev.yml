@@ -1,0 +1,47 @@
+server:
+  port: 9999
+
+
+logging:
+  level:
+    com.bs.payment.modules.trade.dao: debug
+
+
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://10.0.1.39:3306/paycenter?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=round
+      username: intbee
+      password: intbee@mysql
+      initial-size: 2
+      max-active: 10
+      min-idle: 2
+      max-wait: 3000
+      pool-prepared-statements: true
+      validation-query: SELECT 1
+      test-while-idle: true
+  kafka:
+    bootstrap-servers: 10.0.1.193:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: zc-payment-consumer-group
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      auto-commit-interval: 100
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - info
+        - health
+        - env
+        - env-toMatch
+        - configprops
+        - beans

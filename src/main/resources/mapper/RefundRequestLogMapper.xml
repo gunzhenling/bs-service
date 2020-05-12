@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bs.payment.modules.trade.dao.RefundRequestLogMapper">
+
+	<insert id="save" parameterType="RefundRequestLog" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO pay_center3_refund_request (id, app_id, pay_type, order_no, refund_no, total_amount, refund_amount, client_ip, extra, create_time)
+		VALUES (#{id}, #{appId}, #{payType}, #{orderNo}, #{refundNo}, #{totalAmount}, #{refundAmount}, #{clientIp}, #{extra}, #{createTime})
+	</insert>
+	
+	<update id="saveResponse">
+		update `pay_center3_refund_request` set response=#{response, typeHandler=com.bs.payment.common.mybatis.JsonTypeHandler} 
+		where id=#{id}
+	</update>
+
+	<select id="findByOrderNoLike" resultMap="refundRequestLog">
+		select id, app_id, pay_type, order_no, refund_no, total_amount, refund_amount, client_ip, extra, create_time
+		from pay_center3_refund_request 
+		where order_no like CONCAT(#{orderNo},'%')
+		<if test="payType != null"> and pay_type = #{payType} </if>
+	</select>
+
+	<select id="findByRefundNo" resultMap="refundRequestLog">
+		select id, app_id, pay_type, order_no, refund_no, total_amount, refund_amount, client_ip, extra, create_time
+		from pay_center3_refund_request 
+		where refund_no = #{refundNo}
+		and pay_type = #{payType}
+		and app_id = #{appId}
+	</select>
+	
+	<select id="findInOrders" resultMap="refundRequestLog">
+		select id, app_id, pay_type, order_no, refund_no, total_amount, refund_amount, client_ip, extra, create_time
+		from pay_center3_refund_request 
+		where order_no in <foreach collection="orders" item="id" open="(" separator="," close=")">#{id}</foreach>
+		and pay_type = #{payType}
+	</select>
+	
+	<select id="findInRefunds" resultMap="refundRequestLog">
+		select id, app_id, pay_type, order_no, refund_no, total_amount, refund_amount, client_ip, extra, create_time
+		from pay_center3_refund_request 
+		where refund_no in <foreach collection="refundNoSet" item="refundNo" open="(" separator="," close=")">#{refundNo}</foreach>
+		and pay_type = #{payType}
+	</select>
+	
+	<select id="findBetweenDate" resultMap="refundRequestLog">
+		select id, app_id, pay_type, order_no, refund_no, total_amount, refund_amount, client_ip, extra, create_time
+		from pay_center3_refund_request 
+		where create_time between #{startDate} and #{endDate}
+		<if test="payType != null"> and pay_type=#{payType}</if>
+		<if test="appId != null"> and app_id=#{appId}</if>
+	</select>
+	<select id="findBetweenDateInnerJoinNotify" resultMap="refundRequestLog">
+		select refund.id, refund.app_id, refund.pay_type, refund.order_no, 
+		refund.refund_no, refund.total_amount, refund.refund_amount, 
+		refund.client_ip, refund.extra, refund.create_time
+		from pay_center3_refund_request AS  refund 
+		INNER JOIN pay_center3_refund_notify AS  notify ON refund.order_no=notify.order_no AND refund.pay_type=notify.pay_type AND refund.app_id=notify.app_id
+		where refund.create_time between #{startDate} and #{endDate}
+		<if test="payType != null"> and refund.pay_type=#{payType}</if>
+		<if test="appId != null"> and refund.app_id=#{appId}</if>
+	</select>
+	
+	<select id="findUnqueryBetweenDate" resultMap="refundRequestLog">
+		select rr.id, rr.app_id, rr.pay_type, rr.order_no, rr.refund_no, rr.total_amount, rr.refund_amount, rr.client_ip, rr.extra, rr.create_time 
+		from pay_center3_refund_request rr left join pay_center3_refund_query_result rqr 
+			on rr.pay_type = rqr.pay_type and rr.refund_no = rqr.refund_no
+		where rqr.app_id is null
+		and rr.create_time between #{startDate} and #{endDate}
+		<if test="payType != null"> and rr.pay_type=#{payType}</if>
+	</select>
+	
+	<resultMap type="RefundRequestLog" id="refundRequestLog">
+		<id column="id" property="id" />
+		<result column="app_id" property="appId" />
+		<result column="pay_type" property="payType" />
+		<result column="order_no" property="orderNo" />
+		<result column="refund_no" property="refundNo" />
+		<result column="total_amount" property="totalAmount" />
+		<result column="refund_amount" property="refundAmount" />
+		<result column="client_ip" property="clientIp" />
+		<result column="extra" property="extra" />
+		<result column="create_time" property="createTime" />
+		<result column="response"  property="response" typeHandler="com.bs.payment.common.mybatis.JsonTypeHandler" />
+	</resultMap>
+</mapper>

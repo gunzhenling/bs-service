@@ -1,0 +1,72 @@
+server:
+  tomcat:
+    uri-encoding: UTF-8
+  port: 8080
+  servlet:
+    context-path: /api
+
+
+jwt:
+  security-path:
+  - /trade/**
+
+
+logging:
+  config: classpath:logback-spring.xml
+
+
+spring:
+  profiles:
+    active: szdev
+  application:
+    name: bc-service
+  jackson:
+    property-naming-strategy: com.fasterxml.jackson.databind.PropertyNamingStrategy.SnakeCaseStrategy
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  mvc:
+    throw-exception-if-no-handler-found: true
+  datasource:
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://mysql.server.com:3306/paycenter?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=round
+      username: intbee
+      password: intbee@mysql
+      initial-size: 2
+      min-idle: 5
+      max-active: 20
+      max-wait: 3000
+      pool-prepared-statements: true
+      validation-query: SELECT 1
+      test-while-idle: true
+  kafka:
+    bootstrap-servers: kafka.server.com:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: zc-payment-consumer-group
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      auto-commit-interval: 100
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+
+mybatis:
+  mapper-locations:
+  - classpath:mapper/*.xml
+  type-aliases-package: com.bs.payment.modules.trade.entity
+  type-handlers-package: com.bs.payment.common.mybatis
+  configuration:
+    map-underscore-to-camel-case: true
+    default-statement-timeout: 30
+    default-fetch-size: 50
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info # 如果需要所有的打开，配置 "*"
+        exclude: 
