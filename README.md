@@ -1,19 +1,18 @@
-# 筑巢支付中心
+# 服务
 
 ## 前置依赖
-- MySQL 数据库
-- kafka 消息服务
+- MySQL 数据库 
 
 
 ## Quick start
 ### 获取源码并打包
 ```
-git clone git@git.smartfeng.com:Nesting/zc-service-pay.git
+git clone git@github.com:gunzhenling/bs-service.git
 cd zc-service-pay
 
 mvn clean compile package -DskipTests
 
-# ls target/zc-service-pay.jar
+# ls target/bc-service.jar
 ```
 
 
@@ -22,13 +21,13 @@ mvn clean compile package -DskipTests
 cd target
 
 # 以 dev 配置启动 (默认)
-java -jar zc-service-pay.jar --spring.profiles.active=dev
+java -jar bc-service.jar --spring.profiles.active=dev
 
 # 以 test 配置启动
-java -jar zc-service-pay.jar --spring.profiles.active=test
+java -jar bc-service.jar --spring.profiles.active=test
 
 # 以 prod 配置启动
-java -jar zc-service-pay.jar --spring.profiles.active=prod
+java -jar bc-service.jar --spring.profiles.active=prod
 ```
 
 
