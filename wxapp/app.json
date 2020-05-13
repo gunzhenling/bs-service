@@ -1,0 +1,59 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/helplist/index",
+    "pages/dingzhilist/index",
+    "pages/noticelist/index",
+    "pages/orderlist/index",
+    "pages/shoucanglist/index",
+    "pages/jiaoyilist/index",
+    "pages/chongzhi/index",
+    "pages/editpwd/index",
+    "pages/login/index",
+    "pages/register/index",   
+    "pages/index/goodsDetail/goodsDetail",
+    "pages/category/category",
+    "pages/cart/cart",
+    "pages/member/member",
+    "pages/addr/index",
+    "pages/addr/addr_opt/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#FA5523",
+    "navigationBarTitleText": "礼品定制",
+    "navigationBarTextStyle": "white",
+    "navigationStyle": "custom",
+    "enablePullDownRefresh": false
+  },
+  "tabBar": {
+    "selectedColor": "#ed3f14",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/shopping_mall.png",
+        "selectedIconPath": "images/shopping_mall_select.png"
+      },
+      {
+        "pagePath": "pages/category/category",
+        "text": "礼品分类",
+        "iconPath": "images/category.png",
+        "selectedIconPath": "images/category_select.png"
+      },
+      {
+        "pagePath": "pages/cart/cart",
+        "text": "购物车",
+        "iconPath": "images/cart.png",
+        "selectedIconPath": "images/cart_select.png"
+      },
+      {
+        "pagePath": "pages/member/member",
+        "text": "个人中心",
+        "iconPath": "images/member.png",
+        "selectedIconPath": "images/member_select.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,99 @@
+<!--pages/orderlist/index.wxml-->
+<view class="navigation">
+	<view class="go-back-wrapper" bindtap="goBack">
+		<image class="icon-go-back" src="../../images/left_arrow.png"></image>
+	</view>
+	<text class="nav-title">我的订单</text>
+</view>
+
+<view class="swiper-tab" style="margin-top:4rem;">
+	<view class="tab-item {{currentIndex1?'active':''}} " bindtap="currentIndex1">待付款({{loadNum}})</view>
+	<view class="tab-item {{currentIndex2?'active':''}}" bindtap="currentIndex2">待发货({{inNum}})</view>
+	<view class="tab-item {{currentIndex3?'active':''}}" bindtap="currentIndex3">待收货({{outNum}})</view>
+	<view class="tab-item {{currentIndex4?'active':''}}" bindtap="currentIndex4">已完成({{finishNum}})</view>
+</view>
+<view class='tab-items'>
+	<view class='kong {{kong2?"kong2":""}}'></view>
+	<!-- 待付款 -->
+	<view class='{{currentIndex1?"show":"hidden"}}'>
+		<view class='list' wx:for="{{loadList}}" wx:for-item="item" wx:key='id'>
+			<view class='list_top'>
+				<view class='numAndTime'>
+					<image class='numPic' src='{{item.fengmian}}'></image>
+					<view class='numInfo'>
+						<view class='num'>订单编号:{{item.num}}</view>
+						<view class='time'>创建时间:{{item.time}}</view>
+					</view>
+				</view>
+				<view class='state'>待付款</view>
+			</view>
+			<view class='hr'></view>
+			<view class='loadBtn' style="width:240px;">
+				<view class='see_btn' bindtap='loadDetails'>详情</view>
+				<view class='edit_btn' bindtap='loadEdit'>寄件信息</view>
+        <view class='extend_btn' bindtap='delay'>取消</view>
+			</view>
+		</view>
+	</view>
+	<!-- 待发货 -->
+	<view class='{{currentIndex2?"show":"hidden"}}' style="padding-top:1.7rem;">
+		<view class='list' wx:for="{{inList}}" wx:key="id" wx:for-item="item">
+			<view class='list_top'>
+				<view class='numAndTime'>
+					<image class='numPic' src='{{item.fengmian}}'></image>
+					<view class='numInfo'>
+						<view class='num'>订单编号:{{item.num}}</view>
+						<view class='time'>创建时间:{{item.time}}</view>
+					</view>
+				</view>
+				<view class='state'>在仓</view>
+			</view>
+			<view class='hr'></view>
+			<view class='inBtn' style="width:77px;">
+          <view class='see_btn' bindtap='finishLook'>查看详情</view>
+			</view>
+		</view>
+
+	</view>
+	<!-- 待收货 -->
+	<view class='{{currentIndex3?"show":"hidden"}}'>
+		<view class='list' wx:for="{{outList}}" wx:key='id' wx:for-item="item">
+			<view class='list_top'>
+				<view class='numAndTime'>
+					<image class='numPic' src='{{item.fengmian}}'></image>
+					<view class='numInfo'>
+						<view class='num'>订单编号:{{item.num}}</view>
+						<view class='time'>创建时间:{{item.time}}</view>
+					</view>
+				</view>
+				<view class='state'>出仓</view>
+			</view>
+			<view class='hr'></view>
+			<view class='outBtn'>
+				<view class='see_btn' catchtap='outLook'>查看详情</view>
+				<view class='confirm_btn'>确认收货</view>
+			</view>
+		</view>
+
+	</view>
+	<!-- 已完成 -->
+	<view class='{{currentIndex4?"show":"hidden"}}'>
+		<view class='list' wx:for="{{finishList}}" wx:key='{{item.id}}' wx:for-item="item">
+			<view class='list_top'>
+				<view class='numAndTime'>
+					<image class='numPic' src='{{item.fengmian}}'></image>
+					<view class='numInfo'>
+						<view class='num'>订单编号:{{item.num}}</view>
+						<view class='time'>创建时间:{{item.time}}</view>
+					</view>
+				</view>
+				<view class='state'>已完成</view>
+			</view>
+			<view class='hr'></view>
+			<view class='finishBtn'>
+				<view class='see_btn' bindtap='finishLook'>查看详情</view>
+				<view class='del_btn' id="{{item.num}}" bindtap='delOrder'>删除订单</view>
+			</view>
+		</view>
+	</view>
+</view>

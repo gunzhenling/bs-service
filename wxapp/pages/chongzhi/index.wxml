@@ -1,0 +1,23 @@
+<!--pages/chongzhi/index.wxml-->
+<view class="navigation" >
+  <view class="go-back-wrapper" bindtap="goBack">
+    <image class="icon-go-back" src="../../images/left_arrow.png"></image>
+  </view>
+  <text class="nav-title">充值</text>
+</view>
+<view class='main' style="padding-top:4rem;">
+  <form>
+    <view class='panel'>
+      <view class='recharge'>充值金额</view>
+      <view class='rechargeInput'>
+        <label for="sum">¥</label>
+        <input id='sum'></input>
+      </view>
+    </view>
+    <button class='submit' bindtap='submit' form-type='submit'>去支付</button>
+  </form>
+</view>
+<!-- 热线 -->
+<view class='rexian {{isShow?"none":"show"}}' style='position:{{display}};height:{{height}};'>
+  <view class='tels'>服务热线：4008-888-999</view>
+</view>

@@ -1,0 +1,51 @@
+<!--pages/dingzhilist/index.wxml-->
+<!-- 定制 -->
+<view class="navigation">
+	<view class="go-back-wrapper" bindtap="goBack">
+		<image class="icon-go-back" src="../../images/left_arrow.png"></image>
+	</view>
+	<text class="nav-title">礼品定制</text>
+</view>
+<view class='serve' style='padding-top:4rem;height:180px;'>
+	<view class="guocheng">
+		<image class='cun' src='../../images/cun.png'></image>
+		<image class='dian' src='../../images/dian.png'></image>
+		<image class='yunsong' src='../../images/yunsong.png'></image>
+		<image class='dian' src='../../images/dian.png'></image>
+		<image class='qu' src='../../images/qu.png'></image>
+	</view>
+	<view class='step'>
+		<view class='steps'>
+			<text class='step_text1'>STEP 1</text>
+			<text class='step_text2'>上传定制资料</text>
+			<text class='step_text3'>随时可以下单</text>
+		</view>
+		<view class='steps'>
+			<text class='step_text1'>STEP 2</text>
+			<text class='step_text2'>定制审核</text>
+			<text class='step_text3'>线下沟通</text>
+		</view>
+		<view class='steps'>
+			<text class='step_text1'>STEP 3</text>
+			<text class='step_text2'>定制完成</text>
+			<text class='step_text3'>自取或邮寄到家</text>
+		</view>
+	</view>
+</view>
+<view class="dingzhi-list">
+	<view wx:for="{{dingzhilist}}" wx:key="id" wx:for-item="item" class="dingzhi-item">
+		<view class='serve_head'>
+			<view class='line_left'></view>
+			<view class='serve_title' style="width:100%;text-align:center;">
+				<image class='serve_title_pic' src='../../images/icon-lipin-dingzhi.png'></image>
+				<text class='serve_title_word' style='padding-left:3px;width:100%;'>{{ item.name }}</text>
+			</view>
+			<view class='line_right'></view>
+		</view>
+		<view class="guocheng">
+        <image class='dingzhi-img' src="{{item.fengmian}}"></image>
+		</view>
+    <view class="dintzhi-price">￥{{item.price}}</view>
+    <image class="dingzhi-status-shouwan" src="../../images/icon-shouwan.png"></image>
+	</view>
+</view>

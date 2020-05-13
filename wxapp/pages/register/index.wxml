@@ -1,0 +1,25 @@
+<!--pages/register/index.wxml-->
+<view class="navigation">
+  <view class="go-back-wrapper" bindtap="goBack">
+    <image class="icon-go-back" src="../../images/left_arrow.png"></image>
+  </view>
+  <text class="nav-title">会员注册</text>
+</view>
+<view class='form' style="padding-top:10rem;">
+  <view class='listInput'>
+    <input id='tel' type='text' placeholder='账号：' placeholder-class='tel'></input>
+  </view>
+  <view class='listInput2'>
+    <input id='code' placeholder='密码：' placeholder-class='code'></input>
+  </view>
+   <view class='listInput2'>
+    <input id='code' placeholder='确认密码：' placeholder-class='code'></input>
+  </view>
+  <view class='listInput3' style="margin-top:5px;">
+    <view bindtap='gotologin' class='book' style="left:20rpx;padding-left:3px;">
+        <image src='../../images/member.png' style="top:3rpx;left:-28rpx;width:13px;height:13px;"></image>
+        已有账号，点击登录
+    </view>  
+  </view>
+</view>
+<button class='submit submit-enable' bindtap='submit'>确认注册</button>
