@@ -4,7 +4,7 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-import com.bs.payment.modules.trade.vo.PayQueryRequestVO;
+import com.bs.payment.modules.trade.vo.BsGiftInfoRespVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,8 +32,8 @@ public class PayQueryListener implements ApplicationListener<PayQueryListener.Ev
 	public static class Event extends ApplicationEvent {
 		private static final long serialVersionUID = -7786526681182388578L;
 		
-		private PayQueryRequestVO reqVO;
-		public Event(PayQueryRequestVO reqVO) {
+		private BsGiftInfoRespVO reqVO;
+		public Event(BsGiftInfoRespVO reqVO) {
 			super(reqVO);
 			this.reqVO = reqVO;
 		}

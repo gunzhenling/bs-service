@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bs.payment.modules.trade.dao.BsGiftInfoMapper">
+
+	
+	<select id="getCount" resultType="Long" >
+		select  count(1) from bs_gift_type 
+		<where>
+			<if test="typeCode!=null">
+				type_code = #{typeCode}
+			</if>
+		</where>
+		 
+	</select>
+	
+	<select id="getList" resultMap="BsGiftInfoRespVO" >
+		select  gift_code,gift_name,type_code,gift_price,real_gift_price,sale_num,limit_num from bs_gift_type 
+		<where>
+			<if test="typeCode!=null">
+				type_code = #{typeCode}
+			</if>
+		</where>
+		limit #{offset},#{limit}
+		 
+	</select>
+	
+	 
+</mapper>

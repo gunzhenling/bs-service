@@ -2,25 +2,21 @@ package com.bs.payment.common;
 
 /**
  * 系统常量
- * @author fanhang
+ * @author gunzhenling
  */
 public class Consts {
 	
-	/** 支付宝支付类型 - alipay */
-	public static final String PAY_TYPE_ALIPAY = "alipay";
-	/** 微信支付类型 - wx */
-	public static final String PAY_TYPE_WXPAY = "wx";
+	public static final String SUCCESS = "SUCCESS";
+	 
+	public static final String FAIL = "FAIL";
 	
 	/**
-	 * 支付宝支付渠道
-	 * @author fanhang
+	 * 文件类型
+	 * @author gunzhenling
 	 */
-	public static class AlipayChannelType {
-		public static final String QR = "qr";
-		public static final String APP = "app";
-		public static final String WAP = "wap";
-		public static final String WEB = "web";
-		public static final String LITE = "lite";
+	public static class FilelType {
+		public static final String IMAGE = "image";
+		public static final String DOCUMENT = "document"; 
 	}
 	
 	/**
