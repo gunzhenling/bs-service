@@ -23,6 +23,9 @@ cd target
 # 以 dev 配置启动 (默认)
 java -jar bc-service.jar --spring.profiles.active=dev
 
+java -jar D:\bc-service.jar --spring.profiles.active=szdev
+
+
 # 以 test 配置启动
 java -jar bc-service.jar --spring.profiles.active=test
 

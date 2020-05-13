@@ -18,4 +18,6 @@ public interface GiftTypeyService extends IService<BsGiftTypeEntity> {
 	 */
 	List<BsGiftTypeEntity> getGiftTypes();
 	
+	void initGiftType();
+	
 }

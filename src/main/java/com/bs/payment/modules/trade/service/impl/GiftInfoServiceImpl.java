@@ -1,7 +1,9 @@
 package com.bs.payment.modules.trade.service.impl;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +88,7 @@ public class GiftInfoServiceImpl extends ServiceImpl<BsGiftInfoMapper, BsGiftInf
 		entity.setTypeCode(giftInfoReqVO.getTypeCode());
 		entity.setUpdateTime(date);
 		 
+		 
 		bsGiftInfoMapper.insert(entity);
 		
 		log.info("giftInfo-add-info:  add success");
@@ -96,6 +99,57 @@ public class GiftInfoServiceImpl extends ServiceImpl<BsGiftInfoMapper, BsGiftInf
 	
 	private void valid(BsGiftInfoReqVO giftInfoReqVO) {
 		
+		Integer giftCode = giftInfoReqVO.getGiftCode();
+		if(giftCode==null) {
+			 
+			String message="giftCode请求参数为空";
+			log.warn("giftInfo-update-warn:  BusinessException message={}",message);
+			throw new BusinessException(message);
+		}
+		String giftName = giftInfoReqVO.getGiftName();
+		if(StringUtils.isBlank(giftName)) {
+			
+			String message="giftName请求参数为空";
+			log.warn("giftInfo-update-warn:  BusinessException message={}",message);
+			throw new BusinessException(message);
+		}
+		 Integer typeCode = giftInfoReqVO.getTypeCode();
+		if(typeCode==null) {
+			
+			String message="typeCode请求参数为空";
+			log.warn("giftInfo-update-warn:  BusinessException message={}",message);
+			throw new BusinessException(message);
+		}
+		 BigDecimal giftPrice = giftInfoReqVO.getGiftPrice();
+		if(giftPrice==null) {
+			
+			String message="giftPrice请求参数为空";
+			log.warn("giftInfo-update-warn:  BusinessException message={}",message);
+			throw new BusinessException(message);
+		}
+		BigDecimal realGiftPrice = giftInfoReqVO.getRealGiftPrice();
+		if(realGiftPrice==null) {
+			
+			String message="realGiftPrice请求参数为空";
+			log.warn("giftInfo-update-warn:  BusinessException message={}",message);
+			throw new BusinessException(message);
+		}
+		
+		 String specification = giftInfoReqVO.getSpecification();
+		if(StringUtils.isBlank(specification)) {
+			
+			String message="specification请求参数为空";
+			log.warn("giftInfo-update-warn:  BusinessException message={}",message);
+			throw new BusinessException(message);
+		}
+		
+		String customMade = giftInfoReqVO.getCustomMade();
+		if(StringUtils.isBlank(customMade)) {
+			
+			String message="customMade请求参数为空";
+			log.warn("giftInfo-update-warn:  BusinessException message={}",message);
+			throw new BusinessException(message);
+		}
 		
 	}
 

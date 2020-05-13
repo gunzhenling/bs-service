@@ -17,15 +17,17 @@ import com.bs.payment.modules.trade.entity.BsGiftTypeEntity;
 import com.bs.payment.modules.trade.service.GiftInfoService;
 import com.bs.payment.modules.trade.service.GiftTypeyService;
 import com.bs.payment.modules.trade.vo.BsGiftInfoReqVO;
+import com.bs.payment.modules.trade.vo.BsGiftInfoRespVO;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import xyz.nesting.common.message.ZcPageResult;
 
 /**
  * 礼品相关接口
  * 
- * @author fanhang
+ * @author gunzhenling
  */
 @Slf4j
 @RestController
@@ -41,13 +43,13 @@ public class GiftController {
 	
 	@GetMapping("/get/list")
 	@ApiOperation(value = "获取礼品列表")
-	public ZcResult<?> getList(@RequestParam("type_code") Integer typeCode,@RequestParam("limit") Integer limit,@RequestParam("offset") Integer offset) throws Exception {
+	public ZcResult<ZcPageResult<BsGiftInfoRespVO>> getList(@RequestParam("type_code") Integer typeCode,@RequestParam("limit") Integer limit,@RequestParam("offset") Integer offset) throws Exception {
 		
 		log.info("GiftController-getList-info: request  type_code={},limit={},offset={}",typeCode,limit,offset);
 		
-		giftInfoService.getList(typeCode, limit, offset);
+		ZcPageResult<BsGiftInfoRespVO> list = giftInfoService.getList(typeCode, limit, offset);
 		 
-		return ZcResult.ok();
+		return ZcResult.ok(list);
 	}
 	
 	@GetMapping("/get/detail")
@@ -76,7 +78,7 @@ public class GiftController {
 	@ApiOperation(value = "新增礼品")
 	public ZcResult<?> add(BsGiftInfoReqVO giftInfoReqVO) throws Exception {
 		
-		log.info("GiftController-add-info: request giftInfoReqVO={}",JSON.toJSONString(giftInfoReqVO));
+//		log.info("GiftController-add-info: request giftInfoReqVO={}",JSON.toJSONString(giftInfoReqVO));
 		
 		String result = giftInfoService.add(giftInfoReqVO);
 		

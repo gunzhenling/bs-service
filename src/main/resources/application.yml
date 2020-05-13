@@ -29,7 +29,7 @@ spring:
   datasource:
     druid:
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://mysql.server.com:3306/paycenter?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=round
+      url: jdbc:mysql://mysql.server.com:3306/paycenter?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=round&autoReconnect=true
       username: intbee
       password: intbee@mysql
       initial-size: 2
@@ -38,19 +38,7 @@ spring:
       max-wait: 3000
       pool-prepared-statements: true
       validation-query: SELECT 1
-      test-while-idle: true
-  kafka:
-    bootstrap-servers: kafka.server.com:9092
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-    consumer:
-      group-id: zc-payment-consumer-group
-      auto-offset-reset: earliest
-      enable-auto-commit: true
-      auto-commit-interval: 100
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      test-while-idle: true 
 
 
 mybatis:
@@ -70,3 +58,8 @@ management:
       exposure:
         include: health,info # 如果需要所有的打开，配置 "*"
         exclude: 
+        
+        
+bs: 
+  gift: 
+    type: /init/gift-type-config.json

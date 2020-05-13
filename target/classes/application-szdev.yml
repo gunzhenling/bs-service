@@ -11,7 +11,8 @@ spring:
   datasource:
     druid:
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://10.0.1.39:3306/paycenter?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=round
+      url: jdbc:mysql://119.23.252.140:33306/paycenter?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=round&autoReconnect=true
+#      url: jdbc:mysql://10.0.1.39:3306/paycenter?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=round&autoReconnect=true
       username: intbee
       password: intbee@mysql
       initial-size: 2
@@ -20,19 +21,7 @@ spring:
       max-wait: 3000
       pool-prepared-statements: true
       validation-query: SELECT 1
-      test-while-idle: true
-  kafka:
-    bootstrap-servers: 10.0.1.193:9092
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-    consumer:
-      group-id: zc-payment-consumer-group
-      auto-offset-reset: earliest
-      enable-auto-commit: true
-      auto-commit-interval: 100
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      test-while-idle: true 
 
 management:
   endpoints:

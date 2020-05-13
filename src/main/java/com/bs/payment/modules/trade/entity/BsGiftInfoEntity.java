@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ToString(callSuper = true)
-@TableName("bs_gift_type")
+@TableName("bs_gift_info")
 public class BsGiftInfoEntity extends AbstractBaseEntity{
 
 	/**
