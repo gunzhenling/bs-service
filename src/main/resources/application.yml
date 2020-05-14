@@ -41,15 +41,16 @@ spring:
       test-while-idle: true 
 
 
-mybatis:
-  mapper-locations:
-  - classpath:mapper/*.xml
-  type-aliases-package: com.bs.payment.modules.trade.entity
+#mybatis:
+mybatis-plus: 
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.bs.payment.modules.*.vo,com.bs.payment.modules.*.dto,com.bs.payment.modules.trade.entity
   type-handlers-package: com.bs.payment.common.mybatis
   configuration:
     map-underscore-to-camel-case: true
     default-statement-timeout: 30
     default-fetch-size: 50
+  
 
 
 management:

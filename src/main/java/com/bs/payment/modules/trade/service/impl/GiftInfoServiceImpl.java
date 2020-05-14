@@ -11,14 +11,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.bs.payment.common.Consts;
+import com.bs.payment.common.constans.Consts;
 import com.bs.payment.common.exception.BusinessException;
 import com.bs.payment.modules.trade.dao.BsGiftInfoMapper;
 import com.bs.payment.modules.trade.entity.BsGiftInfoEntity;
 import com.bs.payment.modules.trade.service.GiftInfoService;
 import com.bs.payment.modules.trade.vo.BsGiftInfoReqVO;
 import com.bs.payment.modules.trade.vo.BsGiftInfoRespVO;
+import com.bs.payment.modules.trade.vo.CustomMadeVO;
+import com.bs.payment.modules.trade.vo.SpecificationVO;
 import com.bs.payment.util.FileUtil;
 import com.bs.payment.util.QueryBuilder;
 import com.google.common.collect.Lists;
@@ -75,7 +78,7 @@ public class GiftInfoServiceImpl extends ServiceImpl<BsGiftInfoMapper, BsGiftInf
 		BsGiftInfoEntity entity = new BsGiftInfoEntity();
 		entity.setContent(giftInfoReqVO.getContent());
 		entity.setCreateTime(date);
-		entity.setCustomMade(giftInfoReqVO.getCustomMade());
+		entity.setCustomMade(JSON.toJSONString(giftInfoReqVO.getCustomMade()));
 		entity.setGiftCode(giftInfoReqVO.getGiftCode());
 		entity.setGiftName(giftInfoReqVO.getGiftName());
 		entity.setGiftPrice(giftInfoReqVO.getGiftPrice());
@@ -83,7 +86,7 @@ public class GiftInfoServiceImpl extends ServiceImpl<BsGiftInfoMapper, BsGiftInf
 		entity.setPicture(uploadFileReturnBase64Str);
 		entity.setRealGiftPrice(giftInfoReqVO.getRealGiftPrice());
 		entity.setSaleNum(giftInfoReqVO.getSaleNum());
-		entity.setSpecification(giftInfoReqVO.getSpecification());
+		entity.setSpecification(JSON.toJSONString(giftInfoReqVO.getSpecification()));
 		entity.setStatus(0);
 		entity.setTypeCode(giftInfoReqVO.getTypeCode());
 		entity.setUpdateTime(date);
@@ -135,16 +138,16 @@ public class GiftInfoServiceImpl extends ServiceImpl<BsGiftInfoMapper, BsGiftInf
 			throw new BusinessException(message);
 		}
 		
-		 String specification = giftInfoReqVO.getSpecification();
-		if(StringUtils.isBlank(specification)) {
+		List<SpecificationVO> specification = giftInfoReqVO.getSpecification();
+		if(CollectionUtils.isEmpty(specification)) {
 			
 			String message="specification请求参数为空";
 			log.warn("giftInfo-update-warn:  BusinessException message={}",message);
 			throw new BusinessException(message);
 		}
 		
-		String customMade = giftInfoReqVO.getCustomMade();
-		if(StringUtils.isBlank(customMade)) {
+		List<CustomMadeVO> customMade = giftInfoReqVO.getCustomMade();
+		if(CollectionUtils.isEmpty(customMade)) {
 			
 			String message="customMade请求参数为空";
 			log.warn("giftInfo-update-warn:  BusinessException message={}",message);
@@ -173,7 +176,7 @@ public class GiftInfoServiceImpl extends ServiceImpl<BsGiftInfoMapper, BsGiftInf
 		String uploadFileReturnBase64Str = FileUtil.uploadFileReturnBase64Str(pictureFile, Consts.FilelType.IMAGE);
 //		新增
 		entity.setContent(giftInfoReqVO.getContent());
-		entity.setCustomMade(giftInfoReqVO.getCustomMade());
+		entity.setCustomMade(JSON.toJSONString(giftInfoReqVO.getCustomMade()));
 		entity.setGiftCode(giftInfoReqVO.getGiftCode());
 		entity.setGiftName(giftInfoReqVO.getGiftName());
 		entity.setGiftPrice(giftInfoReqVO.getGiftPrice());
@@ -185,7 +188,7 @@ public class GiftInfoServiceImpl extends ServiceImpl<BsGiftInfoMapper, BsGiftInf
 		
 		entity.setRealGiftPrice(giftInfoReqVO.getRealGiftPrice());
 		entity.setSaleNum(giftInfoReqVO.getSaleNum());
-		entity.setSpecification(giftInfoReqVO.getSpecification());
+		entity.setSpecification(JSON.toJSONString(giftInfoReqVO.getSpecification()));
 		entity.setTypeCode(giftInfoReqVO.getTypeCode());
 		entity.setUpdateTime(date);
 		
@@ -227,6 +230,9 @@ public class GiftInfoServiceImpl extends ServiceImpl<BsGiftInfoMapper, BsGiftInf
 	
 		
 		BsGiftInfoEntity entity = bsGiftInfoMapper.selectOne(QueryBuilder.where("gift_code",giftCode));
+		if(entity==null) {
+			return null;
+		}
 		Object picture = entity.getPicture();
 		
 		String baseDataTransferImage = FileUtil.baseDataTransferImage(picture);

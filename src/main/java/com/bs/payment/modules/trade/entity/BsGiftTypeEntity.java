@@ -27,18 +27,15 @@ public class BsGiftTypeEntity extends AbstractBaseEntity  implements Serializabl
 	/**
 	 * 类型编码
 	 */
-//	@TableField
  	private Integer typeCode;
 	/**
 	 * 类型名称
 	 */
-	@TableField
   	private String typeName;
 	 
 	/**
 	 * 排序，数值，越大越在前面
 	 */
-	@TableField
 	private Integer sort;
 	 
 

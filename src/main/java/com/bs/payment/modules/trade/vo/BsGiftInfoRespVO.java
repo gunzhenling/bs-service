@@ -9,12 +9,12 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * 礼品请求信息
+ * 礼品返回信息
  * 
  * @author gunzhenling
  */
 @Data
-@ApiModel(value="礼品请求信息")
+@ApiModel(value="礼品返回信息")
 public class BsGiftInfoRespVO  {
 	 
 	

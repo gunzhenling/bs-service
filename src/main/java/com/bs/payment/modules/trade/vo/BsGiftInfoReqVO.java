@@ -1,6 +1,7 @@
 package com.bs.payment.modules.trade.vo;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -12,12 +13,12 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * 礼品返回信息
+ * 礼品请求信息
  * 
  * @author gunzhenling
  */
 @Data
-@ApiModel(value="礼品返回信息")
+@ApiModel(value="礼品请求信息")
 public class BsGiftInfoReqVO  {
 	 
 	/**
@@ -69,13 +70,13 @@ public class BsGiftInfoReqVO  {
 	/**
 	 * 规格,json
 	 */
-	@ApiModelProperty(value="规格,json")
-	private String specification;
+	@ApiModelProperty(value="规格列表信息")
+	private List<SpecificationVO> specification;
 	/**
 	 * 定制,json
 	 */
-	@ApiModelProperty(value="定制,json")
-	private String customMade;
+	@ApiModelProperty(value="定制列表信息")
+	private List<CustomMadeVO> customMade;
 	
 	/**
 	 * 礼品图片 前端接收文件类型

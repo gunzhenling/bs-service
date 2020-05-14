@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableKafka
 @EnableScheduling
 @SpringBootApplication
-@MapperScan(basePackages = { "com.bs.payment.modules.trade.dao" }, annotationClass = Mapper.class)
+//@MapperScan(basePackages = { "com.bs.payment.modules.trade.dao" }, annotationClass = Mapper.class)
 @EnableTransactionManagement
 public class Application {
 

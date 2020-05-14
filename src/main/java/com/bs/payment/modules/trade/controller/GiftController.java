@@ -43,7 +43,8 @@ public class GiftController {
 	
 	@GetMapping("/get/list")
 	@ApiOperation(value = "获取礼品列表")
-	public ZcResult<ZcPageResult<BsGiftInfoRespVO>> getList(@RequestParam("type_code") Integer typeCode,@RequestParam("limit") Integer limit,@RequestParam("offset") Integer offset) throws Exception {
+	public ZcResult<ZcPageResult<BsGiftInfoRespVO>> getList(@RequestParam(value="type_code",required=false) Integer typeCode,
+			@RequestParam(value="limit",required=false,defaultValue="5") Integer limit,@RequestParam(value="offset",required=false,defaultValue="0") Integer offset) throws Exception {
 		
 		log.info("GiftController-getList-info: request  type_code={},limit={},offset={}",typeCode,limit,offset);
 		
@@ -54,7 +55,7 @@ public class GiftController {
 	
 	@GetMapping("/get/detail")
 	@ApiOperation(value = "获取礼品详情")
-	public ZcResult<BsGiftInfoEntity> getDetail(@RequestParam("gift_code") Integer giftCode ) throws Exception {
+	public ZcResult<BsGiftInfoEntity> getDetail(@RequestParam(value="gift_code",required=true) Integer giftCode ) throws Exception {
 		
 		log.info("GiftController-getDetail-info: request  giftCode={} ",giftCode );
 		
@@ -91,14 +92,14 @@ public class GiftController {
 		
 		log.info("GiftController-add-info: request giftInfoReqVO={}",JSON.toJSONString(giftInfoReqVO));
 		
-		String result = giftInfoService.add(giftInfoReqVO);
+		String result = giftInfoService.update(giftInfoReqVO);
 		
 		return ZcResult.ok(result);
 	}
 	
 	@PostMapping("/delete/{giftCode}")
 	@ApiOperation(value = "删除礼品")
-	public ZcResult<?> delete(@PathVariable("giftCode") Integer giftCode) throws Exception {
+	public ZcResult<?> delete(@PathVariable(value="giftCode",required=true) Integer giftCode) throws Exception {
 		
 		log.info("GiftController-delete-info: request giftCode={}",giftCode);
 		

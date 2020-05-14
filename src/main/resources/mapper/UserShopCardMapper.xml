@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bs.payment.modules.trade.dao.UserShopCardMapper">
+
+	
+	<select id="getCount" resultType="Long" >
+		select  count(1) from bs_user_shop_card 
+		<where>
+			<if test="userId!=null">
+				user_id = #{userId}
+			</if>
+		</where>
+		 
+	</select>
+	
+	<select id="getList" resultType="UserShopCardDto" >
+		select  user_id,gift_code,gift_name,gift_price,real_gift_price
+		,sell_income,buyer_pay_amount,expiration_time,specification, custom_made,create_time
+		from bs_user_shop_card 
+		<where>
+			<if test="userId!=null">
+				user_id = #{userId}
+			</if>
+		</where>
+		limit #{offset},#{limit}
+		 
+	</select>
+	
+	 
+</mapper>

@@ -5,7 +5,7 @@
 
 	
 	<select id="getCount" resultType="Long" >
-		select  count(1) from bs_gift_type 
+		select  count(1) from bs_gift_info 
 		<where>
 			<if test="typeCode!=null">
 				type_code = #{typeCode}
@@ -14,8 +14,8 @@
 		 
 	</select>
 	
-	<select id="getList" resultMap="BsGiftInfoRespVO" >
-		select  gift_code,gift_name,type_code,gift_price,real_gift_price,sale_num,limit_num from bs_gift_type 
+	<select id="getList" resultType="BsGiftInfoRespVO" >
+		select  gift_code,gift_name,type_code,gift_price,real_gift_price,sale_num,limit_num from bs_gift_info 
 		<where>
 			<if test="typeCode!=null">
 				type_code = #{typeCode}

@@ -10,7 +10,7 @@ import java.util.Map;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.bs.payment.common.Consts;
+import com.bs.payment.common.constans.Consts;
 import com.mysql.cj.util.Base64Decoder;
 import com.thoughtworks.xstream.core.util.Base64Encoder;
 

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bs.payment.modules.trade.dao.OrderInfoMapper">
+
+	
+	<select id="getCount" resultType="Long" >
+		select  count(1) from bs_order_info 
+		<where>
+			<if test="orderNo!=null">
+				order_no = #{orderNo}
+			</if>
+			<if test="userId!=null">
+				user_id = #{userId}
+			</if>
+		</where>
+		 
+	</select>
+	
+	<select id="getBgOrderList" resultType="BgOrderInfoRespVO" >
+		select  user_id,order_no,gift_code,gift_name,gift_amount,gift_price,
+		real_gift_price,freight_price,sell_income,buyer_pay_amount,pay_status,
+		ship_status,pay_time,ship_time,settle_status,settle_time,refund_type,
+		refund_income,merchant_no,pay_channel,expiration_time,user_address_json,
+		specification,custom_made,create_time
+		from bs_order_info 
+		<where>
+			<if test="orderNo!=null">
+				order_no = #{orderNo}
+			</if>
+			<if test="userId!=null">
+				user_id = #{userId}
+			</if>
+		</where>
+		limit #{offset},#{limit}
+		 
+	</select>
+	
+	<select id="getOrderList" resultType="OrderInfoRespVO" >
+		select  user_id,order_no,pay_status,create_time
+		from bs_order_info 
+		<where>
+			<if test="orderNo!=null">
+				order_no = #{orderNo}
+			</if>
+			<if test="userId!=null">
+				user_id = #{userId}
+			</if>
+		</where>
+		limit #{offset},#{limit}
+		 
+	</select>
+	
+	 
+</mapper>
