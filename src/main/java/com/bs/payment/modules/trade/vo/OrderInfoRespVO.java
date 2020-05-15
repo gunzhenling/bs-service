@@ -26,7 +26,7 @@ public class OrderInfoRespVO {
 	@ApiModelProperty(value="用户主键")
 	@JSONField(name="user_id")
 	@JsonProperty("user_id")
-	private Integer userId;
+	private Long userId;
 	
 	/**
 	 *  订单号

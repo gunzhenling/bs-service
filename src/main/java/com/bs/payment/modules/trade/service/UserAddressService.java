@@ -11,7 +11,7 @@ public interface UserAddressService extends IService<UserAddressEntity> {
 	 * @param userAddressDto
 	 * @return
 	 */
-	String add(UserAddressDto userAddressDto);
+	String add(UserAddressDto userAddressDto) throws Exception;
 	/**
 	 * 更新地址
 	 * @param userAddressDto

@@ -100,7 +100,7 @@ public class BankUserServiceImpl extends ServiceImpl<BankUserMapper, BankUserEnt
 			throw new BusinessException(message);
 		}
 		
-		BankUserEntity bankUserEntity = bankUserMapper.selectById(userId);
+		BankUserEntity bankUserEntity = bankUserMapper.selectOne(QueryBuilder.where("user_id",userId));
 		if(null==bankUserEntity) {
 			
 			String message="用户账户不存在";
@@ -153,7 +153,7 @@ public class BankUserServiceImpl extends ServiceImpl<BankUserMapper, BankUserEnt
 			log.warn("userbank-rechargeAvailable-warn: userId={} ,message={}",userId,message);
 			throw new BusinessException(message);
 		}
-		BankUserEntity bankUserEntity = bankUserMapper.selectById(userId);
+		BankUserEntity bankUserEntity = bankUserMapper.selectOne(QueryBuilder.where("user_id",userId));
 		if(null==bankUserEntity) {
 			
 			String message="用户账户不存在";
@@ -184,9 +184,9 @@ public class BankUserServiceImpl extends ServiceImpl<BankUserMapper, BankUserEnt
 		entity.setAvailableMoney(availableMoney);
 		entity.setChangeMoney(moneny);
 		entity.setChangeNo(OrderUtil.getOrder(OrderType.BANK_AVAIL));
-		entity.setChangeType(BankAvailableChangeEnum.PAY.getType());
-		entity.setDescription(BankAvailableChangeEnum.PAY.getDesc());
-		entity.setIsReduce(BankAvailableChangeEnum.PAY.getIsReduce());
+		entity.setChangeType(BankAvailableChangeEnum.PAY_RECHARGE.getType());
+		entity.setDescription(BankAvailableChangeEnum.PAY_RECHARGE.getDesc());
+		entity.setIsReduce(BankAvailableChangeEnum.PAY_RECHARGE.getIsReduce());
 		entity.setUserId(userId);
 
 		bankUserAvailableHistoryService.getBaseMapper().insert(entity);

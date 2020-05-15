@@ -6,6 +6,8 @@ import com.bs.payment.modules.trade.vo.BgOrderInfoRespVO;
 import com.bs.payment.modules.trade.vo.OrderCommitReqVO;
 import com.bs.payment.modules.trade.vo.OrderCommitRespVO;
 import com.bs.payment.modules.trade.vo.OrderInfoRespVO;
+import com.bs.payment.modules.trade.vo.OrderPayReqVO;
+import com.bs.payment.modules.trade.vo.UpdateShipStatusVO;
 
 import xyz.nesting.common.message.ZcPageResult;
 
@@ -39,17 +41,17 @@ public interface OrderService extends IService<OrderInfoEntity> {
 	 * @param orderNo
 	 * @return
 	 */
-	String updateShipStatus(String orderNo,Integer shipStatus);
+	String updateShipStatus(UpdateShipStatusVO req);
 	/**
 	 * 提交订单
 	 * @param orderNo
 	 * @return
 	 */
-	OrderCommitRespVO commit(OrderCommitReqVO req);
+	OrderCommitRespVO commit(OrderCommitReqVO req) throws Exception;
 	/**
 	 * 订单支付
 	 * @param orderNo
 	 * @return
 	 */
-	String pay(String orderNo,String payChannel);
+	String pay(OrderPayReqVO req) throws Exception;
 }

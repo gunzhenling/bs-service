@@ -23,4 +23,5 @@ public interface BsGiftInfoMapper extends BaseMapper<BsGiftInfoEntity>{
 	
 	List<BsGiftInfoRespVO>  getList(@Param("typeCode") Integer typeCode,@Param("limit") Integer limit, @Param("offset")Integer offset) ;
  	 
+	int  deteleByGiftCode(@Param("giftCode")Integer giftCode) ;
 }

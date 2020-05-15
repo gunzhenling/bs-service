@@ -2,6 +2,7 @@ package com.bs.payment.modules.trade.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -11,6 +12,7 @@ import com.bs.payment.modules.trade.dao.UserAddressMapper;
 import com.bs.payment.modules.trade.dto.UserAddressDto;
 import com.bs.payment.modules.trade.entity.UserAddressEntity;
 import com.bs.payment.modules.trade.service.UserAddressService;
+import com.bs.payment.util.DateKit;
 import com.bs.payment.util.QueryBuilder;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,17 +26,19 @@ public class UserAddressServiceImpl extends ServiceImpl<UserAddressMapper, UserA
 	private UserAddressMapper userAddressMapper;
 	
 	@Override
-	public String add(UserAddressDto userAddressDto) {
+	public String add(UserAddressDto userAddressDto) throws Exception {
 		
 		Integer isDefault = userAddressDto.getIsDefault();
 		if(Consts.AddressDefaultType.YES==isDefault) {
 			
-			Integer userId = userAddressDto.getUserId();
+			Long userId = userAddressDto.getUserId();
 			UserAddressEntity selectOne = userAddressMapper.selectOne(QueryBuilder.where("user_id", userId,"is_default",Consts.AddressDefaultType.YES));
-			selectOne.setIsDefault(Consts.AddressDefaultType.NO);
-			userAddressMapper.updateById(selectOne);
-			
-			log.info("address-add-info: 更新另一个默认地址  success  selectOne={}",JSON.toJSONString(selectOne));
+			if(selectOne!=null) {
+				selectOne.setIsDefault(Consts.AddressDefaultType.NO);
+				userAddressMapper.updateById(selectOne);
+				
+				log.info("address-add-info: 更新另一个默认地址  success  selectOne={}",JSON.toJSONString(selectOne));
+			}
 			 
 		}
 		
@@ -57,10 +61,11 @@ public class UserAddressServiceImpl extends ServiceImpl<UserAddressMapper, UserA
 		return Consts.SUCCESS;
 	}
 
+	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public String update(UserAddressDto userAddressDto) {
 		 
-		Integer userAddressId = userAddressDto.getUserAddressId();
+		Long userAddressId = userAddressDto.getUserAddressId();
 		if(null==userAddressId) {
 			String message="原地址id请求参数必传";
 			log.warn("order-commit-warn: userAddressDto={} ,message={}",JSON.toJSONString(userAddressDto),message);
@@ -77,7 +82,7 @@ public class UserAddressServiceImpl extends ServiceImpl<UserAddressMapper, UserA
 		Integer isDefault = userAddressDto.getIsDefault();
 		if(Consts.AddressDefaultType.YES==isDefault) {
 			
-			Integer userId = userAddressDto.getUserId();
+			Long userId = userAddressDto.getUserId();
 			UserAddressEntity selectOne = userAddressMapper.selectOne(QueryBuilder.where("user_id", userId,"is_default",Consts.AddressDefaultType.YES));
 			selectOne.setIsDefault(Consts.AddressDefaultType.NO);
 			userAddressMapper.updateById(selectOne);
@@ -96,6 +101,7 @@ public class UserAddressServiceImpl extends ServiceImpl<UserAddressMapper, UserA
 		entity.setPhone(userAddressDto.getPhone());
 		entity.setProvince(userAddressDto.getProvince());
 		entity.setUserId(userAddressDto.getUserId());
+		entity.setUpdateTime(DateKit.now());
 		 
 		userAddressMapper.updateById(entity);
 		

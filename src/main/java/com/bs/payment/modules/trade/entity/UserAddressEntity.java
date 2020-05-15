@@ -28,7 +28,7 @@ public class UserAddressEntity extends AbstractBaseEntity  implements Serializab
 	/**
 	 * 用户主键id
 	 */
-	private Integer userId;
+	private Long userId;
 	/**
 	 * 
 	 * 是否默认，0不是，1是

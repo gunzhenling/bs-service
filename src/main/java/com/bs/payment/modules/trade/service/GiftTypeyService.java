@@ -17,7 +17,9 @@ public interface GiftTypeyService extends IService<BsGiftTypeEntity> {
 	 * @return
 	 */
 	List<BsGiftTypeEntity> getGiftTypes();
-	
+	/**
+	 * 礼品类型初始化接口
+	 */
 	void initGiftType();
 	
 }

@@ -1,5 +1,8 @@
 package com.bs.payment.modules.trade.vo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -15,6 +18,8 @@ public class UserRespVO {
 	
 	
 	@ApiModelProperty(name="用户主键")
+	@JSONField(name="user_id")
+	@JsonProperty("user_id")
 	private Long userId;
 	
 	/**

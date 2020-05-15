@@ -3,13 +3,12 @@ package com.bs.payment.modules.trade.service.impl;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -66,14 +65,14 @@ public class GiftInfoServiceImpl extends ServiceImpl<BsGiftInfoMapper, BsGiftInf
 
 
 	@Override
-	public String add(BsGiftInfoReqVO giftInfoReqVO) {
+	public String add(BsGiftInfoReqVO giftInfoReqVO) throws BusinessException {
 		
 //		 验证参数
 		valid(giftInfoReqVO);
 		
 		Date date = new Date();
-		MultipartFile pictureFile = giftInfoReqVO.getPictureFile();
-		String uploadFileReturnBase64Str = FileUtil.uploadFileReturnBase64Str(pictureFile, Consts.FilelType.IMAGE);
+//		MultipartFile pictureFile = giftInfoReqVO.getPictureFile();
+//		String uploadFileReturnBase64Str = FileUtil.uploadFileReturnBase64Str(pictureFile, Consts.FilelType.IMAGE);
 //		新增
 		BsGiftInfoEntity entity = new BsGiftInfoEntity();
 		entity.setContent(giftInfoReqVO.getContent());
@@ -83,7 +82,7 @@ public class GiftInfoServiceImpl extends ServiceImpl<BsGiftInfoMapper, BsGiftInf
 		entity.setGiftName(giftInfoReqVO.getGiftName());
 		entity.setGiftPrice(giftInfoReqVO.getGiftPrice());
 		entity.setLimitNum(giftInfoReqVO.getLimitNum());
-		entity.setPicture(uploadFileReturnBase64Str);
+		entity.setPicture(giftInfoReqVO.getPictureUrl());
 		entity.setRealGiftPrice(giftInfoReqVO.getRealGiftPrice());
 		entity.setSaleNum(giftInfoReqVO.getSaleNum());
 		entity.setSpecification(JSON.toJSONString(giftInfoReqVO.getSpecification()));
@@ -100,7 +99,7 @@ public class GiftInfoServiceImpl extends ServiceImpl<BsGiftInfoMapper, BsGiftInf
 	}
 	
 	
-	private void valid(BsGiftInfoReqVO giftInfoReqVO) {
+	private void valid(BsGiftInfoReqVO giftInfoReqVO) throws BusinessException {
 		
 		Integer giftCode = giftInfoReqVO.getGiftCode();
 		if(giftCode==null) {
@@ -109,6 +108,15 @@ public class GiftInfoServiceImpl extends ServiceImpl<BsGiftInfoMapper, BsGiftInf
 			log.warn("giftInfo-update-warn:  BusinessException message={}",message);
 			throw new BusinessException(message);
 		}
+		
+		BsGiftInfoEntity entity = bsGiftInfoMapper.selectOne(QueryBuilder.where("gift_code", giftCode));
+		if(entity!=null) {
+			 
+			String message="对应记录礼品已存在,礼品编码不可重复giftCode="+giftCode;
+			log.warn("giftInfo-update-warn:  BusinessException message={}",message);
+			throw new BusinessException(message);
+		}
+		
 		String giftName = giftInfoReqVO.getGiftName();
 		if(StringUtils.isBlank(giftName)) {
 			
@@ -172,8 +180,8 @@ public class GiftInfoServiceImpl extends ServiceImpl<BsGiftInfoMapper, BsGiftInf
 		}
 		 
 		Date date = new Date();
-		MultipartFile pictureFile = giftInfoReqVO.getPictureFile();
-		String uploadFileReturnBase64Str = FileUtil.uploadFileReturnBase64Str(pictureFile, Consts.FilelType.IMAGE);
+//		MultipartFile pictureFile = giftInfoReqVO.getPictureFile();
+//		String uploadFileReturnBase64Str = FileUtil.uploadFileReturnBase64Str(pictureFile, Consts.FilelType.IMAGE);
 //		新增
 		entity.setContent(giftInfoReqVO.getContent());
 		entity.setCustomMade(JSON.toJSONString(giftInfoReqVO.getCustomMade()));
@@ -182,8 +190,8 @@ public class GiftInfoServiceImpl extends ServiceImpl<BsGiftInfoMapper, BsGiftInf
 		entity.setGiftPrice(giftInfoReqVO.getGiftPrice());
 		entity.setLimitNum(giftInfoReqVO.getLimitNum());
 		
-		if(StringUtils.isNotBlank(uploadFileReturnBase64Str)) {
-			entity.setPicture(uploadFileReturnBase64Str);
+		if(StringUtils.isNotBlank(giftInfoReqVO.getPictureUrl())) {
+			entity.setPicture(giftInfoReqVO.getPictureUrl());
 		}
 		
 		entity.setRealGiftPrice(giftInfoReqVO.getRealGiftPrice());
@@ -200,17 +208,24 @@ public class GiftInfoServiceImpl extends ServiceImpl<BsGiftInfoMapper, BsGiftInf
 	}
 
 
+	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public String delete(Integer giftCode) {
 		
-		if(giftCode==null) {
+		BsGiftInfoEntity selectOne = bsGiftInfoMapper.selectOne(QueryBuilder.where("gift_code",giftCode));
+		if(giftCode==null||selectOne==null) {
 			
 			String message="请求参数不能为空 giftCode="+giftCode;
 			log.warn("giftInfo-delete-warn:  BusinessException message={}",message);
 			throw new BusinessException(message);
 		}
+//		该操作是软删，status置为1
+//		bsGiftInfoMapper.delete(QueryBuilder.where("gift_code",giftCode));
+		bsGiftInfoMapper.deteleByGiftCode(giftCode);
 		
-		bsGiftInfoMapper.delete(QueryBuilder.where("gift_code",giftCode));
+//		删除本地图片
+		String fileUrlPrefix = selectOne.getPicture();
+		FileUtil.deleteFileImage(fileUrlPrefix);
 		
 		log.info("giftInfo-delete-info:  delete success gift_code={}",giftCode);
 		
@@ -233,11 +248,16 @@ public class GiftInfoServiceImpl extends ServiceImpl<BsGiftInfoMapper, BsGiftInf
 		if(entity==null) {
 			return null;
 		}
-		Object picture = entity.getPicture();
 		
-		String baseDataTransferImage = FileUtil.baseDataTransferImage(picture);
+//		数据库存储图片的base64二进制
+//		Object picture = entity.getPicture();
+//		String baseDataTransferImage = FileUtil.baseDataTransferImage(picture);
 		
-		entity.setPicture(baseDataTransferImage);
+//		数据库中存储图片的相对地址
+		String picture = (String)entity.getPicture();
+		String rootPath = FileUtil.getRootPath();
+		picture = rootPath+picture;
+		entity.setPicture(picture);
 		
 		return entity;
 	}

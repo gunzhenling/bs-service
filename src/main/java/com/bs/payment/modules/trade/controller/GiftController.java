@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -77,7 +78,7 @@ public class GiftController {
 	
 	@PostMapping("/add")
 	@ApiOperation(value = "新增礼品")
-	public ZcResult<?> add(BsGiftInfoReqVO giftInfoReqVO) throws Exception {
+	public ZcResult<?> add(@RequestBody BsGiftInfoReqVO giftInfoReqVO) throws Exception {
 		
 //		log.info("GiftController-add-info: request giftInfoReqVO={}",JSON.toJSONString(giftInfoReqVO));
 		
@@ -88,7 +89,7 @@ public class GiftController {
 	
 	@PostMapping("/update")
 	@ApiOperation(value = "更新礼品")
-	public ZcResult<?> update(BsGiftInfoReqVO giftInfoReqVO) throws Exception {
+	public ZcResult<?> update(@RequestBody BsGiftInfoReqVO giftInfoReqVO) throws Exception {
 		
 		log.info("GiftController-add-info: request giftInfoReqVO={}",JSON.toJSONString(giftInfoReqVO));
 		
@@ -104,6 +105,7 @@ public class GiftController {
 		log.info("GiftController-delete-info: request giftCode={}",giftCode);
 		
 		String result = giftInfoService.delete(giftCode);
+		 
 		
 		return ZcResult.ok(result);
 	}

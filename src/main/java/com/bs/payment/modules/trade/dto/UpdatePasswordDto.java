@@ -2,6 +2,9 @@ package com.bs.payment.modules.trade.dto;
 
 import javax.validation.constraints.NotBlank;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -27,6 +30,8 @@ public class UpdatePasswordDto {
 	 */
 	@NotBlank(message="旧密码不能为空")
 	@ApiModelProperty(name="旧密码")
+	@JSONField(name="old_password")
+	@JsonProperty("old_password")
 	private String oldPassword;
 	
 	/**
@@ -42,6 +47,8 @@ public class UpdatePasswordDto {
 	 */
 	@NotBlank(message="确认新密码不能为空")
 	@ApiModelProperty(name="确认新密码")
+	@JSONField(name="confirm_password")
+	@JsonProperty("confirm_password")
 	private String confirmPassword;
 	 
 }

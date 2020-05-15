@@ -25,5 +25,9 @@
 		 
 	</select>
 	
+	<delete id="deteleByGiftCode">
+	 delete from bs_gift_info where gift_code=#{giftCode} 
+	</delete>
+	
 	 
 </mapper>

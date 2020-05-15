@@ -1,5 +1,7 @@
 package com.bs.payment.modules.trade.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +19,9 @@ import com.bs.payment.modules.trade.vo.BgOrderInfoRespVO;
 import com.bs.payment.modules.trade.vo.OrderCommitReqVO;
 import com.bs.payment.modules.trade.vo.OrderCommitRespVO;
 import com.bs.payment.modules.trade.vo.OrderInfoRespVO;
+import com.bs.payment.modules.trade.vo.OrderPayReqVO;
 import com.bs.payment.modules.trade.vo.ShopCommitReqVO;
+import com.bs.payment.modules.trade.vo.UpdateShipStatusVO;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,7 +47,7 @@ public class OrderController {
 	
 	@PostMapping("/commit")
 	@ApiOperation(value = "提交订单")
-	public ZcResult<OrderCommitRespVO> commit(@RequestBody OrderCommitReqVO req) throws Exception {
+	public ZcResult<OrderCommitRespVO> commit(@Valid@RequestBody OrderCommitReqVO req) throws Exception {
 		
 		log.info("Order-commit-info: request  req={}",JSON.toJSONString(req));
 		
@@ -55,24 +59,22 @@ public class OrderController {
 	
 	@PostMapping("/pay")
 	@ApiOperation(value = "订单支付")
-	public ZcResult<String> pay(@RequestParam(value="order_no",required=true) String orderNo,
-			@RequestParam(value="pay_channel",required=true) String payChannel ) throws Exception {
+	public ZcResult<String> pay(@Valid@RequestBody OrderPayReqVO req) throws Exception {
 		
-		log.info("Order-pay-info: request  orderNo={},payChannel={}",orderNo,payChannel);
+		log.info("Order-pay-info: request  req={}",JSON.toJSONString(req));
 		
-		 String  result = orderService.pay(orderNo, payChannel);
+		 String  result = orderService.pay(req);
 		 
 		return ZcResult.ok(result);
 	}
 	
 	@PostMapping("/update/shipStatus")
 	@ApiOperation(value = "更新订单发货状态")
-	public ZcResult<String> updateShipStatus(@RequestParam(value="order_no",required=true) String orderNo,
-			@RequestParam(value="ship_status",required=true) Integer shipStatus ) throws Exception {
+	public ZcResult<String> updateShipStatus(@Valid@RequestBody UpdateShipStatusVO req ) throws Exception {
 		
-		log.info("Order-updateShipStatus-info: request  orderNo={},shipStatus={}",orderNo,shipStatus);
+		log.info("Order-updateShipStatus-info: request  req={}",JSON.toJSONString(req));
 		
-		 String updateShipStatus = orderService.updateShipStatus(orderNo, shipStatus);
+		 String updateShipStatus = orderService.updateShipStatus(req);
 		 
 		return ZcResult.ok(updateShipStatus);
 	}
@@ -115,7 +117,7 @@ public class OrderController {
 	
 	@PostMapping("/add/shops")
 	@ApiOperation(value = "添加购物车")
-	public ZcResult<String> addShops(@RequestBody ShopCommitReqVO req) throws Exception {
+	public ZcResult<String> addShops(@Valid@RequestBody ShopCommitReqVO req) throws Exception {
 		
 		log.info("Order-commit-info: request  req={}",JSON.toJSONString(req));
 		

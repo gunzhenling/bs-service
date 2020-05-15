@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -13,17 +14,21 @@ import com.bs.payment.common.constans.Consts;
 import com.bs.payment.common.constans.EnumConstants;
 import com.bs.payment.common.exception.BusinessException;
 import com.bs.payment.modules.trade.dao.OrderInfoMapper;
+import com.bs.payment.modules.trade.dto.PayDto;
 import com.bs.payment.modules.trade.dto.UserAddressDto;
 import com.bs.payment.modules.trade.entity.BsGiftInfoEntity;
 import com.bs.payment.modules.trade.entity.OrderInfoEntity;
 import com.bs.payment.modules.trade.entity.UserAddressEntity;
 import com.bs.payment.modules.trade.service.GiftInfoService;
 import com.bs.payment.modules.trade.service.OrderService;
+import com.bs.payment.modules.trade.service.PayService;
 import com.bs.payment.modules.trade.service.UserAddressService;
 import com.bs.payment.modules.trade.vo.BgOrderInfoRespVO;
 import com.bs.payment.modules.trade.vo.OrderCommitReqVO;
 import com.bs.payment.modules.trade.vo.OrderCommitRespVO;
 import com.bs.payment.modules.trade.vo.OrderInfoRespVO;
+import com.bs.payment.modules.trade.vo.OrderPayReqVO;
+import com.bs.payment.modules.trade.vo.UpdateShipStatusVO;
 import com.bs.payment.util.BeanKit;
 import com.bs.payment.util.DateKit;
 import com.bs.payment.util.OrderUtil;
@@ -44,6 +49,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderInfoMapper , OrderInfoEnt
 	private GiftInfoService giftInfoService;
 	@Autowired
 	private UserAddressService userAddressService;
+	@Autowired
+	private PayService payService;
 	
 	@Override
 	public ZcPageResult<BgOrderInfoRespVO> bgGetOrderList(String orderNo, Integer limit, Integer offset) {
@@ -101,7 +108,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderInfoMapper , OrderInfoEnt
 	}
 
 	@Override
-	public String updateShipStatus(String orderNo,Integer shipStatus) {
+	public String updateShipStatus(UpdateShipStatusVO req) {
+		
+		String orderNo = req.getOrderNo();
+		Integer shipStatus = req.getShipStatus();
 		
 		OrderInfoEntity entity = orderInfoMapper.selectOne(QueryBuilder.where("order_no", orderNo));
 		if(entity==null) {
@@ -124,8 +134,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderInfoMapper , OrderInfoEnt
 		return Consts.SUCCESS;
 	}
 
+	@Transactional(rollbackFor=Exception.class)
 	@Override
-	public String pay(String orderNo, String payChannel) {
+	public String pay(OrderPayReqVO req) throws Exception{
+		
+		String orderNo = req.getOrderNo();
+		String payChannel = req.getPayChannel();
 		
 		OrderInfoEntity entity = orderInfoMapper.selectOne(QueryBuilder.where("order_no", orderNo));
 		if(entity==null) {
@@ -136,32 +150,65 @@ public class OrderServiceImpl extends ServiceImpl<OrderInfoMapper , OrderInfoEnt
 			
 		}
 		
-		Integer payStatus = EnumConstants.PayStatusEnum.ORDER_PAY_SUCCESS.getCode();
+		Integer payStatusPaySuccess = EnumConstants.PayStatusEnum.ORDER_PAY_SUCCESS.getCode();
+		Integer payStatus = entity.getPayStatus();
+		if(payStatus>=payStatusPaySuccess) {
+			
+			String message="订单已支付,请勿重复支付!";
+			log.warn("order-pay-warn: orderNo={}, payChannel={} ,message={}",orderNo,payChannel,message);
+			throw new BusinessException(message);
+			
+		}
+		
+		String merchantNo="测试商户号";
 		
 		Date date = new Date();
-		entity.setPayStatus(payStatus);
+		entity.setPayStatus(payStatusPaySuccess);
 		entity.setPayChannel(payChannel);
+		entity.setMerchantNo(merchantNo);
+		entity.setSettleStatus(EnumConstants.SettleStatusEnum.WAIT_AUDIT.getCode());
+		entity.setShipStatus(EnumConstants.ShipStatusEnum.WAIT_SHIP.getCode());
 		entity.setUpdateTime(date);
 		entity.setPayTime(date);
 		
 		orderInfoMapper.updateById(entity);
+
+		//		TODO 扣除用户金额
+		PayDto payDto = new PayDto();
+		BigDecimal payMoney = entity.getBuyerPayAmount();
+		
+		payDto.setOrderNo(orderNo);
+		payDto.setPayChannel(payChannel);
+		payDto.setPayMoney(payMoney);
+		payDto.setUserId(entity.getUserId());
+		
+		payService.pay(payDto);
 		
 		log.info("order-pay-info: orderNo={}, payStatus={},payChannel={}  success",orderNo,payStatus,payChannel);
 		 
 		return Consts.SUCCESS;
 	}
 
+	@Transactional(rollbackFor=Exception.class)
 	@Override
-	public OrderCommitRespVO commit(OrderCommitReqVO req) {
+	public OrderCommitRespVO commit(OrderCommitReqVO req) throws Exception{
 		
 		BigDecimal buyerPayAmount = req.getBuyerPayAmount();
-		String customMade = req.getCustomMade();
+		String customMade = JSON.toJSONString(req.getCustomMade());
 		Integer giftAmount = req.getGiftAmount();
 		Integer giftCode = req.getGiftCode();
 		BigDecimal sellIncome = req.getSellIncome();
-		String specification = req.getSpecification();
-		Integer userAddressId = req.getUserAddressId();
-		Integer userId = req.getUserId();
+		String specification = JSON.toJSONString(req.getSpecification());
+		Long userAddressId = req.getUserAddressId();
+		Long userId = req.getUserId();
+		
+		Integer waitPayStatus = EnumConstants.PayStatusEnum.ORDER_PAY_PENDING.getCode();
+		OrderInfoEntity orderInfoEntity = orderInfoMapper.selectOne(QueryBuilder.where("user_id", userId,"pay_status",waitPayStatus));
+		if(null!=orderInfoEntity) {
+			String message="您有未支付的订单，请先进行支付!";
+			log.warn("order-commit-warn: giftCode={} ,message={},waitPayStatus={},userId={}",giftCode,message,waitPayStatus,userId);
+			throw new BusinessException(message);
+		}
 		
 		BsGiftInfoEntity giftInfoEntity = giftInfoService.getOne(QueryBuilder.where("gift_code", giftCode));
 		if(null==giftInfoEntity) {
@@ -225,6 +272,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderInfoMapper , OrderInfoEnt
 		OrderCommitRespVO resp = new OrderCommitRespVO();
 		UserAddressDto userAddressDto = new UserAddressDto();
 		BeanKit.copyCglib(userAddressEntity, userAddressDto);
+		userAddressDto.setUserAddressId(userAddressEntity.getId());
 		
 		resp.setBuyerPayAmount(buyerPayAmount.toString());
 		resp.setOrderNo(orderNo);

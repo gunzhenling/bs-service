@@ -22,7 +22,7 @@ public class BankUserAvailableHistoryDto {
 	/**
 	 * 用户ID
 	 */
-	private Integer userId;
+	private Long userId;
 	/**
 	 * 变更标识 0增加1减少
 	 */

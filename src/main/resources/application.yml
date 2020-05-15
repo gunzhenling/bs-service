@@ -64,3 +64,6 @@ management:
 bs: 
   gift: 
     type: /init/gift-type-config.json
+    
+file: 
+  image-url: /frontend/public/images/

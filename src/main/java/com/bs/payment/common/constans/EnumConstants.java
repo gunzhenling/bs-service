@@ -73,6 +73,72 @@ public class EnumConstants {
 		 
 		
 	}
+	/**
+	 * 发货状态
+	 * @author zhenling
+	 *
+	 */
+	public enum ShipStatusEnum{
+//		确认收货状态：0未发货，1已发货，2已确认收货，3已退货，4退货中
+		
+		WAIT_SHIP(0,"未发货"),
+		IS_SHIP(1,"已发货"),
+		HAD_SHIP(2,"已确认收货"),
+		REFUNDED_SHIP(3,"已退货"),
+		REFUNDING_SHIP(4,"退货中");
+		
+		Integer code;
+		String message;
+		
+		private ShipStatusEnum(Integer code, String message) {
+			this.code = code;
+			
+			this.message = message;
+		}
+		
+		public Integer getCode() {
+			return code;
+		}
+		public String getMessage() {
+			return message;
+		}
+		
+		public static Integer getCode(Integer code) {
+			
+			ShipStatusEnum[] statusEnums=values();
+			
+			for(ShipStatusEnum statusEnum:statusEnums) {
+				
+				if(statusEnum.getCode()==code) {
+					
+					return statusEnum.getCode();
+				}
+				
+			}
+			
+			return null;
+			
+		}
+		
+		public static String getMessage(Integer code) {
+			
+			ShipStatusEnum[]  statusEnums=values();
+			
+			for(ShipStatusEnum statusEnum:statusEnums) {
+				
+				if(statusEnum.getCode()==code) {
+					
+					return statusEnum.getMessage();
+				}
+				
+			}
+			
+			return null;
+			
+		}
+		
+		
+	}
 	
 	 
 
@@ -140,20 +206,20 @@ public class EnumConstants {
 	}
 
 	/**
-	 * 退款类型
+	 * 支付渠道
 	 * @author zhenling
 	 *
 	 */
-	public enum RefundTypeEnum{
+	public enum PayChannelEnum{
 //		退款类型  alipay wx YuE|滚真灵|2019-09-16
-		REFUND_TYPE_ALIPAY("alipay","支付宝"),
-		REFUND_TYPE_WX("wx","微信"),
-		REFUND_TYPE_YUE("YuE","余额");
+		ALIPAY("alipay","支付宝"),
+		WX("wx","微信"),
+		YU_E("YuE","余额");
 		
 		String code;
 		String message;
 		
-		private RefundTypeEnum(String code, String message) {
+		private PayChannelEnum(String code, String message) {
 			this.code = code;
 			 
 			this.message = message;
@@ -168,9 +234,9 @@ public class EnumConstants {
 		
 		public static String getCode(String code) {
 			
-			RefundTypeEnum[] statusEnums=values();
+			PayChannelEnum[] statusEnums=values();
 			
-			for(RefundTypeEnum statusEnum:statusEnums) {
+			for(PayChannelEnum statusEnum:statusEnums) {
 				
 				if(statusEnum.getCode().equals(code)) {
 					
@@ -185,9 +251,9 @@ public class EnumConstants {
 		
 		public static String getMessage(String code) {
 			
-			RefundTypeEnum[] statusEnums=values();
+			PayChannelEnum[] statusEnums=values();
 			
-			for(RefundTypeEnum statusEnum:statusEnums) {
+			for(PayChannelEnum statusEnum:statusEnums) {
 				
 				if(statusEnum.getCode().equals(code)) {
 					

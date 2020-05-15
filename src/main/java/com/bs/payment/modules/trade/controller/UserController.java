@@ -1,5 +1,7 @@
 package com.bs.payment.modules.trade.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,15 +52,15 @@ public class UserController {
 		
 		log.info("user-register-info: request  userDto={} ",JSON.toJSONString(userDto));
 		UserRespVO result = null;
-		try{
-			
-			  result = userService.register(userDto);
-			
+		
+		result = userService.register(userDto);
+		/*try{
+			 
 		}catch(Exception e){
 			e.printStackTrace();
 			log.error("user-register-error:   err={}",e.getMessage());
 			BusinessException.error(2, "服务异常");
-		}
+		}*/
 		 
 		return ZcResult.ok(result);
 	}
@@ -118,7 +120,7 @@ public class UserController {
 	
 	@PostMapping("/recharge/available")
 	@ApiOperation(value = "余额充值")
-	public ZcResult<String> rechargeAvailable(@RequestBody RechargeAvailableReqVO reqVO) throws Exception {
+	public ZcResult<String> rechargeAvailable(@Valid@RequestBody RechargeAvailableReqVO reqVO) throws Exception {
 		
 		log.info("user-rechargeAvailable-info: request  reqVO={} ",JSON.toJSONString(reqVO));
 		

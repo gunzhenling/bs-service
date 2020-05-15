@@ -67,6 +67,9 @@ public class BsGiftInfoEntity extends AbstractBaseEntity{
 	 * 礼品图片 MEDIUMBLOB
 	 * java类型为Object 方便转型
 	 */
-	private Object picture;
+//	数据库存储图片的base64二进制
+//	private Object picture;
+//	数据库存储图片的相对地址
+	private String picture;
 	
 }

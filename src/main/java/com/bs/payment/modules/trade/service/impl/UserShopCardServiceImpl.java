@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bs.payment.common.constans.Consts;
 import com.bs.payment.common.exception.BusinessException;
@@ -46,7 +47,7 @@ public class UserShopCardServiceImpl extends ServiceImpl<UserShopCardMapper, Use
 		UserShopCardEntity entity = new UserShopCardEntity();
 		
 		entity.setBuyerPayAmount(dto.getBuyerPayAmount());
-		entity.setCustomMade(dto.getCustomMade());
+		entity.setCustomMade(JSON.toJSONString(dto.getCustomMade()));
 //		设置10天有效期
 		entity.setExpirationTime(DateKit.nowPlusDays(10));
 		entity.setGiftCode(dto.getGiftCode());
@@ -54,7 +55,7 @@ public class UserShopCardServiceImpl extends ServiceImpl<UserShopCardMapper, Use
 		entity.setGiftPrice(bsGiftInfoEntity.getGiftPrice());
 		entity.setRealGiftPrice(bsGiftInfoEntity.getRealGiftPrice());
 		entity.setSellIncome(dto.getSellIncome());
-		entity.setSpecification(dto.getSpecification());
+		entity.setSpecification(JSON.toJSONString(dto.getSpecification()));
 		entity.setUserId(dto.getUserId());
 		
 		userShopCardMapper.insert(entity );

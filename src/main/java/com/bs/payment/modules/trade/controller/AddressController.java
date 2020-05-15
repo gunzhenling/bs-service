@@ -2,6 +2,8 @@ package com.bs.payment.modules.trade.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,6 +51,7 @@ public class AddressController {
 			
 			UserAddressDto dto = new UserAddressDto();
 			BeanKit.copyCglib(entity, dto);
+			dto.setUserAddressId(entity.getId());
 			dtoList.add(dto);
 		}
 		
@@ -58,7 +61,7 @@ public class AddressController {
 	
 	@PostMapping("/add")
 	@ApiOperation(value = "新增收货地址")
-	public ZcResult<String> add(@RequestBody UserAddressDto userAddressDto) throws Exception {
+	public ZcResult<String> add(@Valid@RequestBody UserAddressDto userAddressDto) throws Exception {
 		
 		log.info("address-add-info: request  userAddressDto={} ",JSON.toJSONString(userAddressDto));
 		
@@ -69,11 +72,11 @@ public class AddressController {
 	
 	@PostMapping("/update")
 	@ApiOperation(value = "更新收货地址")
-	public ZcResult<String> update(@RequestBody UserAddressDto userAddressDto) throws Exception {
+	public ZcResult<String> update(@Valid@RequestBody UserAddressDto userAddressDto) throws Exception {
 		
 		log.info("address-update-info: request  userAddressDto={} ",JSON.toJSONString(userAddressDto));
 		
-		String result = userAddressService.add(userAddressDto);
+		String result = userAddressService.update(userAddressDto);
 		
 		return ZcResult.ok(result);
 	}

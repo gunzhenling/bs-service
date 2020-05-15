@@ -30,7 +30,7 @@ public class OrderInfoEntity extends AbstractBaseEntity  implements Serializable
 	/**
 	 * 用户主键
 	 */
-	private Integer userId;
+	private Long userId;
 	
 	/**
 	 *  订单号

@@ -44,7 +44,7 @@ public class OrderUtil {
 			orderNo = ZcDateFormatUtil.formatDate("yyyyMMddHHmmss", ZcDateUtil.today())
 			+ RandomStringUtils.randomNumeric(18);
 		}
-		if(Consts.OrderType.PAY.equals(type)) {
+		if(Consts.OrderType.BANK_AVAIL.equals(type)) {
 			
 //			14+18
 			orderNo = ZcDateFormatUtil.formatDate("yyyyMMddHHmmss", ZcDateUtil.today())

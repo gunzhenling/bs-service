@@ -17,8 +17,9 @@ import org.apache.commons.lang3.StringUtils;
  */
 public enum BankAvailableChangeEnum {
 
-	PAY(1, 0, "支付充值"), 
-	CASH_OUT(2, 1, "提现,手续费¥{}");  
+	PAY_RECHARGE(1, 0, "支付充值"), 
+	CASH_OUT(2, 1, "提现,手续费¥{}"),
+	PAY_ORDER(3, 1, "订单支付");  
 
 	private int type;
 	private int isReduce; // 0增加，1减少,2 不增加不减少

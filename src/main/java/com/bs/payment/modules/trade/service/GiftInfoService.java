@@ -1,6 +1,7 @@
 package com.bs.payment.modules.trade.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.bs.payment.common.exception.BusinessException;
 import com.bs.payment.modules.trade.entity.BsGiftInfoEntity;
 import com.bs.payment.modules.trade.vo.BsGiftInfoReqVO;
 import com.bs.payment.modules.trade.vo.BsGiftInfoRespVO;
@@ -30,7 +31,7 @@ public interface GiftInfoService extends IService<BsGiftInfoEntity> {
 	 * @param giftInfoReqVO
 	 * @return
 	 */
-	String add(BsGiftInfoReqVO giftInfoReqVO);
+	String add(BsGiftInfoReqVO giftInfoReqVO) throws BusinessException;
 	/**
 	 *  礼品更新
 	 * @param giftInfoReqVO
