@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.bs.payment.common.ZcResult;
+import com.bs.payment.common.exception.BusinessException;
 import com.bs.payment.modules.trade.dto.BankUserDto;
 import com.bs.payment.modules.trade.dto.UpdatePasswordDto;
 import com.bs.payment.modules.trade.dto.UserLoginDto;
@@ -48,8 +49,16 @@ public class UserController {
 	public ZcResult<UserRespVO> register(@RequestBody UserRegisterDto userDto) throws Exception {
 		
 		log.info("user-register-info: request  userDto={} ",JSON.toJSONString(userDto));
-		
-		UserRespVO result = userService.register(userDto);
+		UserRespVO result = null;
+		try{
+			
+			  result = userService.register(userDto);
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			log.error("user-register-error:   err={}",e.getMessage());
+			BusinessException.error(2, "服务异常");
+		}
 		 
 		return ZcResult.ok(result);
 	}

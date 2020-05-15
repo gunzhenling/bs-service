@@ -28,9 +28,7 @@
 			<if test="orderNo!=null">
 				order_no = #{orderNo}
 			</if>
-			<if test="userId!=null">
-				user_id = #{userId}
-			</if>
+			 
 		</where>
 		limit #{offset},#{limit}
 		 
@@ -39,10 +37,7 @@
 	<select id="getOrderList" resultType="OrderInfoRespVO" >
 		select  user_id,order_no,pay_status,create_time
 		from bs_order_info 
-		<where>
-			<if test="orderNo!=null">
-				order_no = #{orderNo}
-			</if>
+		<where> 
 			<if test="userId!=null">
 				user_id = #{userId}
 			</if>

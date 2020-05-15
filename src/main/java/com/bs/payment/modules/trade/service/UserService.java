@@ -14,7 +14,7 @@ public interface UserService extends IService<UserEntity> {
 	 * @param userDto
 	 * @return
 	 */
-	UserRespVO register(UserRegisterDto userDto);
+	UserRespVO register(UserRegisterDto userDto)throws  Exception;
 	
 	/**
 	 *  用户登录

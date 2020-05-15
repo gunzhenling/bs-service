@@ -79,7 +79,8 @@ public class OrderController {
 	 
 	@GetMapping("/bg/get/list")
 	@ApiOperation(value = "管理后台获取订单列表")
-	public ZcResult<ZcPageResult<BgOrderInfoRespVO>> bgGetList(@RequestParam("order_no") String orderNo,@RequestParam("limit") Integer limit,@RequestParam("offset") Integer offset) throws Exception {
+	public ZcResult<ZcPageResult<BgOrderInfoRespVO>> bgGetList(@RequestParam(value="order_no",required=false) String orderNo,
+			@RequestParam(value="limit",required=false,defaultValue="5") Integer limit,@RequestParam(value="offset",required=false,defaultValue="0") Integer offset) throws Exception {
 		
 		log.info("Order-bgGetList-info: request  orderNo={},limit={},offset={}",orderNo,limit,offset);
 		
@@ -90,7 +91,8 @@ public class OrderController {
 	
 	@GetMapping("/get/list")
 	@ApiOperation(value = "前端获取订单列表")
-	public ZcResult<ZcPageResult<OrderInfoRespVO>> getList(@RequestParam("user_id") Long userId,@RequestParam("limit") Integer limit,@RequestParam("offset") Integer offset) throws Exception {
+	public ZcResult<ZcPageResult<OrderInfoRespVO>> getList(@RequestParam(value="user_id",required=true) Long userId,
+			@RequestParam(value="limit",defaultValue="5") Integer limit,@RequestParam(value="offset",required=false,defaultValue="0") Integer offset) throws Exception {
 		
 		log.info("Order-getList-info: request  userId={},limit={},offset={}",userId,limit,offset);
 		
@@ -101,7 +103,8 @@ public class OrderController {
 	
 	@GetMapping("/get/shops")
 	@ApiOperation(value = "获取购物车列表")
-	public ZcResult<ZcPageResult<UserShopCardDto>> getShops(@RequestParam("user_id") Long userId,@RequestParam("limit") Integer limit,@RequestParam("offset") Integer offset) throws Exception {
+	public ZcResult<ZcPageResult<UserShopCardDto>> getShops(@RequestParam(value="user_id",required=true) Long userId,
+			@RequestParam(value="limit",defaultValue="5") Integer limit,@RequestParam(value="offset",required=false,defaultValue="0") Integer offset) throws Exception {
 		
 		log.info("Order-getList-info: request  userId={},limit={},offset={}",userId,limit,offset);
 		 

@@ -2,6 +2,7 @@ package com.bs.payment.modules.trade.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -30,8 +31,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
 	@Autowired
 	private BankUserService   bankUserService;
 
+	@Transactional(rollbackFor=Exception.class)
 	@Override
-	public UserRespVO register(UserRegisterDto userDto) {
+	public UserRespVO register(UserRegisterDto userDto) throws Exception {
 		
 		String icon = userDto.getIcon();
 		String name = userDto.getName();
