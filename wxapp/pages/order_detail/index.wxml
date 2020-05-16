@@ -1,3 +1,61 @@
 <view>
-	
+	<view class="goods_info block">
+		<image src="{{order.pic}}"></image>
+		<view>
+			<view>商品名称{{order.gift_name}}</view>
+			<view>规格{{order.specification.standards}}</view>
+			<view>购买数量{{order.gift_amount || order.buy_num}}</view>
+		</view>
+	</view>
+	<view class="block "  wx:if="{{order._picture_logo}}">
+		<view class="cell">
+			<text>礼品定制</text>
+			<view class="custom_made">
+				<view style="border:0;text-align:right;margin:0;padding:0">
+					<view>标品</view>
+					<view>
+						<view>版费<text>{{order.custom_made.b_fee}}</text>元</view>
+						<view>定制费<text>{{order.custom_made.made_fee}}</text>元</view>
+						<view>定做工期<text>{{order.custom_made.prod_date}}</text>天</view>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="cell">
+			<text>定制图片</text>
+			<image src="{{order._picture_logo}}" style="width:100rpx; height:100rpx;"></image>
+		</view>
+	</view>
+	<view class="block">
+		<view class="cell">
+			<text>收货人</text>
+			<text>{{order.user_address_json.name}}</text>
+		</view>
+		<view class="cell">
+			<text>联系方式</text>
+			<text>{{order.user_address_json.phone}}</text>
+		</view>
+		<view class="cell">
+			<text>详细地址</text>
+			<text>{{order.user_address_json.province}}{{order.user_address_json.city}}{{order.user_address_json.district}}{{order.user_address_json.order.user_address_json}}</text>
+		</view>
+	</view>
+	<view class="block">
+		<view class="cell">
+			<text>订单编号</text>
+			<text>{{order._order_no}}</text>
+		</view>
+		<view class="cell">
+			<text>单价</text>
+			<text>{{order.gift_price}}元</text>
+		</view>
+		<view class="cell">
+			<text>订单总价</text>
+			<text>{{order.buyer_pay_amount}}元</text>
+		</view>
+		<view class="cell">
+			<text>实付金额</text>
+			<text>{{order.buyer_pay_amount}}元</text>
+		</view>
+	</view>
 </view>

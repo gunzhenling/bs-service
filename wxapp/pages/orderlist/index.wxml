@@ -24,7 +24,7 @@
 			<view class='hr'></view>
 			<view class='loadBtn' style="width:240px;">
 				<view class='see_btn' data-item="{{item}}" bindtap='loadDetails'>详情</view>
-				<view class='extend_btn' data-item="{{item}}" bindtap='pay'>去付款</view>
+				<view class='extend_btn' data-item="{{item}}" bindtap='pay'>余额支付</view>
         <view class='extend_btn' data-item="{{item}}" bindtap='delay'>取消</view>
 			</view>
 		</view>
