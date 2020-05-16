@@ -101,7 +101,7 @@ public class CommonController {
 		
 		log.info("common-deleteNotice-info: request  id={} ",id);
 		
-		String result = noticeService.delete(id);
+		String result = noticeService.deleteById(id);
 		
 		return ZcResult.ok(result);
 	}

@@ -43,6 +43,6 @@ public interface NoticeService extends IService<NoticeEntity> {
 	 * @return
 	 */
 	
-	String delete(Long id);
+	String deleteById(Long id);
 
 }

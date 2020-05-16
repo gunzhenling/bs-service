@@ -81,7 +81,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, NoticeEntity> i
 	}
 
 	@Override
-	public String delete(Long id) {
+	public String deleteById(Long id) {
 		
 		if(id==null){
 			

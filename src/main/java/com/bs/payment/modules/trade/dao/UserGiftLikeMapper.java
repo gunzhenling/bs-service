@@ -1,6 +1,9 @@
 package com.bs.payment.modules.trade.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.bs.payment.modules.trade.entity.UserGiftLikeEntity;
@@ -12,5 +15,11 @@ import com.bs.payment.modules.trade.entity.UserGiftLikeEntity;
  */
 @Mapper
 public interface UserGiftLikeMapper   extends BaseMapper<UserGiftLikeEntity>{
+	
+	Long getCount();
+	
+	List<UserGiftLikeEntity> getUserGiftLikeList(@Param("limit")Integer limit,@Param("offset") Integer offset);
+	
+	int deleteGiftLikeById(@Param("id") Long id);
 
 }

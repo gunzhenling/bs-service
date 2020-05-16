@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bs.payment.modules.trade.dao.UserGiftLikeMapper">
+	
+	<select id="getCount" resultType="Long" >
+		select  count(1) from bs_user_gift_like 
+		 
+	</select>
+	
+	<select id="getUserGiftLikeList" resultType="UserGiftLikeEntity" >
+		select  *
+		from bs_user_gift_like 
+		limit #{offset},#{limit}
+		 
+	</select>
+
+    <delete id="deleteGiftLikeById">
+    	delete from bs_user_gift_like where id=#{id}
+    </delete>
+	
+	 
+</mapper>

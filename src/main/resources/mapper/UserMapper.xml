@@ -8,7 +8,7 @@
 		 
 	</select>
 	
-	<select id="getList" resultType="UserEntity" >
+	<select id="getUserList" resultType="UserEntity" >
 		select  *
 		from bs_user 
 		limit #{offset},#{limit}

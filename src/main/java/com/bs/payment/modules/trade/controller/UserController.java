@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,13 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.bs.payment.common.ZcResult;
-import com.bs.payment.common.exception.BusinessException;
 import com.bs.payment.modules.trade.dto.BankUserDto;
 import com.bs.payment.modules.trade.dto.UpdatePasswordDto;
+import com.bs.payment.modules.trade.dto.UserGiftLikeDto;
 import com.bs.payment.modules.trade.dto.UserLoginDto;
 import com.bs.payment.modules.trade.dto.UserRegisterDto;
 import com.bs.payment.modules.trade.entity.UserEntity;
+import com.bs.payment.modules.trade.entity.UserGiftLikeEntity;
 import com.bs.payment.modules.trade.service.BankUserService;
+import com.bs.payment.modules.trade.service.UserGiftLikeService;
 import com.bs.payment.modules.trade.service.UserService;
 import com.bs.payment.modules.trade.vo.BankAvailableVO;
 import com.bs.payment.modules.trade.vo.RechargeAvailableReqVO;
@@ -46,6 +49,10 @@ public class UserController {
 	
 	@Autowired
 	private BankUserService bankUserService;
+	
+	
+	@Autowired
+	private UserGiftLikeService userGiftLikeService;
 	
 	
 	@PostMapping("/register")
@@ -131,7 +138,7 @@ public class UserController {
 		return ZcResult.ok(result);
 	}
 	
-	@GetMapping("/get/lsit")
+	@GetMapping("/get/list")
 	@ApiOperation(value = "获取用户列表")
 	public ZcResult<ZcPageResult<UserEntity>> getUserList(@RequestParam(value="limit",required=false,defaultValue="5")Integer limit,
 			@RequestParam(value="offset",required=false,defaultValue="0")Integer offset) throws Exception {
@@ -141,6 +148,40 @@ public class UserController {
 		ZcPageResult<UserEntity> userList = userService.getUserList(limit, offset);
 		
 		return ZcResult.ok(userList);
+	}
+	
+	@PostMapping("/giftLike/add")
+	@ApiOperation(value = "用户增加收藏")
+	public ZcResult<String> addGiftLike(@Valid @RequestBody UserGiftLikeDto dto) throws Exception {
+		
+		log.info("user-addGiftLike-info: request   dto={}",JSON.toJSONString(dto));
+		 
+		String result = userGiftLikeService.addUserGiftLike(dto);
+		
+		return ZcResult.ok(result);
+	}
+	@PostMapping("/giftLike/cancle/{id}")
+	@ApiOperation(value = "用户取消收藏")
+	public ZcResult<String> cancleGiftLike(@PathVariable(value="id",required=true) Long id) throws Exception {
+		
+		log.info("user-cancleGiftLike-info: request  id={} ",id);
+		 
+		String result = userGiftLikeService.cancleUserGiftLike(id);
+		
+		return ZcResult.ok(result);
+	}
+	
+	
+	@GetMapping("/giftLike/getList")
+	@ApiOperation(value = "用户获取收藏列表")
+	public ZcResult<ZcPageResult<UserGiftLikeEntity>> getListGiftLike(@RequestParam(value="limit",required=false,defaultValue="5")Integer limit,
+			@RequestParam(value="offset",required=false,defaultValue="0")Integer offset) throws Exception {
+		
+		log.info("user-getListGiftLike-info: request  limit={} ,offset={}",limit,offset);
+		
+		 ZcPageResult<UserGiftLikeEntity> userGiftLikeList = userGiftLikeService.getUserGiftLikeList(limit, offset);
+		
+		return ZcResult.ok(userGiftLikeList);
 	}
 	
 	
