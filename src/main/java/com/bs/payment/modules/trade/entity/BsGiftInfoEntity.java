@@ -72,4 +72,9 @@ public class BsGiftInfoEntity extends AbstractBaseEntity{
 //	数据库存储图片的相对地址
 	private String picture;
 	
+	/**
+	 *  礼品定制类型，0成品，1定制
+	 */
+	private int madeType;
+	
 }

@@ -10,16 +10,23 @@
 			<if test="typeCode!=null">
 				type_code = #{typeCode}
 			</if>
+			<if test="madeType!=null">
+				and made_type = #{madeType}
+			</if>
 		</where>
 		 
 	</select>
 	
 	<select id="getList" resultType="BsGiftInfoRespVO" >
-		select  gift_code,gift_name,type_code,gift_price,real_gift_price,sale_num,limit_num, specification,custom_made,picture
+		select  gift_code,gift_name,type_code,gift_price,real_gift_price,sale_num
+		,limit_num, specification,custom_made,picture,made_type
 		from bs_gift_info 
 		<where>
 			<if test="typeCode!=null">
 				type_code = #{typeCode}
+			</if>
+			<if test="madeType!=null">
+				and made_type = #{madeType}
 			</if>
 		</where>
 		limit #{offset},#{limit}

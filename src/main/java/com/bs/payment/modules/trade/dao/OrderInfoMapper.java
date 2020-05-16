@@ -19,12 +19,19 @@ import com.bs.payment.modules.trade.vo.OrderInfoRespVO;
 public interface OrderInfoMapper extends BaseMapper<OrderInfoEntity>{
 	
 	 
-	Long getCount(@Param(value="orderNo")String orderNo,@Param(value="userId")Long userId);
+	Long getCount(@Param(value="orderNo")String orderNo,@Param(value="userId")Long userId,
+			@Param(value="madeType") Integer madeType
+			,@Param(value="payStatus") Integer payStatus,@Param(value="shipStatus") Integer shipStatus);
 	
-	List<BgOrderInfoRespVO> getBgOrderList(@Param(value="orderNo")String orderNo
+	List<OrderInfoEntity> getBgOrderList(@Param(value="orderNo")String orderNo,
+			@Param(value="madeType")Integer madeType
+			,@Param(value="payStatus") Integer payStatus,@Param(value="shipStatus") Integer shipStatus
+			,@Param(value="userId")Long userId
 			,@Param(value="limit") Integer limit,@Param(value="offset") Integer offset);
 	
-	List<OrderInfoRespVO> getOrderList(@Param(value="userId")Long userId
+	List<OrderInfoRespVO> getOrderList(@Param(value="userId")Long userId,
+			@Param(value="madeType")Integer madeType
+			,@Param(value="payStatus") Integer payStatus,@Param(value="shipStatus") Integer shipStatus
 			,@Param(value="limit") Integer limit,@Param(value="offset") Integer offset);
 
 }

@@ -92,5 +92,10 @@ public class BsGiftInfoRespVO  {
 //	private Object picture;
 //	数据库存储图片的相对地址
 	private String picture;
+	
+	@ApiModelProperty(value="礼品定制类型")
+	@JSONField(name="made_type")
+	@JsonProperty("made_type")
+	private Integer madeType;
 	 
 }

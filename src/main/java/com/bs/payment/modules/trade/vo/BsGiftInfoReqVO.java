@@ -105,6 +105,13 @@ public class BsGiftInfoReqVO  {
 	@JsonProperty("picture_url")
 	private String pictureUrl;
 	
+
+	@NotBlank(message="礼品定制类型不能为空")
+	@ApiModelProperty(value="礼品定制类型,0成,1定制 ")
+	@JSONField(name="made_type")
+	@JsonProperty("made_type")
+	private Integer madeType;
+	
 	/**
 	 * 礼品图片 前端接收文件类型
 	 */

@@ -127,17 +127,10 @@ public class UserShopCardServiceImpl extends ServiceImpl<UserShopCardMapper, Use
 			
 		}else{
 			
-			Integer giftAmount = userShopCardEntity.getGiftAmount();
-			giftAmount=giftAmount-giftAmountReq;
-			if(giftAmount<=0){
-				cancleShops(id);
-			}else{
-				
-				userShopCardEntity.setGiftAmount(giftAmount);
-				userShopCardEntity.setUpdateTime(DateKit.now());
-				
-				userShopCardMapper.updateById(userShopCardEntity);
-			}
+			userShopCardEntity.setGiftAmount(giftAmountReq);
+			userShopCardEntity.setUpdateTime(DateKit.now());
+			
+			userShopCardMapper.updateById(userShopCardEntity);
 			
 		}
 		 

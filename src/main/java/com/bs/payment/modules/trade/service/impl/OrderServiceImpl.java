@@ -23,7 +23,6 @@ import com.bs.payment.modules.trade.service.GiftInfoService;
 import com.bs.payment.modules.trade.service.OrderService;
 import com.bs.payment.modules.trade.service.PayService;
 import com.bs.payment.modules.trade.service.UserAddressService;
-import com.bs.payment.modules.trade.vo.BgOrderInfoRespVO;
 import com.bs.payment.modules.trade.vo.OrderCommitReqVO;
 import com.bs.payment.modules.trade.vo.OrderCommitRespVO;
 import com.bs.payment.modules.trade.vo.OrderInfoRespVO;
@@ -31,6 +30,7 @@ import com.bs.payment.modules.trade.vo.OrderPayReqVO;
 import com.bs.payment.modules.trade.vo.UpdateShipStatusVO;
 import com.bs.payment.util.BeanKit;
 import com.bs.payment.util.DateKit;
+import com.bs.payment.util.FileUtil;
 import com.bs.payment.util.OrderUtil;
 import com.bs.payment.util.QueryBuilder;
 import com.google.common.collect.Lists;
@@ -53,14 +53,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderInfoMapper , OrderInfoEnt
 	private PayService payService;
 	
 	@Override
-	public ZcPageResult<BgOrderInfoRespVO> bgGetOrderList(String orderNo, Integer limit, Integer offset) {
+	public ZcPageResult<OrderInfoEntity> bgGetOrderList(String orderNo, Integer madeType
+			,Integer payStatus,Integer shipStatus,Long userId
+			, Integer limit, Integer offset) {
 		
-
-		ZcPageResult<BgOrderInfoRespVO> page = new ZcPageResult<BgOrderInfoRespVO>();
-		List<BgOrderInfoRespVO> bgOrderList = null;
+		ZcPageResult<OrderInfoEntity> page = new ZcPageResult<OrderInfoEntity>();
+		List<OrderInfoEntity> bgOrderList = null;
 		
-		Long userId=null;
-		Long count = orderInfoMapper.getCount(orderNo, userId);
+		Long count = orderInfoMapper.getCount(orderNo, userId,madeType,payStatus,shipStatus);
 		
 		if(count==null) {
 			
@@ -71,7 +71,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderInfoMapper , OrderInfoEnt
 			return page;
 		}
 		
-		bgOrderList = orderInfoMapper.getBgOrderList(orderNo, limit, offset);
+		bgOrderList = orderInfoMapper.getBgOrderList(orderNo, madeType,payStatus,shipStatus,userId,limit, offset);
+		String rootPath = FileUtil.getRootPath();
+		
+		bgOrderList.forEach(order->{
+			
+			String pictureLogo = order.getPictureLogo();
+			order.setPictureLogo(rootPath+pictureLogo);
+		});
 		
 		page.setData(bgOrderList);
 		page.setTotal(count);
@@ -81,13 +88,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderInfoMapper , OrderInfoEnt
 	}
 
 	@Override
-	public ZcPageResult<OrderInfoRespVO> getOrderList(Long userId, Integer limit, Integer offset) {
+	public ZcPageResult<OrderInfoRespVO> getOrderList(Long userId,Integer madeType
+			,Integer payStatus,Integer shipStatus
+			,Integer limit, Integer offset) {
 		 
 		ZcPageResult<OrderInfoRespVO> page = new ZcPageResult<OrderInfoRespVO>();
 		List<OrderInfoRespVO> orderList = null;
 		
 		String orderNo=null;
-		Long count = orderInfoMapper.getCount(orderNo, userId);
+		Long count = orderInfoMapper.getCount(orderNo, userId,madeType,payStatus,shipStatus);
 		
 		if(count==null) {
 			
@@ -98,7 +107,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderInfoMapper , OrderInfoEnt
 			return page;
 		}
 		
-		orderList = orderInfoMapper.getOrderList(userId, limit, offset);
+		orderList = orderInfoMapper.getOrderList(userId, madeType,payStatus,shipStatus,limit, offset);
 		
 		page.setData(orderList);
 		page.setTotal(count);
@@ -193,6 +202,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderInfoMapper , OrderInfoEnt
 	@Override
 	public OrderCommitRespVO commit(OrderCommitReqVO req) throws Exception{
 		
+		log.info("order-commit-info:  订单提交请求信息 req={}",JSON.toJSONString(req));
+		
 		BigDecimal buyerPayAmount = req.getBuyerPayAmount();
 		String customMade = JSON.toJSONString(req.getCustomMade());
 		Integer giftAmount = req.getGiftAmount();
@@ -236,13 +247,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderInfoMapper , OrderInfoEnt
 		String orderNo = OrderUtil.getOrder(Consts.OrderType.PAY);
 		Date date =new Date();
 		
-		
 		entity.setCustomMade(customMade); 
 		entity.setGiftAmount(giftAmount);
 		entity.setGiftCode(giftCode); 
 		entity.setOrderNo(orderNo);
 		entity.setSpecification(specification);  
 		entity.setUserId(userId);
+		
+		entity.setMadeType(giftInfoEntity.getMadeType());
+		entity.setPictureLogo(req.getPictureLogo());
 		
 //		默认超时30分钟有效
 		Date expirationTime = DateKit.nowPlusMinutes(30);

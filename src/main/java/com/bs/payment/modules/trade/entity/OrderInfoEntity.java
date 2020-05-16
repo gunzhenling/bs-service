@@ -125,5 +125,13 @@ public class OrderInfoEntity extends AbstractBaseEntity  implements Serializable
 	 *  定制,json
 	 */
 	private String customMade;
+	/**
+	 *  礼品定制类型，0成品，1定制
+	 */
+	private int madeType;
+	/**
+	 *  定制logo图片
+	 */
+	private String pictureLogo;
 
 }

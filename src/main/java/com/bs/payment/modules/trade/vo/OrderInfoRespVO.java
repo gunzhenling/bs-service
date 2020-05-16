@@ -46,6 +46,14 @@ public class OrderInfoRespVO {
 	private Integer payStatus;
 	
 	/**
+	 *  支付状态：0待支付，1:支付失败或取消订单，2:支付完成，3退款中，4退款完成，5冻结中
+	 */
+	@ApiModelProperty(value="付状态：0待支付，1:支付失败或取消订单，2:支付完成，3退款中，4退款完成，5冻结中")
+	@JSONField(name="ship_status")
+	@JsonProperty("ship_status")
+	private Integer shipStatus;
+	
+	/**
 	 *  创建时间
 	 */
 	@ApiModelProperty(value="创建时间")

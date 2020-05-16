@@ -19,13 +19,13 @@ import com.bs.payment.modules.trade.dto.UserGiftLikeDto;
 import com.bs.payment.modules.trade.dto.UserLoginDto;
 import com.bs.payment.modules.trade.dto.UserRegisterDto;
 import com.bs.payment.modules.trade.entity.UserEntity;
-import com.bs.payment.modules.trade.entity.UserGiftLikeEntity;
 import com.bs.payment.modules.trade.service.BankUserService;
 import com.bs.payment.modules.trade.service.UserGiftLikeService;
 import com.bs.payment.modules.trade.service.UserService;
 import com.bs.payment.modules.trade.vo.BankAvailableVO;
 import com.bs.payment.modules.trade.vo.RechargeAvailableReqVO;
 import com.bs.payment.modules.trade.vo.UserBankRespVO;
+import com.bs.payment.modules.trade.vo.UserGiftLikeReqVO;
 import com.bs.payment.modules.trade.vo.UserRespVO;
 
 import io.swagger.annotations.Api;
@@ -152,11 +152,11 @@ public class UserController {
 	
 	@PostMapping("/giftLike/add")
 	@ApiOperation(value = "用户增加收藏")
-	public ZcResult<String> addGiftLike(@Valid @RequestBody UserGiftLikeDto dto) throws Exception {
+	public ZcResult<String> addGiftLike(@Valid @RequestBody UserGiftLikeReqVO req) throws Exception {
 		
-		log.info("user-addGiftLike-info: request   dto={}",JSON.toJSONString(dto));
+		log.info("user-addGiftLike-info: request   req={}",JSON.toJSONString(req));
 		 
-		String result = userGiftLikeService.addUserGiftLike(dto);
+		String result = userGiftLikeService.addUserGiftLike(req);
 		
 		return ZcResult.ok(result);
 	}
@@ -174,15 +174,25 @@ public class UserController {
 	
 	@GetMapping("/giftLike/getList")
 	@ApiOperation(value = "用户获取收藏列表")
-	public ZcResult<ZcPageResult<UserGiftLikeEntity>> getListGiftLike(@RequestParam(value="limit",required=false,defaultValue="5")Integer limit,
+	public ZcResult<ZcPageResult<UserGiftLikeDto>> getListGiftLike(@RequestParam(value="limit",required=false,defaultValue="5")Integer limit,
 			@RequestParam(value="offset",required=false,defaultValue="0")Integer offset) throws Exception {
 		
 		log.info("user-getListGiftLike-info: request  limit={} ,offset={}",limit,offset);
 		
-		 ZcPageResult<UserGiftLikeEntity> userGiftLikeList = userGiftLikeService.getUserGiftLikeList(limit, offset);
+		 ZcPageResult<UserGiftLikeDto> userGiftLikeList = userGiftLikeService.getUserGiftLikeList(limit, offset);
 		
 		return ZcResult.ok(userGiftLikeList);
 	}
 	
+	@PostMapping("/giftLike/valid/{gift_code}")
+	@ApiOperation(value = "判断礼品是否用户已收藏")
+	public ZcResult<String> validGiftLike(@PathVariable(value="gift_code",required=true) Integer giftCode) throws Exception {
+		
+		log.info("user-validGiftLike-info: request   giftCode={}",giftCode);
+		 
+		String result = userGiftLikeService.validGiftLike(giftCode);
+		
+		return ZcResult.ok(result);
+	}
 	
 }

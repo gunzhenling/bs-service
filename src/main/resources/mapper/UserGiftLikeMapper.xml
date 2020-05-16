@@ -8,9 +8,12 @@
 		 
 	</select>
 	
-	<select id="getUserGiftLikeList" resultType="UserGiftLikeEntity" >
-		select  *
-		from bs_user_gift_like 
+	<select id="getUserGiftLikeList" resultType="UserGiftLikeDto" >
+		
+		SELECT ugl.user_id,ugl.gift_code,gift.gift_name,gift.picture,gift.sale_num,gift.real_gift_price
+		FROM bs_user_gift_like AS ugl
+		INNER JOIN bs_gift_info AS gift ON ugl.gift_code = gift.gift_code
+		 
 		limit #{offset},#{limit}
 		 
 	</select>
