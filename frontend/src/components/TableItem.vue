@@ -26,6 +26,10 @@ export default {
   },
   methods: {
     initData (view, record) {
+      if (view instanceof Array) {
+        this.content = view;
+        return ;
+      }
       let {dataIndex} = this.column;
       let component = view.component || view;
       let content = typeof view == 'string' ? {component} : {...view};
@@ -53,7 +57,7 @@ export default {
         if (content.postId) {
           content.change = async (e) => {
             loading(true);
-            let res = await this._http.post(`/api/v3/business/${content.postId}`,{record, [content.key||dataIndex]: e}).then(res => {
+            let res = await this._http.post(`/api/${content.postId}`,{record, [content.key||dataIndex]: e}).then(res => {
               if (!res.code) {
                 this.$emit("reload");
               } else {

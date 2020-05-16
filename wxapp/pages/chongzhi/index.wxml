@@ -11,7 +11,7 @@
       <view class='recharge'>充值金额</view>
       <view class='rechargeInput'>
         <label for="sum">¥</label>
-        <input id='sum'></input>
+        <input id='sum' bindchange="change" value="{{money}}"></input>
       </view>
     </view>
     <button class='submit' bindtap='submit' form-type='submit'>去支付</button>

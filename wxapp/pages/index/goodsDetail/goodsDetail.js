@@ -1,5 +1,11 @@
 Page({
   data: {
+    gift: {},
+    showModal: false,
+    selected: "",
+    buy_num: 1,
+    buy_type: 0,
+
     select: 1,//tab默认选中第一个
     detailSelect: 1,//商品详情tab默认选中第一个
     slides: [
@@ -101,6 +107,72 @@ Page({
         name: "咨询与售后"
       }
     ]
+  },
+  onLoad: async function () {
+    wx.showLoading();
+    let gift = wx.getStorageSync('gift');
+    let res = await global.http.get(`/api/bs/gift/get/detail?gift_code=${gift.gift_code}`);
+    let pic = res.picture.split("\\");
+    res.pic = "http://localhost:5000/" + pic[pic.length-1].replace("bs-service/frontend/public", "");
+    console.log(res);
+    res.specification = JSON.parse(res.specification);
+    res.custom_made = JSON.parse(res.custom_made);
+    this.setData({gift: res, selected: res.specification[0].standards, s_custom_made: 0});
+    wx.hideLoading();
+  },
+  toggle (e) {
+    if (!this.data.showModal && e.currentTarget) {
+      this.setData({buy_type: e.currentTarget.dataset.type});
+    }
+    this.setData({showModal: !this.data.showModal});
+  },
+  preventScroll(){},
+  clickItem(e){
+    console.log(e);
+    this.setData({selected: e.currentTarget.dataset.item.standards});
+  },
+  clickCustom(e){
+    console.log(e);
+    this.setData({s_custom_made: e.currentTarget.dataset.index});
+  },
+  c_buy_num (e) {
+    let {buy_num} = this.data;
+    if (e.currentTarget.dataset.num) {
+      buy_num += Number(e.currentTarget.dataset.num);
+      if (buy_num <= 0) buy_num = 1;
+    } else {
+      buy_num = Number(e.detail.value) || 1;
+    }
+    this.setData({buy_num})
+  },
+  buy () {
+    let {gift,selected,buy_num, s_custom_made} = this.data;
+    gift.buy_num = buy_num;
+    gift.buyer_pay_amount = Number((gift.real_gift_price*gift.buy_num).toFixed(2));
+    gift.sell_income = Number((gift.gift_price*gift.buy_num).toFixed(2));
+    gift.specification = {standards: selected};
+    gift.custom_made = gift.custom_made[s_custom_made];
+    wx.setStorageSync('gift', gift);
+    wx.navigateTo({url: "/pages/orderon/index"})
+  },
+  tocar: async function () {
+    let {gift,selected,buy_num, s_custom_made} = this.data;
+    gift.buy_num = buy_num;
+    gift.buyer_pay_amount = Number((gift.real_gift_price*gift.buy_num).toFixed(2));
+    gift.sell_income = Number((gift.gift_price*gift.buy_num).toFixed(2));
+    gift.specification = {standards: selected};
+    let res = await global.http.post("/api/bs/order/add/shops", {
+      gift_code: gift.gift_code,
+      gift_amount: gift.buy_num,
+      sell_income: gift.sell_income,
+      buyer_pay_amount: gift.buyer_pay_amount,
+      specification: {standards:gift.standards},
+      custom_made: gift.custom_made[s_custom_made],
+    });
+    console.log(res);
+    wx.setStorageSync('gift', gift);
+    wx.showToast({ title: '加入成功！', })
+    this.toggle();
   },
   /*返回上一页*/
   goBack: function() {

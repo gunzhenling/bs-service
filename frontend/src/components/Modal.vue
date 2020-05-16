@@ -98,7 +98,7 @@ export default {
       } else if (modal.postId instanceof Function) {
         res = await modal.postId({record: this.record, ...(modal.body || {}), ...data});
       } else {
-        res = await this._http.post(`/api/v3/business/${modal.postId}`, {record: this.record, ...(modal.body || {}), ...data});
+        res = await this._http.post(`/api/${modal.postId}`, {record: this.record, ...(modal.body || {}), ...data});
       }
       return res;
     }

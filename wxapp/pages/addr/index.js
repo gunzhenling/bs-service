@@ -6,16 +6,6 @@ Page({
    */
   data: {
     addrList:[
-      {id:1,tel:13636363636,name:"小猪佩奇",addr:"浙大网新智慧立方D幢202室",index:1},
-      { id: 2, tel: 13636363636, name: "小猪佩奇", addr: "浙大网新智慧立方D幢202室", index: 2,checked:true },
-      { id: 3, tel: 13636363636, name: "小猪佩奇", addr: "浙大网新智慧立方D幢202室", index: 1 },
-      { id: 4, tel: 13636363636, name: "小猪佩奇", addr: "浙大网新智慧立方D幢202室", index: 1 },
-      { id: 5, tel: 13636363636, name: "小猪佩奇", addr: "浙大网新智慧立方D幢202室", index: 1 },
-      { id: 6, tel: 13636363636, name: "小猪佩奇", addr: "浙大网新智慧立方D幢202室", index: 1 },
-      { id: 7, tel: 13636363636, name: "小猪佩奇", addr: "浙大网新智慧立方D幢202室", index: 1 },
-      { id: 8, tel: 13636363636, name: "小猪佩奇", addr: "浙大网新智慧立方D幢202室", index: 1 },
-      { id: 9, tel: 13636363636, name: "小猪佩奇", addr: "浙大网新智慧立方D幢202室", index: 1 },
-      { id: 10, tel: 13636363636, name: "小猪佩奇", addr: "浙大网新智慧立方D幢202室", index: 1 }
     ],
     // 服务热线的样式
     display:"fixed",
@@ -27,7 +17,7 @@ Page({
   },
   //新增 或 修改
   gotoopt:function(e){
-    console.log(e);
+    wx.setStorageSync("address", e.currentTarget.dataset.item || '');
     wx.navigateTo({
       url: '../addr/addr_opt/index',
     })
@@ -47,13 +37,26 @@ Page({
       });
   },
   //设为默认值
-  setdefault:function(e){
-    wx.showToast({title:'设置成功',icon:'success',duration:2000});
+  setdefault:async function(e){
+    let item = e.currentTarget.dataset.item;
+    if (item.is_default) {
+      return ;
+    }
+    item.is_default = 1;
+    global.util.showToast.loading();
+    let res = await global.http.post(`/api/bs/address/update`, item);
+    // NOTE: 更新
+    res = await global.http.get('/api/bs/address/get/list');
+    global.util.showToast.hide();
+    res.sort((e1,e2) => e2.is_default-e1.is_default)
+    this.setData({addrList: res});
   },
+  // optdel
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: async function (options) {
+    this.setData({select: options.select})
     var that = this;
     var screenHeight, heights
     wx.getSystemInfo({
@@ -84,52 +87,17 @@ Page({
     })
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  onShow: async function () {
+    global.util.showToast.loading();
+    let res = await global.http.get('/api/bs/address/get/list');
+    global.util.showToast.hide();
+    res.sort((e1,e2) => e2.is_default-e1.is_default)
+    this.setData({addrList: res});
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  clickAddr (e) {
+    if (this.data.select) {
+      wx.setStorageSync("s_address",  e.currentTarget.dataset.item )
+      wx.navigateBack();
+    }
   }
 })

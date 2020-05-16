@@ -1,0 +1,55 @@
+<!--pages/helplist/index.wxml-->
+<view class="navigation" >
+  <view class="go-back-wrapper" bindtap="goBack">
+    <image class="icon-go-back" src="../../images/left_arrow.png"></image>
+  </view>
+  <text class="nav-title">确认订单</text>
+</view>
+<view class="container">
+  <view class='list' bindtap="goAddr" wx:if="{{address && address.phone}}">
+    <view class='nameAndTel'>
+      <view class='name'>收货人：{{address.name}}</view>
+      <view class='tel'>{{address.phone}}</view>
+    </view>
+    <view class='addr'>{{address.province}}{{address.city}}{{address.district}}{{address.address}}</view>
+  </view>
+  <view class="list" bindtap="goAddr" wx:else style="display:flex;align-items:center;justify-content:center;height:120rpx;background:white;">
+    +请选择收货地址
+  </view>
+  <view class="content">
+    <view>
+      <text>礼品图片</text>
+      <image src="{{gift.pic}}"></image>
+    </view>
+    <view>
+      <text>单价</text>
+      <text>{{gift.real_gift_price}}元</text>
+    </view>
+    <view>
+      <text>礼品数量</text>
+      <text>{{gift.buy_num}}</text>
+    </view>
+    <view>
+      <text>礼品规格</text>
+      <text>{{gift.standards}}</text>
+    </view>
+    <view>
+      <text>礼品定制</text>
+      <view class="custom_made">
+        <view style="border:0;text-align:right;margin:0;padding:0">
+          <view>标品</view>
+          <view>
+            <view>版费<text>{{gift.custom_made.b_fee}}</text>元</view>
+            <view>定制费<text>{{gift.custom_made.made_fee}}</text>元</view>
+            <view>定做工期<text>{{gift.custom_made.prod_date}}</text>天</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view>
+      <text>总价</text>
+      <text>{{gift.buyer_pay_amount}}元</text>
+    </view>
+  </view>
+  <view class="confirm" bindtap="orderon">确认下单</view>
+</view>

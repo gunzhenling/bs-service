@@ -50,7 +50,7 @@ export default {
     getAction: async function (data={}) {
       let content = this.content;
       this.loading = true;
-      let res = await this._http.post(`/api/v3/business/${content.actionId}`, data);
+      let res = await this._http.post(`/api/${content.actionId}`, data);
       if (res.result) {
         this.setOption(res.result);
       } else {

@@ -46,6 +46,11 @@ methods.forEach(method => {
       method,
       headers
     }
+    if (body) {
+      for (var key in body) {
+        if (body[key] == undefined) delete body[key];
+      }
+    }
     if (method === 'get') {
       if (body && typeof body === 'object') {
         url += '?'
@@ -66,11 +71,15 @@ methods.forEach(method => {
       options.headers['admin_token'] = `${user.access_token}`
     }
     options.headers.app_id = "101"
-    options.headers["Content-Type"] = "text/html; charset=utf-8"
+    if (headers["Content-Type"]) {
+      options.headers["Content-Type"] = headers["Content-Type"]
+    } else {
+      options.headers["Content-Type"] = "application/json;charset=UTF-8"
+    }
     for (let key in options.headers) {
       vue.http.headers.common[key] = options.headers[key] + ''
     }
-    delete options.headers
+    // delete options.headers
     openLoading()
     return vue.http(options).then(res => {
       loadComplete();

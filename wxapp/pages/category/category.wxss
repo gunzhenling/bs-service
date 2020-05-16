@@ -11,7 +11,7 @@
 }
 .search-input {
   width: 420rpx;
-  height: 70rpx; 
+  height: 70rpx;
   border-radius: 18px;
   background: #f8f8f8;
   margin-top: 26px;
@@ -55,7 +55,7 @@
 .hover {
   background: #fff;
 }
-.active {
+.c_active {
   background: #fff;
   color: #ed4040;
 }
@@ -94,7 +94,7 @@
   display: flex;
 }
 .price {
-  flex: 1; 
+  flex: 1;
   color: #ed4040;
   font-size: 13px;
   margin-bottom: 10rpx;

@@ -152,7 +152,7 @@ export default {
           loading(false, true);
           data.click = async () => {
             loading(true);
-            let res = await this._http.post(`/api/v3/business/${data.postId}`,{record: this.record}).then(res => {
+            let res = await this._http.post(`/api/${data.postId}`,{record: this.record}).then(res => {
               if (!res.code) {
                 this.$emit("reload");
               }
@@ -223,7 +223,7 @@ export default {
         this._click(e, data, this);
       // } else if (data.postId) {
       //   data.loading = true;
-      //   let res = await this._http.post(`/api/v3/business/${button.postId}`,{record: this.record, ...(data.body || {})}).then(res => {
+      //   let res = await this._http.post(`/api/${button.postId}`,{record: this.record, ...(data.body || {})}).then(res => {
       //     if (!res.code) {
       //       if (data.no_reload) {// NOTE: 不刷新只提交reload事件，给表格刷新
       //         this.$emit('reload');
@@ -244,7 +244,7 @@ export default {
           data.modal.content = data.modal.content && {...data.modal.content};
           if (data.modal.actionId) {
             data.modal.loading = true;
-            this._http.post(`/api/v3/business/${data.modal.actionId}`, {record}).then(res => {
+            this._http.post(`/api/${data.modal.actionId}`, {record}).then(res => {
               data.modal.loading = false;
               if (res.code) {
                 data.modal.visible = false;
@@ -302,9 +302,10 @@ export default {
           // NOTE: 图片
           if (e.type == "image") {
             let images = [];
+            // console.log(e.value);
             images = e.value.map((image, err) => {
-              if (image.response && image.response.url) {
-                return image.response.url;
+              if (image.response && image.response.result) {
+                return image.response.result;
               } else if (image.url) {
                 return image.url;
               } else {
@@ -320,7 +321,7 @@ export default {
           } else {
             data[e.key] = e.value;
           }
-          console.log(data, e);
+          // console.log(data, e);
         });
         return success;
       }
@@ -336,16 +337,21 @@ export default {
       this.data.modal.confirmLoading = true;
       let res;
       if (modal.postId instanceof Function) {
-        res = await modal.postId(data);
+        console.log(this.record);
+        res = await modal.postId(data, this.record);
       } else {
-        res = await this._http.post(`/api/v3/business/${modal.postId}`, {record: this.record, ...data});
+        res = await this._http.post(`/api/${modal.postId}`, {record: this.record, ...data}, modal.headers||{});
       }
       this.data.modal.confirmLoading = false;
+      if (this.data.modal.callback) {
+        this.data.modal.callback(res, modal);
+        return false;
+      }
       if (res && res.code) {
         this.$message.error(res.message);
       } else {
         this.$emit("reload");
-        this.$message.success(res.message);
+        this.$message.success(res.result);
         this.data.modal.visible = false;
       }
       return false;

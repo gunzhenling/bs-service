@@ -46,25 +46,25 @@
   </view>
   <!--礼品列表-->
   <view class="bargain-wrapper">
-    
-    <view class="bargain-item" wx:for="{{bargainList}}" wx:key="*this" bindtap="goDetail">
+
+    <view class="bargain-item" wx:for="{{bargainList}}" wx:key="*this" bindtap="goDetail" data-item="{{item}}">
       <image class="bargain-img" src="{{item.img}}"></image>
       <view class="bargain-info">
         <view class="info-header">
-          <text class="title">{{item.title}}</text>
+          <text class="title">{{item.gift_name}}</text>
           <text class="desc">{{item.desc}}</text>
         </view>
         <view class="info-price">
           <view class="base-price">
-            <text class="money">￥{{item.basePrice}}</text>
+            <text class="money">￥{{item.real_gift_price}}</text>
             <text>现价</text>
           </view>
           <view class="original-price">
-            <text>￥{{item.originalPrice}}</text>
+            <text>￥{{item.gift_price}}</text>
             <text>原价</text>
           </view>
           <view class="limit">
-            <text>{{item.limit}}</text>
+            <text>{{item.sale_num}}</text>
             <text>已售</text>
           </view>
         </view>
@@ -72,7 +72,7 @@
       </view>
     </view>
   </view>
-  
+
   <!--到底提示-->
   <view class="bottom-tip">
     <text>到底了，再往上逛逛吧~</text>

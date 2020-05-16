@@ -66,7 +66,7 @@
 						'link',  // 插入链接
 						'justify',  // 对齐方式
 						'emoticon',  // 表情
-						'image',  // 插入图片
+						// 'image',  // 插入图片
 						'table',  // 表格
 						'video'  // 插入视频
 				];

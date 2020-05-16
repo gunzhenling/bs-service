@@ -21,17 +21,17 @@
 				<view class='numAndTime'>
 					<image class='numPic' src='{{item.fengmian}}'></image>
 					<view class='numInfo'>
-						<view class='num'>订单编号:{{item.num}}</view>
-						<view class='time'>创建时间:{{item.time}}</view>
+						<view class='num'>订单编号:{{item._order_no}}</view>
+						<view class='time'>创建时间:{{item.create_time}}</view>
 					</view>
 				</view>
 				<view class='state'>待付款</view>
 			</view>
 			<view class='hr'></view>
 			<view class='loadBtn' style="width:240px;">
-				<view class='see_btn' bindtap='loadDetails'>详情</view>
-				<view class='edit_btn' bindtap='loadEdit'>寄件信息</view>
-        <view class='extend_btn' bindtap='delay'>取消</view>
+				<view class='see_btn' data-item="{{item}}" bindtap='loadDetails'>详情</view>
+				<view class='extend_btn' data-item="{{item}}" bindtap='pay'>去付款</view>
+        <view class='extend_btn' data-item="{{item}}" bindtap='delay'>取消</view>
 			</view>
 		</view>
 	</view>
@@ -50,7 +50,7 @@
 			</view>
 			<view class='hr'></view>
 			<view class='inBtn' style="width:77px;">
-          <view class='see_btn' bindtap='finishLook'>查看详情</view>
+          <view class='see_btn' data-item="{{item}}" bindtap='finishLook'>查看详情</view>
 			</view>
 		</view>
 
@@ -91,8 +91,8 @@
 			</view>
 			<view class='hr'></view>
 			<view class='finishBtn'>
-				<view class='see_btn' bindtap='finishLook'>查看详情</view>
-				<view class='del_btn' id="{{item.num}}" bindtap='delOrder'>删除订单</view>
+				<view class='see_btn' data-item="{{item}}" bindtap='finishLook'>查看详情</view>
+				<view class='del_btn' id="{{item.num}}" data-item="{{item}}" bindtap='delOrder'>删除订单</view>
 			</view>
 		</view>
 	</view>

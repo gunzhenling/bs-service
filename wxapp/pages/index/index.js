@@ -2,44 +2,15 @@
 
 Page({
   data: {
+    offset: 0,
+    limit: 10,
+    hasMore: true,
     slides: [
       "../../images/slides/banner1.jpg",
       "../../images/slides/banner2.jpg",
       "../../images/slides/banner3.jpg"
     ],
     bargainList: [
-      {
-        title: "手机LED补光灯 手机拍照补光灯、闪光灯 自拍神器 10元以下小礼品",
-        img: "../../images/lipins/lipin1.jpg",
-        desc: "尺寸38*38*10 mm，材质：电子元件",
-        basePrice: "50",
-        originalPrice: "120",
-        limit: "18"
-      },
-      {
-        title: "VR眼镜手机科幻游戏  虚拟现实眼镜 多功能3D家庭影院  汽车赠品有哪些  公司年会奖品设置",
-        img: "../../images/lipins/lipin2.jpg",
-        desc: "尺寸222*205*99mm，材质：黑色",
-        basePrice: "3999",
-        originalPrice: "48888",
-        limit: "18"
-      },
-      {
-        title: "吃鸡耳机头戴式 电脑电竞游戏绝地求生带麦  联想笔记本电脑促销活动 比赛 奖品",
-        img: "../../images/lipins/lipin3.jpg",
-        desc: "尺寸252*259*150mm，材质：银黑色",
-        basePrice: "3999",
-        originalPrice: "48888",
-        limit: "18"
-      },
-      {
-        title: "复古迷你掌上游戏机3.0英寸大屏 内置168款游戏 怀旧掌机 超级玛丽俄罗斯方块 减压小礼品",
-        img: "../../images/lipins/lipin4.jpg",
-        desc: "颜色混色随机",
-        basePrice: "75",
-        originalPrice: "127",
-        limit: "289"
-      }
     ],
     topicList: [
       {
@@ -63,8 +34,33 @@ Page({
     ]
 
   },
+  onLoad: async function () {
+    let user = wx.getStorageSync('user');
+    if (!user) {
+      wx.reLaunch({url: "/pages/login/index"});
+      return ;
+    }
+    this.getData();
+  },
+  onReachBottom: async function () {
+    let {limit,hasMore,offset} = this.data;
+    if (!hasMore) return ;
+    this.setData({offset: offset+limit});
+    this.getData();
+  },
+  getData: async function () {
+    wx.showLoading();
+    let {offset,limit} = this.data;
+    let res = await global.http.get('/api/bs/gift/get/list', {offset,limit});
+    let bargainList = res.data;
+    if (offset != 0) {
+      bargainList = this.data.bargainList.concat(bargainList);
+    }
+    this.setData({hasMore: bargainList.length < res.total, bargainList});
+    wx.hideLoading();
+  },
   //跳转定制
-  goDingZhiList:function(){
+  goDingZhiList:function(e){
     wx.navigateTo({
       url: '../../pages/dingzhilist/index',
     })
@@ -81,8 +77,8 @@ Page({
       url: '../helplist/index',
     })
   },
-  goDetail: function (event) {
-    console.log(event)
+  goDetail: function (e) {
+    wx.setStorageSync('gift', e.currentTarget.dataset.item);
     wx.navigateTo({
       url: './goodsDetail/goodsDetail'
     })

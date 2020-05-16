@@ -5,94 +5,19 @@ Page({
    * 页面的初始数据
    */
   data: {
+    offset: 0,
+    limit: 10,
+    hasMore: true,
+
+    gift: {},
+    showModal: false,
+    selected: "",
+    buy_num: 1,
+    buy_type: 0,
+
     select: 0,
-    categories: [
-      {
-        id: 1,
-        name: '全部'
-      },
-      {
-        id: 2,
-        name: '爱心助农'
-      },
-      {
-        id: 3,
-        name: '小心意'
-      },
-      {
-        id: 4,
-        name: '感谢'
-      },
-      {
-        id: 5,
-        name: '礼盒'
-      },
-      {
-        id: 6,
-        name: '生日'
-      },
-      {
-        id: 7,
-        name: '结婚'
-      },
-      {
-        id: 8,
-        name: '商务'
-      },
-      {
-        id: 9,
-        name: '乔迁'
-      },
-      {
-        id: 10,
-        name: '生子'
-      },
-      {
-        id: 11,
-        name: '美食'
-      },
-      {
-        id: 12,
-        name: '美妆'
-      },
-      {
-        id: 13,
-        name: '数码'
-      },
-      {
-        id: 14,
-        name: '家电'
-      },
-      {
-        id: 15,
-        name: '家居'
-      }
-    ],
+    categories: [ ],
     goodsList: [
-      {
-        id: 1,
-        title: "手机LED补光灯 手机拍照补光灯、闪光灯 自拍神器 10元以下小礼品",
-        image: "../../images/lipins/lipin1.jpg",
-        price: 8.80
-      },
-      {
-        id: 2,
-        title: "VR眼镜手机科幻游戏  虚拟现实眼镜 多功能3D家庭影院  ",
-        image: "../../images/lipins/lipin2.jpg",
-        price: 18.80
-      },
-      {
-        id: 3,
-        title: "吃鸡耳机头戴式 电脑电竞游戏绝地求生带麦",
-        image: "../../images/lipins/lipin3.jpg",
-        price: 6.80
-      },
-      {
-        id: 4,
-        title: "复古迷你掌上游戏机3.0英寸大屏 内置168款游戏 怀旧掌机",
-        image: "../../images/lipins/lipin4.jpg",
-        price: 8.80
-      }
     ],
     imageWidth: "",
     imageHeight: "",
@@ -104,23 +29,88 @@ Page({
     showImage: false,
     imageStyle: ''
 
-  },    
+  },
+  onLoad: async function () {
+    wx.showLoading();
+    let categories = await global.http.get('/api/bs/gift/get/giftTypes');
+    this.setData({categories});
+    wx.hideLoading();
+    this.getData();
+  },
+  onReachBottom: async function () {
+    let {limit,hasMore,offset} = this.data;
+    if (!hasMore) return ;
+    this.setData({offset: offset+limit});
+    this.getData();
+  },
+  onHide () {
+    this.setData({showModal: false});
+  },
   /**
    * 选择商品类型
-   */ 
+   */
   categoryClick: function(event) {
-    this.setData({
-      select: event.target.id - 1
-    })
-    // toast提示
-    wx.showToast({
-      title: event.target.id,
-    })
+    console.log(event);
+    this.setData({ select: event.target.id, offset: 0 });
+    this.getData();
     // 更新接口
+  },
+  getData: async function () {
+    wx.showLoading();
+    let {offset,limit, select, categories} = this.data;
+    let res = await global.http.get('/api/bs/gift/get/list', {offset,limit, type_code: categories[select].type_code});
+    let goodsList = res.data;
+    goodsList.forEach((item, i) => {
+      let pic = item.picture.split("\\");
+      item.pic = "http://localhost:5000/" + pic[pic.length-1].replace("bs-service/frontend/public", "");
+      item.specification = JSON.parse(item.specification);
+      item.custom_made = JSON.parse(item.custom_made);
+      // wx.getLocation({success: e => {
+      //   console.log(e);
+      // }})
+    });
+
+    if (offset != 0) {
+      goodsList = this.data.goodsList.concat(goodsList);
+    }
+    this.setData({hasMore: goodsList.length < res.total, goodsList});
+    wx.hideLoading();
+  },
+  toggle (e) {
+    if (!this.data.showModal && e.currentTarget) {
+      let gift = e.currentTarget.dataset.gift;
+      this.setData({gift: gift, selected: gift.specification[0].standards, s_custom_made: 0});
+    }
+    this.setData({showModal: !this.data.showModal});
+  },
+  clickItem(e){
+    console.log(e);
+    this.setData({selected: e.currentTarget.dataset.item.standards});
+  },
+  clickCustom(e){
+    console.log(e);
+    this.setData({s_custom_made: e.currentTarget.dataset.index});
   },
   /**
    * 加入购物车
    */
+ tocar: async function () {
+   let {gift,selected,buy_num, s_custom_made} = this.data;
+   gift.buy_num = buy_num;
+   gift.standards = selected;
+   let res = await global.http.post("/api/bs/order/add/shops", {
+     gift_code: gift.gift_code,
+     gift_amount: gift.buy_num,
+     sell_income: Number((gift.gift_price*gift.buy_num).toFixed(2)),
+     buyer_pay_amount: Number((gift.real_gift_price*gift.buy_num).toFixed(2)),
+     specification: {standards:gift.standards},
+     custom_made: gift.custom_made[s_custom_made],
+   });
+   console.log(res);
+   wx.setStorageSync('gift', gift);
+   wx.showToast({ title: '加入成功！', })
+   this.toggle();
+ },
   addToCart: function (event) {
     // toast提示
     wx.showToast({
