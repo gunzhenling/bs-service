@@ -28,6 +28,6 @@ public class RechargeAvailableReqVO {
 	
 	@NotNull(message="充值金额不能为空")
 	@ApiModelProperty(name="用户充值金额")
-	private BigDecimal moneny;
+	private BigDecimal money;
 
 }

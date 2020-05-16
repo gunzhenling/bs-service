@@ -161,9 +161,9 @@ public class BankUserServiceImpl extends ServiceImpl<BankUserMapper, BankUserEnt
 			throw new BusinessException(message);
 		}
 		
-		BigDecimal moneny = reqVO.getMoneny();
+		BigDecimal money = reqVO.getMoney();
 		
-		if(moneny.compareTo(BigDecimal.ZERO)!=1) {
+		if(money.compareTo(BigDecimal.ZERO)!=1) {
 			String message="充值金额为0";
 			log.warn("userbank-rechargeAvailable-warn: userId={} ,message={}",userId,message);
 			throw new BusinessException(message);
@@ -171,7 +171,7 @@ public class BankUserServiceImpl extends ServiceImpl<BankUserMapper, BankUserEnt
 		
 //		更新账户
 		BigDecimal availableMoney = bankUserEntity.getAvailableMoney();
-		availableMoney = availableMoney.add(moneny);
+		availableMoney = availableMoney.add(money);
 		
 		bankUserEntity.setAvailableMoney(availableMoney);
 		bankUserEntity.setUpdateTime(DateKit.now());
@@ -182,7 +182,7 @@ public class BankUserServiceImpl extends ServiceImpl<BankUserMapper, BankUserEnt
 		
 		BankUserAvailableHistoryEntity entity = new BankUserAvailableHistoryEntity();
 		entity.setAvailableMoney(availableMoney);
-		entity.setChangeMoney(moneny);
+		entity.setChangeMoney(money);
 		entity.setChangeNo(OrderUtil.getOrder(OrderType.BANK_AVAIL));
 		entity.setChangeType(BankAvailableChangeEnum.PAY_RECHARGE.getType());
 		entity.setDescription(BankAvailableChangeEnum.PAY_RECHARGE.getDesc());
