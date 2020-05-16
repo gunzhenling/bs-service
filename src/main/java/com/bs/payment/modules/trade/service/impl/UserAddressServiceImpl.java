@@ -84,11 +84,15 @@ public class UserAddressServiceImpl extends ServiceImpl<UserAddressMapper, UserA
 			
 			Long userId = userAddressDto.getUserId();
 			UserAddressEntity selectOne = userAddressMapper.selectOne(QueryBuilder.where("user_id", userId,"is_default",Consts.AddressDefaultType.YES));
-			selectOne.setIsDefault(Consts.AddressDefaultType.NO);
-			userAddressMapper.updateById(selectOne);
+			if(selectOne!=null){
+					
+				selectOne.setIsDefault(Consts.AddressDefaultType.NO);
+				userAddressMapper.updateById(selectOne);
+				
+				log.info("address-add-info: 更新另一个默认地址  success  selectOne={}",JSON.toJSONString(selectOne));
+				 
+			}
 			
-			log.info("address-add-info: 更新另一个默认地址  success  selectOne={}",JSON.toJSONString(selectOne));
-			 
 		}
 		
 		
