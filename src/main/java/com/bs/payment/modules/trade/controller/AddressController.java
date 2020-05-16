@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -77,6 +78,17 @@ public class AddressController {
 		log.info("address-update-info: request  userAddressDto={} ",JSON.toJSONString(userAddressDto));
 		
 		String result = userAddressService.update(userAddressDto);
+		
+		return ZcResult.ok(result);
+	}
+	
+	@PostMapping("/delete/{id}")
+	@ApiOperation(value = "删除收货地址")
+	public ZcResult<String> delete(@PathVariable(value="id",required=true) Long id) throws Exception {
+		
+		log.info("address-delete-info: request  id={} ",id);
+		
+		String result = userAddressService.deleteUserAddressById(id);
 		
 		return ZcResult.ok(result);
 	}

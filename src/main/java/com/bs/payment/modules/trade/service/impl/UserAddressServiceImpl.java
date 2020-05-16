@@ -114,4 +114,14 @@ public class UserAddressServiceImpl extends ServiceImpl<UserAddressMapper, UserA
 		return Consts.SUCCESS;
 	}
 
+	@Override
+	public String deleteUserAddressById(long id) {
+		
+		userAddressMapper.deleteUserAddressById(id);
+
+		log.info("address-deleteUserAddressById-info:    success  id={}", id);
+		 
+		return Consts.SUCCESS;
+	}
+
 }

@@ -18,5 +18,11 @@ public interface UserAddressService extends IService<UserAddressEntity> {
 	 * @return
 	 */
 	String update(UserAddressDto userAddressDto);
+	/**
+	 * 删除地址
+	 * @param id
+	 * @return
+	 */
+	String deleteUserAddressById(long id);
 
 }
