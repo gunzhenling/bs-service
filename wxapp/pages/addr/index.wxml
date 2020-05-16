@@ -1,11 +1,5 @@
 <!--pages/addr/index.wxml-->
-<view class="navigation">
-  <view class="go-back-wrapper" bindtap="goBack">
-    <image class="icon-go-back" src="../../images/left_arrow.png"></image>
-  </view>
-  <text class="nav-title">收货地址</text>
-</view>
- <view class='main' style="padding-top:4rem;padding-bottom:4rem;">
+ <view class='main' style="padding-bottom:120rpx;">
   <form>
     <radio-group class="radio-group" bindchange="radioChange">
       <block wx:for="{{addrList}}" wx:key="id" wx:for-item="item" >

@@ -17,6 +17,7 @@
     "pages/member/member",
     "pages/addr/index",
     "pages/orderon/index",
+    "pages/order_detail/index",
     "pages/addr/addr_opt/index"
   ],
   "window": {
@@ -24,7 +25,6 @@
     "navigationBarBackgroundColor": "#FA5523",
     "navigationBarTitleText": "礼品定制",
     "navigationBarTextStyle": "white",
-    "navigationStyle": "custom",
     "enablePullDownRefresh": false
   },
   "tabBar": {

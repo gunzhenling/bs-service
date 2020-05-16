@@ -1,10 +1,4 @@
 <!--pages/login/index.wxml-->
-<view class="navigation">
-  <view class="go-back-wrapper" bindtap="goBack">
-    <image class="icon-go-back" wx:if="{{showBack}}" src="../../images/left_arrow.png"></image>
-  </view>
-  <text class="nav-title">登录</text>
-</view>
 <view class='form' style="padding-top:10rem;">
   <view class='listInput'>
     <input value='{{name}}' data-key="name" bindchange="change" type='text' placeholder='昵称：' placeholder-class='tel'></input>

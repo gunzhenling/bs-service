@@ -1,11 +1,5 @@
 <!--pages/noticelist/index.wxml-->
-<view class="navigation" >
-  <view class="go-back-wrapper" bindtap="goBack">
-    <image class="icon-go-back" src="../../images/left_arrow.png"></image>
-  </view>
-  <text class="nav-title">公告</text>
-</view>
-<view class='main' style='padding-top:4rem;'>
+<view class='main' style='padding-top:0;'>
   <block wx:for="{{info}}" wx:for-item="item" wx:key='id'>
     <view class='introduce' bindtap='notice' id="{{item.id}}" wx:if="{{item.notice}}">
       <view class='introduce_title'>{{item.name}}</view>
@@ -19,7 +13,7 @@
       <view class='hr'></view>
       <view class='introduces_content'>
         <text>{{item.content}}</text>
-        <view class='list'>管理员发送于 {{item.time}}</view> 
+        <view class='list'>管理员发送于 {{item.time}}</view>
       </view>
     </view>
   </block>

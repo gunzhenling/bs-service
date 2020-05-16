@@ -16,9 +16,10 @@
       <image src="../../images/icon-lipin.png"></image>
       <text>礼品定制</text>
     </view>
-    <view class="btn-item">
+    <view class="btn-item contact_btn">
       <image src="../../images/icon-kefu.png"></image>
       <text>客服</text>
+      <button open-type="contact">联系客服</button>
     </view>
     <view bindtap='goHelpList' class="btn-item">
       <image src="../../images/column.png"></image>
@@ -33,11 +34,11 @@
     </view>
     <view class="scroll-wrapper">
       <scroll-view scroll-x>
-        <view class="topic-item" wx:for="{{topicList}}" wx:key="*this">
-          <image class="topic-img" src="{{item.img}}"></image>
+        <view class="topic-item" wx:for="{{topicList}}" wx:key="{{index}}" bindtap="goDetailDZ" data-item="{{item}}">
+          <image class="topic-img" src="{{item.pic}}"></image>
           <view class="topic-item-info">
-            <text class="topic-item-title">{{item.title}}</text>
-            <text class="topic-item-price">￥{{item.price}}</text>
+            <text class="topic-item-title">{{item.gift_name}}</text>
+            <text class="topic-item-price">￥{{item.real_gift_price}}</text>
           </view>
           <text class="topic-item-sub-title">{{item.subTitle}}</text>
         </view>
@@ -48,7 +49,7 @@
   <view class="bargain-wrapper">
 
     <view class="bargain-item" wx:for="{{bargainList}}" wx:key="*this" bindtap="goDetail" data-item="{{item}}">
-      <image class="bargain-img" src="{{item.img}}"></image>
+      <image class="bargain-img" src="{{item.pic}}"></image>
       <view class="bargain-info">
         <view class="info-header">
           <text class="title">{{item.gift_name}}</text>

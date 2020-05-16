@@ -126,5 +126,10 @@ Page({
       global.util.showToast.message(res.message);
     }
   },
+  loadDetails: async function(e) {
+    let item = e.currentTarget.dataset.item;
+    wx.setStorageSync("order", item);
+    wx.navigateTo({url: '/pages/order_detail/index'});
+  },
 
 })

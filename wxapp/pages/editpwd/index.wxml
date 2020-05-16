@@ -1,18 +1,12 @@
 <!--pages/editpwd/index.wxml-->
-<view class="navigation" >
-  <view class="go-back-wrapper" bindtap="goBack">
-    <image class="icon-go-back" src="../../images/left_arrow.png"></image>
-  </view>
-  <text class="nav-title">修改密码</text>
-</view>
- <view class='main' style="padding-top:4rem;">
+ <view class='main'>
   <form>
     <view class='addr'>
-    <input type="password"  id='name' placeholder='原密码：' placeholder-class='name'></input>
-      <input type="password" id='name' placeholder='新密码：' placeholder-class='name'></input>
-      <input type="password"  id='name' placeholder='确认新密码：' placeholder-class='name'></input>
-      
+    <input bindchange="change" data-key="old_password" value="{{old_password}}" type="password"  id='name' placeholder='原密码：' placeholder-class='name'></input>
+      <input bindchange="change" data-key="password" value="{{password}}" type="password" id='name' placeholder='新密码：' placeholder-class='name'></input>
+      <input bindchange="change" data-key="confirm_password" value="{{confirm_password}}" type="password"  id='name' placeholder='确认新密码：' placeholder-class='name'></input>
+
     </view>
-    <button class='confirm' form-type='submit'>确认修改</button>
+    <button class='confirm' form-type='submit' bindtap="confirm">确认修改</button>
   </form>
 </view>
