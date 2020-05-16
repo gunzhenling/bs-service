@@ -40,18 +40,7 @@ public class CommonController {
 	
 	@Autowired
 	private CommonProblemService  	commonProblemService;
-	
-	
-	@GetMapping("/operation/guide/get")
-	@ApiOperation(value = "获取操作指南")
-	public ZcResult<String> getOperationGuide() throws Exception {
-		
-		log.info("common-getOperationGuide-info: request  ");
-		
-		String result="";
-		
-		return ZcResult.ok(result);
-	}
+	 
 	@GetMapping("/problem/get/list")
 	@ApiOperation(value = "获取留言列表")
 	public ZcResult<ZcPageResult<CommonProblemEntity> > getProblemList(@RequestParam(value="limit",required=false,defaultValue="5")Integer limit,
