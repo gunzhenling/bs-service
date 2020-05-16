@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    user: wx.getStorageSync("user") || {}
   },
   //退出登录
   loginout:function(e){

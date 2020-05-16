@@ -38,5 +38,9 @@ export default new Router({
         { path: '/manager/notice', component: Notice, },
       ]
     },
+    {
+      path: "/*",
+      redirect: "/manager/gift"
+    }
   ]
 })

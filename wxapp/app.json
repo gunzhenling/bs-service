@@ -10,12 +10,13 @@
     "pages/chongzhi/index",
     "pages/editpwd/index",
     "pages/login/index",
-    "pages/register/index",   
+    "pages/register/index",
     "pages/index/goodsDetail/goodsDetail",
     "pages/category/category",
     "pages/cart/cart",
     "pages/member/member",
     "pages/addr/index",
+    "pages/orderon/index",
     "pages/addr/addr_opt/index"
   ],
   "window": {

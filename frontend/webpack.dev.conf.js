@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 // const product = require("../../app/product");
-const {target = 3003} = process.env
+const {target = 9999} = process.env
 
 module.exports = {
   entry: {

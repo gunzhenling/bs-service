@@ -1,4 +1,4 @@
-// pages/addr/addr_opt/index.js
+// pages/address/address_opt/index.js
 Page({
 
   /**
@@ -11,7 +11,11 @@ Page({
     region: ['', '', ''],
     // 服务热线的样式
     display: "fixed",
-    height: "188rpx"
+    height: "188rpx",
+    name: "",
+    phone: "",
+    address: "",
+    address_data: '',
   },
 //返回
 goBack:function(e){
@@ -21,6 +25,17 @@ goBack:function(e){
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let address = wx.getStorageSync("address");
+    if (address) {
+      this.setData({
+        name: address.name,
+        phone: address.phone,
+        address: address.address,
+        region: [address.province,address.city,address.district],
+        info: '',
+        address_data: address,
+      })
+    }
     var that = this;
     var screenHeight, heights
     wx.getSystemInfo({
@@ -54,55 +69,41 @@ goBack:function(e){
     console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
       region: e.detail.value,
-      info:""
+      info: ""
     })
   },
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  change (e) {
+    console.log(e,e.detail.value);
+    let key = e.currentTarget.dataset.key;
+    this.setData({[`${key}`]: e.detail.value})
   },
+  save: async function () {
+    let {name,phone, region, address, address_data={}} = this.data;
+    console.log(name,phone, region, address, address_data);
+    if (!name) return global.util.showToast.message("请填写姓名");
+    if (!phone) return global.util.showToast.message("请填写联系方式");
+    if (!region[0]) return global.util.showToast.message("请选择地址");
+    if (!address) return global.util.showToast.message("请填写详细地址");
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+    global.util.showToast.loading();
+    let res;
+    if (address_data.user_address_id) {
+       res = await global.http.post(`/api/bs/address/update` , {
+        is_default: address_data.is_default, country:address_data.country,
+        user_address_id: address_data.user_address_id,
+        name,phone, province: region[0],city:region[1],district:region[2], address
+      });
+    } else {
+       res = await global.http.post(`/api/bs/address/add`, {
+        is_default: 0, country:"中国",
+        name,phone, province: region[0],city:region[1],district:region[2], address
+      });
+    }
+    global.util.showToast.hide();
+    if (!res.code) {
+      global.util.showToast.message('保存成功').then(e => wx.navigateBack());
+    } else {
+      global.util.showToast.message(res.message);
+    }
   }
 })

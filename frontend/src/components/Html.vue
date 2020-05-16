@@ -60,7 +60,7 @@ export default {
     },
     getAction: async function (data) {
       this.loading = true;
-      let res = await this._http.post(`/api/v3/business/${this.content.actionId}`, data);
+      let res = await this._http.post(`/api/${this.content.actionId}`, data);
       this.html = '';
       this.container = '';
       if (res.result) {

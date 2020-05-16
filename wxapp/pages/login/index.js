@@ -5,21 +5,39 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    name: '',
+    password: '',
   },
   //会员登录
-  loginIn:function(e){
+  loginIn: async function(e){
+    let {name, password} = this.data;
+    if (!name) {
+      return global.util.showToast.message('请输入昵称');
+    }
+    if (password.length < 6) {
+      return global.util.showToast.message('请至少输入6位密码');
+    }
     wx.showLoading({title:'登录中'});
-    setTimeout(() => {
-      wx.hideLoading();
-      wx.switchTab({
-        url: '../member/member',
-      });
-    }, 2000);
+    let res = await global.http.post('/api/bs/user/login', {name, password});
+    if (res.user_id) {
+      let user = Object.assign( {name, password}, res);
+      global.http.setUser(user);
+      wx.setStorageSync('user', user);
+      global.util.showToast.message('登录成功').then(e => wx.reLaunch({url:"/pages/index/index"}));
+    } else {
+      global.util.showToast.message(res.message);
+    }
+  },
+
+  change: function (e) {
+    console.log(e);
+    let {key} = e.currentTarget.dataset;
+    console.log({[`${key}`]: e.detail.value});
+    this.setData({[`${key}`]: e.detail.value});
   },
   //跳转到注册页面
   gotoregister:function(e){
-      wx.navigateTo({
+      wx.redirectTo({
         url: '../register/index',
       })
   },
@@ -31,7 +49,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.setData({showBack:  getCurrentPages().length != 1})
   },
 
   /**

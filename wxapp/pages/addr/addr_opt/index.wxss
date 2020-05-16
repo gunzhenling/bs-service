@@ -17,7 +17,7 @@ page{
   margin:auto;
   border:2rpx solid #e6e6e6;
   font-size: 24rpx;
-  color: #999999;
+  /* color: #999999; */
   padding: 0 0 0 24rpx;
 }
 #name{
@@ -37,10 +37,13 @@ page{
   width: 88%;
   height: 70rpx;
   border:2rpx solid #e6e6e6;
-  margin: 16rpx auto 0; 
+  margin: 16rpx auto 0;
   display: flex;
   justify-content: space-between;
   padding: 0 0 0 24rpx;
+}
+.picker_active {
+  color: black;
 }
 .jiantou{
   width: 12rpx;

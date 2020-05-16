@@ -5,52 +5,55 @@ Page({
    * 页面的初始数据
    */
   data: {
+    bank_user: '',
     currentIndex1: true,
     currentIndex2: false,
-    recharge:[
-      { id: 1, money: "1000.00", time: "2019-03-26" },
-      { id: 2, money: "1000.00", time: "2019-03-26" },
-      { id: 3, money: "1000.00", time: "2019-03-26" },
-      { id: 4, money: "1000.00", time: "2019-03-26" },
+    recharge: [{
+        id: 1,
+        money: "1000.00",
+        time: "2019-03-26"
+      },
     ],
-    consume:[
-      { id: 1, money: "1000.00", index: "A20192438", time: "2019-03-26" },
-      { id: 2, money: "1000.00", index: "A20192438", time: "2019-03-26" },
-      { id: 3, money: "1000.00", index: "A20192438", time: "2019-03-26" },
-      { id: 4, money: "1000.00", index: "A20192438", time: "2019-03-26" }
+    consume: [{
+        id: 4,
+        money: "1000.00",
+        index: "A20192438",
+        time: "2019-03-26"
+      }
     ],
-    height:''
+    height: ''
   },
   //返回
-  goBack:function(e){
+  goBack: function(e) {
     wx.navigateBack();
   },
-//点击充值跳转充值页面
-gotochongzhi(){
-  wx.navigateTo({
-    url: '../chongzhi/index',
-  })
-},
-currentIndex1: function (e) {
-  this.setData({
-    currentIndex1: true,
-    currentIndex2: false,
-  })
-},
-currentIndex2: function (e) {
-  this.setData({
-    currentIndex1: false,
-    currentIndex2: true,
-  })
-},
+  //点击充值跳转充值页面
+  gotochongzhi() {
+    wx.navigateTo({
+      url: '../chongzhi/index',
+    })
+  },
+  currentIndex1: function(e) {
+    this.setData({
+      currentIndex1: true,
+      currentIndex2: false,
+    })
+  },
+  currentIndex2: function(e) {
+    this.setData({
+      currentIndex1: false,
+      currentIndex2: true,
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
+    // /bs/user/get/available/details
     var that = this;
     var screenHeight, heights
     wx.getSystemInfo({
-      success: function (res) {
+      success: function(res) {
         screenHeight = res.screenHeight
       }
     });
@@ -58,54 +61,32 @@ currentIndex2: function (e) {
     // this.setData({
     //   height:heights
     // })
+    // /bs/user/get/available/details
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  onShow () {
+    this.getData();
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
+  getData: async function () {
+    wx.showLoading();
+    let {offset,limit} = this.data;
+    let res = await global.http.get('/api/bs/user/get/available/details', {offset,limit});
+    this.setData({
+      bank_user: res.bank_user_dto,
+      consume: res.bank_user_available_history_dtos.filter(e => e.is_reduce != 0),
+      recharge: res.bank_user_available_history_dtos.filter(e => e.is_reduce == 0)
+    });
+    console.log(this.data.consume);
+    console.log(this.data.recharge);
+    console.log(res);
+    // let loadList = res.data;
+    // loadList.forEach((e, i) => {
+    //   e._order_no = e.order_no.substr(22,10);
+    // });
+    //
+    // if (offset != 0) {
+    //   loadList = this.data.loadList.concat(loadList);
+    // }
+    // this.setData({hasMore: loadList.length < res.total, loadList});
+    wx.hideLoading();
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })

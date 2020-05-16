@@ -8,32 +8,31 @@
  <view class='main' style="padding-top:4rem;padding-bottom:4rem;">
   <form>
     <radio-group class="radio-group" bindchange="radioChange">
-      <block wx:for="{{addrList}}" wx:key="id" wx:for-item="item">
-        <view class='list'>
+      <block wx:for="{{addrList}}" wx:key="id" wx:for-item="item" >
+        <view class='list' bindtap="clickAddr" data-item="{{item}}">
           <view class='nameAndTel'>
             <view class='name'>{{item.name}}</view>
-            <view class='tel'>{{item.tel}}</view>
+            <view class='tel'>{{item.phone}}</view>
           </view>
-          <view class='addr'>{{item.addr}}</view>
+          <view class='addr'>{{item.province}}{{item.city}}{{item.district}}{{item.address}}</view>
           <view class='list_bottom'>
-            <view class='radio' bindtap='setdefault' data-id='{{item.id}}'>
-              <radio value='{{item.index}}'>设为默认地址</radio>
-            </view> 
+            <view class='radio' bindtap='setdefault' data-item='{{item}}'>
+              <radio checked='{{item.is_default}}'>设为默认地址</radio>
+            </view>
             <view class='option'>
-              <view class='revise' bindtap='gotoopt' data-id='{{item.id}}'>
+              <view class='revise' bindtap='gotoopt' data-item='{{item}}'>
                 <image class='revisePic' src='../../images/revise.png'></image>
-                <view class='describe'>编辑</view>  
+                <view class='describe'>编辑</view>
               </view>
-              <view class='del' bindtap='optdel' data-id='{{item.id}}'>
+              <view class='del' bindtap='optdel' data-item='{{item}}' data-id='{{item.id}}'>
                 <image class='delPic' src='../../images/del.png'></image>
                 <view class='delDescribe'>删除</view>
               </view>
-            </view> 
+            </view>
           </view>
         </view>
       </block>
-    </radio-group>  
+    </radio-group>
     <button class='add' bindtap='addAddr' data-id='0' bindtap="gotoopt" form-type='submit'>+添加地址</button>
   </form>
 </view>
-

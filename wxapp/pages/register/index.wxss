@@ -14,23 +14,28 @@ page{
 }
 .listInput{
   display: flex;
-  justify-content: space-between;
+  align-items: center;
   width: 100%;
   height: 90rpx;
   border-bottom: 3rpx solid #bdbdbd;
 }
 .listInput2{
   display: flex;
-  justify-content: space-between;
+  align-items: center;
   width: 100%;
   height: 90rpx;
   border-bottom: 3rpx solid #bdbdbd;
   margin-top: 16rpx;
 }
 .listInput3{
+  display: flex;
+  align-items: center;
   width: 100%;
-  height: 80rpx;
+  height: 90rpx;
   position:relative;
+}
+input {
+  flex: 1;
 }
 label{
   font-size: 24rpx;

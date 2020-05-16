@@ -84,8 +84,9 @@ export default {
         return ;
       } else if (button.postId) {
         this.loading = true;
-        let res = await this._http.post(`/api/v3/business/${button.postId}`,{record: this.record, ...(button.body || {})}).then(res => {
-          if (!res.code) {
+        let postId =  typeof button.postId == 'string' ? button.postId : button.postId(this.record);
+        let res = await this._http.post(`/api/${postId}`,{record: this.record, ...(button.body || {})}).then(res => {
+          if (res.code) {
             if (button.cb) {
               if (typeof button.cb == 'string') {
                 eval(`button.cb = ${button.cb} `);

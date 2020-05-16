@@ -1,0 +1,144 @@
+<template>
+  <div class="">
+    <Container v-if="view" :view="view"/>
+  </div>
+</template>
+
+<script>
+import Container from "../../components/Container.vue";
+export default {
+  components: {Container},
+  data () {
+    // 函数编号	功能函数名	父级标签	访问级别	函数类型	函数状态	操作
+    return {
+      view: {
+        title: "礼品管理",
+        component: "Table",
+        filters: [
+          {name: "xxx", key: "xxx"}
+        ],
+        content: {
+          btns: "",
+          actionId: "bs/gift/get/list",
+          actionMethod: "get",
+          columns: [
+            {dataIndex: "gift_code", title: "礼品编码"},
+            {dataIndex: "gift_name", title: "礼品名称"},
+            {dataIndex: "gift_price", title: "原始价格"},
+            {dataIndex: "real_gift_price", title: "实际价格"},
+            {dataIndex: "sale_num", title: "已售数量"},
+            {dataIndex: "limit_num", title: "定制至少售卖数量"},
+            // {dataIndex: "picture", title: "图片", type: 'img'},
+            // {dataIndex: "status", title: "状态", content: {
+            //   component: "a-switch",
+            //   postId: "xxx"
+            // }},
+          ]
+        }
+      }
+    };
+  },
+  mounted: async function () {
+    let res = await this._http.get(`/api/bs/gift/get/giftTypes`);
+    let types = res.result;
+    let custom_made = [
+      {name: "版费", value: "b_fee"},
+      {name: "定制费", value: "made_fee"},
+      {name: "定做工期", value: "prod_date"},
+    ];
+    let btns = title => {
+      return {
+        component: "a-button",
+        text: title,
+        modal: {
+          visible:true,
+          width: '650px',
+          postId: async (data, record) => {
+            console.log(data, data.custom_made.some(e => custom_made.some(made => e[made.value])));
+            if (!data.custom_made.some(e => custom_made.some(made => e[made.value])))  return {code: 3000, message: "请填写完整礼品定制"};
+            if (!data.gift_code) return {code: 3000, message: "请输入礼品编码"};
+            if (!data.gift_name) return {code: 3000, message: "请输入礼品名称"};
+            if (!data.type_code || data.type_code=="请选择") return {code: 3000, message: "请选择礼品分类"};
+            if (!data.gift_price) return {code: 3000, message: "请输入原始价格"};
+            if (!data.real_gift_price) return {code: 3000, message: "请输入实际价格"};
+            if (!data.sale_num) return {code: 3000, message: "请输入已售数量"};
+            if (!data.limit_num) return {code: 3000, message: "请输入定制最少数量"};
+            if (!data.picture_url) return {code: 3000, message: "请输入礼品图片"};
+            if (data.specification) data.specification = data.specification.filter(e => e.replace(/ /g, '')).map(e => ({standards:e}));
+            if (!data.specification || !data.specification.length) return {code: 3000, message: "礼品规格不能为空"};
+            if (!data.custom_made || !data.custom_made.length) return {code: 3000, message: "礼品定制不能为空"};
+            if (!data.content) return {code: 3000, message: "请输入礼品详情"};
+            let edit = record && record.gift_code
+            return this._http.post(`/api/bs/gift/${edit ?'update':'add'}`, data);
+          },
+          content: {
+            component: "Form",
+            content: [
+              {key: "gift_code", name: "礼品编码", style:"max-width:200px"},
+              {key: "gift_name", name: "礼品名称", style:"max-width:200px"},
+              {key: "type_code", name: "礼品分类", type: "selector", options: [
+                {name: "请选择",value: "请选择"},
+                ...types.map(e => ({
+                  name: e.type_name,value: e.type_code
+                }))
+              ]},
+              {key: "gift_price", name: "原始价格", type: "number", float: true},
+              {key: "real_gift_price", name: "实际价格", type: "number", float: true},
+              {key: "sale_num", name: "已售数量", type: "number", float: true},
+              {key: "limit_num", name: "定制最少数量", type: "number", float: true},
+              {key: "specification", name: "礼品规格", type: "inputs"},
+              {key: "custom_made", name: "礼品定制", type: "inputs", options: custom_made},
+              {key: "picture_url", name: "礼品图片", type: "image", style:"max-width:200px"},
+              {key: "content", name: "礼品详情", type: "editor"},
+            ]
+          }
+        }
+      };
+    };
+    this.view = {
+      title: "礼品管理",
+      component: "Table",
+      filters: [
+        {name: "xxx", key: "xxx"}
+      ],
+      id: "礼品管理",
+      content: {
+        btns: btns('新增礼品'),
+        actionId: "bs/gift/get/list",
+        actionMethod: "get",
+        columns: [
+          {dataIndex: "gift_code", title: "礼品编码"},
+          {dataIndex: "gift_name", title: "礼品名称"},
+          {dataIndex: "gift_price", title: "原始价格"},
+          {dataIndex: "real_gift_price", title: "实际价格"},
+          {dataIndex: "sale_num", title: "已售数量"},
+          {dataIndex: "limit_num", title: "定制至少售卖数量"},
+          {dataIndex: "oprate", title: "编辑", content: [
+            {
+              component: "Button",
+              content: {
+                text: '删除',
+                type: "danger",
+                title: "确定删除吗？",
+                reload: "礼品管理",
+                postId: record => `bs/gift/delete/${record.gift_code}`
+              }
+            },
+            btns('编辑')
+          ]},
+          // {dataIndex: "picture", title: "图片", type: 'img'},
+          // {dataIndex: "status", title: "状态", content: {
+          //   component: "a-switch",
+          //   postId: "xxx"
+          // }},
+        ]
+      }
+    }
+  },
+  methods: {
+  }
+}
+</script>
+
+<style lang="less" scoped>
+</style>

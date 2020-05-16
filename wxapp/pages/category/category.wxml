@@ -13,21 +13,69 @@
 <view class="category-wrapper">
   <!--分类  -->
   <view class="sidebar-wrapper">
-    <view class="category-item {{select == index ? 'active': ''}}" hover-class="hover" wx:for="{{categories}}" wx:key="{{item.id}}" id="{{item.id}}" bindtap='categoryClick'>{{item.name}}</view>
+    <view class="category-item {{select == index ? 'c_active': ''}}" hover-class="hover" wx:for="{{categories}}" wx:key="{{item.type_code}}" id="{{index}}" bindtap='categoryClick'>{{item.type_name}}</view>
   </view>
   <!--结果列表  -->
   <view class="result-wrapper">
     <view class="goods-item" wx:for="{{goodsList}}" wx:key="{{item.id}}">
-      <image class="goods-image" src="{{item.image}}" id="goods-image-{{item.id}}"></image>
+      <image class="goods-image" src="{{item.pic}}" ></image>
+      <!-- id="goods-image-{{item.id}}" -->
       <view class="goods-info">
-        <text class="title">{{item.title}}</text>
+        <text class="title">{{item.gift_name}}</text>
         <view class="price-wrapper">
-          <text class="price">￥<text class="money">{{item.price}}</text></text>
-          <button class="btn-add" id="{{item.image}},{{item.id}}" bindtap="addToCart">加入购物车</button>
+          <text class="price">￥<text class="money">{{item.gift_price}}</text></text>
+          <button class="btn-add" id="{{item.image}},{{item.id}}" bindtap="toggle" data-gift="{{item}}">加入购物车</button>
         </view>
       </view>
     </view>
   </view>
+
+  <view>
+    <view bindtap='toggle' catchtouchmove="preventScroll" class="pop-mask {{showModal ? 'active' : ''}}"></view>
+    <view catchtouchmove="preventScroll" class="pop-content {{showModal ? 'active' : ''}}">
+      <view wx:if="{{showModal}}" class="pop-container">
+        <view class="header">
+          <image src="{{gift.pic}}"></image>
+          <view class="info">
+            <view class="fn fw mb10"> {{gift.gift_name}} </view>
+            <view class="price-wrapper">
+              <text class="price">￥{{gift.real_gift_price}}<text class="original-price">￥{{gift.gift_price}}</text></text>
+              <text class="sold">已售249</text>
+            </view>
+          </view>
+        </view>
+        <view class="standards">
+          <view>
+            <view class="fl fw">规格</view>
+            <view class="standards-selected">
+              <view wx:for="{{gift.specification}}" wx:key='{{index}}' data-item="{{item}}"
+                bindtap='clickItem' class='item {{item.standards == selected ? "active" : ""}}'>{{item.standards}}</view>
+            </view>
+          </view>
+          <view>
+            <view class="fl fw">定制</view>
+            <view  class="custom_made">
+              <view wx:for="{{gift.custom_made}}" wx:key='{{index}}' data-index="{{index}}" bindtap='clickCustom' class='{{index == s_custom_made ? "active" : ""}}'>
+                <view> {{index==0?"标品":"定制"}} </view>
+                <view>
+                  <view>版费<text>{{item.b_fee}}</text>元</view>
+                  <view>定制费<text>{{item.made_fee}}</text>元</view>
+                  <view>定做工期<text>{{item.prod_date}}</text>天</view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="quantity-view">
+          <view>购买数量</view>
+          <view class="num">
+            <view bindtap='c_buy_num' data-num="-1">-</view>
+            <input type="number" value="{{buy_num}}" bindchange="c_buy_num"/>
+            <view bindtap='c_buy_num' data-num="1">+</view>
+          </view>
+        </view>
+        <view  class="btn" bindtap='tocar'> <view>确定</view> </view>
+      </view>
+    </view>
+  </view>
 </view>
-
-

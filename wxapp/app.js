@@ -1,11 +1,14 @@
 //app.js
+import http from './utils/http'
+import util from './utils/util'
 App({
   onLaunch: function () {
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
-
+    global.http = http;
+    global.util = util;
     // 登录
     wx.login({
       success: res => {

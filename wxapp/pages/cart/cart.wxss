@@ -109,7 +109,48 @@ page {
   color: #999999;
   font-size: 12px;
 }
-
-.goods-list {
+.goods_list {
   padding-top: 140rpx;
+}
+.goods_list >view{
+  padding: 20rpx;
+  margin-top: 20rpx;
+  background: white;
+  display: flex;
+  font-size: 22rpx;
+}
+.goods_list >view>view:nth-child(2){
+  flex: 1;
+}
+.goods_list .goods_name {
+  margin-bottom: 20rpx;
+  font-size: 28rpx;
+}
+.goods_list image{
+  width: 100rpx;
+  height: 100rpx;
+  margin: 20rpx;
+}
+.goods_list .goods_btn {
+  border-radius: 6rpx;
+  padding: 8rpx 0;
+  width: 100rpx;
+  border: 1rpx solid #ddd;
+  text-align: center;
+  margin-bottom: 20rpx;
+}
+.goods_list .goods_btn.del{
+  background-color: red;
+  color: white
+}
+
+/*到底提示*/
+.bottom-tip {
+  height: 120rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #707070;
+  font-size: 12px;
+  background: transparent!important;
 }

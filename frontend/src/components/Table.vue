@@ -18,8 +18,8 @@
       <a-table class="table-view" :class="{'no-padding':content.height}" v-bind="content" :columns="(columns.filter(e => !e.hidden))" :rowKey="(e,i) => content.rowKey && e[content.rowKey] || e['id'] || e['_id'] || i"
         :rowSelection="rowSelection"
         :dataSource="dataSource" :pagination="pagination" :loading="loading" @change="handleTableChange" :customRow="clickRow">
-        <template v-for="(item,index) in (columns.filter(e => !e.hidden))" v-if="item.content || item.fixed || content.height" :slot="item.custom" slot-scope="text, record, index">
-          <div v-if="!item.content" :style="`height:${content.height}px;display: flex;align-items: center;justify-content:center;overflow: hidden;`">{{text}}</div>
+        <template v-for="(item,index) in (columns.filter(e => !e.hidden))" v-if="item.content || item.fixed || content.height || item._func" :slot="item.custom" slot-scope="text, record, index">
+          <div v-if="!item.content" :style="`height:${content.height}px;display: flex;align-items: center;justify-content:center;overflow: hidden;`">{{item._func ? item._func(text, record) : text }}</div>
           <div v-else v-bind="item" :style="`height:${content.height}px;display: flex;align-items: center;justify-content:center;overflow: hidden;`">
             <TableItem :view="item.content" :record="record" :column="item" :index="index" @reload="reload"/>
           </div>
@@ -87,7 +87,7 @@ export default {
     columns (newV) {
       if (newV) {
         newV.forEach(e => {
-          e.scopedSlots = (e.content || e.fixed || this.content.height) && { customRender: e.dataIndex };
+          e.scopedSlots = (e.content || e.fixed || this.content.height || e._func) && { customRender: e.dataIndex };
           // NOTE: Title 字段会去设置 antd 自带的 header
           e.custom = e.dataIndex == 'title' ? `_${e.dataIndex}` : e.dataIndex;
         })
@@ -166,7 +166,7 @@ export default {
       content.bordered = content.bordered == undefined ? true : content.bordered;
       // NOTE: 会触发获取watch filter 进而去加载
       if (this.id) {
-        this.$e_emit(this.id, {page: content.page || 1,limit: content.limit || 10});
+        this.$e_emit(this.id, {offset: (content.page || 1) * ( content.limit || 10),limit: content.limit || 10});
       } else if (!this.query) {
         // this.filter.page = content.page || 1;
         // this.filter.limit = content.limit || 10;
@@ -217,10 +217,13 @@ export default {
         return this.$emit("change", filter);
       }
       this.loading = true;
-      let res = await this._http.post(`/api/v3/business/${content.actionId}`, filter);
+      if (filter) {
+        filter.offset = ((filter.page || 1) - 1) * ( filter.limit || 10);
+      }
+      let res = await this._http[content.actionMethod||'get'](`/api/${content.actionId}`, {...filter||{},page: undefined});
       if (res.result) {
         this.info = res.result.info;
-        this.dataSource = res.result.items;
+        this.dataSource = res.result.data;
         if (res.result.total != undefined) {
           this.pagination = {
             total: +res.result.total,
@@ -285,7 +288,7 @@ export default {
         return this.$message.error("请选择操作");
       }
       this.loadingSelectAll = true;
-      let result = await this._http.post(`/api/v3/business/${selectAll.postId}`, {[this.selectAll.key || `_select`]: this.selectedRowKeys, });
+      let result = await this._http.post(`/api/${selectAll.postId}`, {[this.selectAll.key || `_select`]: this.selectedRowKeys, });
       if (result.code) {
         this.$message.error(result.message);
       } else {

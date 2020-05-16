@@ -1,6 +1,6 @@
 <template>
   <div class="form">
-    <div v-for="(item,index) in data" :key="index">
+    <div v-for="(item,index) in data" :key="index" :style="item.float?'float: left;':'clear: both;'">
       <div class="form-item" v-if="item.type === 'editor'">
         <span>{{item.name}}</span>
         <div class="" :style="item.style">
@@ -16,6 +16,29 @@
       <div class="form-item" v-if="item.type === 'input' || item.type == undefined">
         <span>{{item.name}}</span>
         <a-input v-bind="item" @change="e => changeValue(index, e.target.value)"/>
+      </div>
+      <div class="form-item" v-if="item.type === 'inputs'">
+        <span>
+          {{item.name}}
+          <a-button size="small" @click="e => changeInputs(index, item.value.length, '')">增加</a-button>
+        </span>
+        <template v-if="!item.options">
+          <div v-for="(e,_index) in item.value" :key="_index">
+            <a-input style="width:78px;margin-right:5px" v-bind="item" :value="e" @change="e => changeInputs(index, _index, e.target.value)"/>
+            <a-button size="small" style="margin-right:10px" @click="e => changeInputs(index, _index)">删除</a-button>
+          </div>
+        </template>
+        <template v-else>
+          <div v-for="(e,_index) in item.value" :key="_index" style="display:flex;align-items:center">
+            <div class="">
+              <div v-for="(option,o_index) in item.options" :key="o_index">
+                <span style="display:inline-block;width:60px;">{{option.name}}</span>
+                <a-input style="width:78px;margin-right:5px" v-bind="item" :value="e[option.value]" @change="e => changeInputs(index, _index, e.target.value, option.value)"/>
+              </div>
+            </div>
+            <a-button size="small" style="margin-right:10px;text-align:center;" @click="e => changeInputs(index, _index)">删除</a-button>
+          </div>
+        </template>
       </div>
       <div class="form-item" v-if="item.type === 'number'">
         <span>{{item.name}}</span>
@@ -51,8 +74,8 @@
       </div>
       <div class="form-item" v-if="item.type == 'image'">
         <span>{{item.name}}</span>
-        <a-upload v-if="qiniuConfig.host" :action="qiniuConfig.host" :data="{token: qiniuConfig.token}"
-          listType="picture-card" :fileList="item.value" @preview="handlePreview" @change="e=>changeImages(e,index)" >
+        <a-upload name="picture_file" :action="'/api/bs/file/upload/image'"
+          listType="picture-card" :fileList="item.value" @preview="handlePreview"  @change="e=>changeImages(e,index)" >
           <div v-if="item.value.length < (item.limit || 1)">
             <a-icon type="plus" />
             <div class="ant-upload-text">Upload</div>
@@ -84,7 +107,7 @@ export default {
       return newV;
     },
     record (newV) {
-      this.init(this.content);
+      this.init(this.content, newV);
       return newV;
     },
     data (newV) {
@@ -113,17 +136,17 @@ export default {
         }
       }
     },
-    init: async function (content) {
+    init: async function (content, record) {
       for (var i = 0; i < content.length; i++) {
-        if (content[i].type == "image" && !this.qiniuConfig) {
-          await this._http.get('/api/v3/upload-token?key=undefined').then(res => {
-            res.result.host = res.result.host.filter(e => e.indexOf(location.protocol) != -1)[0];
-            this.qiniuConfig = res.result;
-          })
-        }
+        // if (content[i].type == "image" && !this.qiniuConfig) {
+        //   await this._http.get('/api/v3/upload-token?key=undefined').then(res => {
+        //     res.result.host = res.result.host.filter(e => e.indexOf(location.protocol) != -1)[0];
+        //     this.qiniuConfig = res.result;
+        //   })
+        // }
       }
       this.data = content.map(e => {
-        e.value = this.myElse((this.record || {})[e.key], e.value, e.defaultValue);
+        e.value = record ? record[e.key] : this.myElse((this.record || {})[e.key], e.value, e.defaultValue);
         if (e.type == "selector") {
           e.value = this.myElse(e.value, e.options && e.options[0] && e.options[0].value);
           if (e.$eemit) {
@@ -134,9 +157,33 @@ export default {
         } else if (e.type == "image") {
           e.value = e.value ? (e.value instanceof Array ? e.value : [e.value]) : [];
           e.value = e.value.map((item,index) => ({uid: index, name: index + "", url: item}))
+        } else if (e.type == "inputs") {
+          e.value = e.value || [e.options?{}:''];
         }
         return e;
       });
+      this.changeValue(0, this.data[0].value);
+    },
+    changeInputs (index,_index,e, key) {
+      if (e == undefined) {
+        this.data[index].value.splice(_index, 1);
+      } else if (this.data[index].value[_index] == undefined) {
+        this.data[index].value.push(this.data[index].options?{}:'')
+      } else {
+        if (key) {
+          this.data[index].value[_index][key] = e;
+        } else {
+          this.data[index].value[_index] = e;
+        }
+      }
+      this.$forceUpdate();
+      if (this.data[index].$eemit) {
+        this.$e_emit(this.data[index].$eemit, this.data[index].value);
+      }
+      if (this.id) {
+        window[this.id] = this.data;
+      }
+      this.$emit("change", this.data);
     },
     changeValue (index, e) {
       this.data[index].value = e;
@@ -179,6 +226,12 @@ export default {
     handleCancel() {
       this.previewVisible = false;
     },
+    beforeUpload(e, index) {
+      console.log(e);
+      this.data[index].value = e;
+      this.data = [].concat(this.data);
+      return false;
+    }
   }
 }
 </script>
