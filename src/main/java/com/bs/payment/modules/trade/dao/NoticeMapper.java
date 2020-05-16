@@ -6,19 +6,20 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.bs.payment.modules.trade.entity.UserEntity;
+import com.bs.payment.modules.trade.dto.NoticeDto;
+import com.bs.payment.modules.trade.entity.NoticeEntity;
 
 /**
- *  用户
+ *  公告
  * 
  * @author gunzhenling
  */
 @Mapper
-public interface UserMapper extends BaseMapper<UserEntity>{
+public interface NoticeMapper extends BaseMapper<NoticeEntity>{
 	
 		Long getCount();
 		
-		List<UserEntity> getUserList(@Param("limit")Integer limit,@Param("offset") Integer offset);
+		List<NoticeDto> getNoticeList(@Param("limit")Integer limit,@Param("offset") Integer offset);
 
 	 
 }

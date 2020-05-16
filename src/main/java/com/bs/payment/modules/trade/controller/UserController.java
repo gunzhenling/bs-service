@@ -17,6 +17,7 @@ import com.bs.payment.modules.trade.dto.BankUserDto;
 import com.bs.payment.modules.trade.dto.UpdatePasswordDto;
 import com.bs.payment.modules.trade.dto.UserLoginDto;
 import com.bs.payment.modules.trade.dto.UserRegisterDto;
+import com.bs.payment.modules.trade.entity.UserEntity;
 import com.bs.payment.modules.trade.service.BankUserService;
 import com.bs.payment.modules.trade.service.UserService;
 import com.bs.payment.modules.trade.vo.BankAvailableVO;
@@ -27,6 +28,7 @@ import com.bs.payment.modules.trade.vo.UserRespVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import xyz.nesting.common.message.ZcPageResult;
 
 /**
  * 用户相关接口
@@ -129,6 +131,17 @@ public class UserController {
 		return ZcResult.ok(result);
 	}
 	
+	@GetMapping("/get/lsit")
+	@ApiOperation(value = "获取用户列表")
+	public ZcResult<ZcPageResult<UserEntity>> getUserList(@RequestParam(value="limit",required=false,defaultValue="5")Integer limit,
+			@RequestParam(value="offset",required=false,defaultValue="0")Integer offset) throws Exception {
+		
+		log.info("user-getInfo-info: request  limit={} ,offset={}",limit,offset);
+		 
+		ZcPageResult<UserEntity> userList = userService.getUserList(limit, offset);
+		
+		return ZcResult.ok(userList);
+	}
 	
 	
 }

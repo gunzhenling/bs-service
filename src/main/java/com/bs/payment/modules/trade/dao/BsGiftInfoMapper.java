@@ -15,7 +15,6 @@ import com.bs.payment.modules.trade.vo.BsGiftInfoRespVO;
  * @author gunzhenling
  */
 @Mapper
-//@Repository
 public interface BsGiftInfoMapper extends BaseMapper<BsGiftInfoEntity>{
 
 	 

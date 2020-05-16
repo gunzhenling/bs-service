@@ -56,6 +56,16 @@ public class GiftInfoServiceImpl extends ServiceImpl<BsGiftInfoMapper, BsGiftInf
 		list = bsGiftInfoMapper.getList(typeCode, limit, offset);
 		if(CollectionUtils.isEmpty(list)) {
 			list = Lists.newArrayList();
+		}else{
+			
+			String rootPath = FileUtil.getRootPath();
+			list.forEach(dto->{
+				
+				String picture = dto.getPicture();
+				dto.setPicture(rootPath+picture);
+			
+			});
+			
 		}
 		
 		page.setData(list);

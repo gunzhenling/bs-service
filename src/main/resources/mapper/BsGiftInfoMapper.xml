@@ -15,7 +15,8 @@
 	</select>
 	
 	<select id="getList" resultType="BsGiftInfoRespVO" >
-		select  gift_code,gift_name,type_code,gift_price,real_gift_price,sale_num,limit_num from bs_gift_info 
+		select  gift_code,gift_name,type_code,gift_price,real_gift_price,sale_num,limit_num, specification,picture
+		from bs_gift_info 
 		<where>
 			<if test="typeCode!=null">
 				type_code = #{typeCode}

@@ -71,30 +71,18 @@ public class BsGiftInfoRespVO  {
 	@JsonProperty("limit_num")
 	private Integer limitNum;
 	
-	
-	
-//	下面内容详情再请求加载
 	/**
-	 * 礼品内容,html
-	 * longtext
-	 *//*
-	@ApiModelProperty(value="礼品内容,html")
-	private String content;
-	*//**
 	 * 规格,json
-	 *//*
-	@ApiModelProperty(value="规格,json")
+	 */
 	private String specification;
-	*//**
-	 * 定制,json
-	 *//*
-	@ApiModelProperty(value="定制,json")
-	private String customMade;
-	
-	*//**
+	 
+	/**
 	 * 礼品图片 MEDIUMBLOB
-	 *//*
-	@ApiModelProperty(value="礼品图片")
-	private byte[] picture;*/
+	 * java类型为Object 方便转型
+	 */
+//	数据库存储图片的base64二进制
+//	private Object picture;
+//	数据库存储图片的相对地址
+	private String picture;
 	 
 }

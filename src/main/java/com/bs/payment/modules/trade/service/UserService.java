@@ -1,11 +1,15 @@
 package com.bs.payment.modules.trade.service;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.bs.payment.modules.trade.dto.UpdatePasswordDto;
 import com.bs.payment.modules.trade.dto.UserLoginDto;
 import com.bs.payment.modules.trade.dto.UserRegisterDto;
 import com.bs.payment.modules.trade.entity.UserEntity;
 import com.bs.payment.modules.trade.vo.UserRespVO;
+
+import xyz.nesting.common.message.ZcPageResult;
 
 public interface UserService extends IService<UserEntity> {
 	
@@ -36,4 +40,11 @@ public interface UserService extends IService<UserEntity> {
 	 * @return
 	 */
 	UserRespVO getUser(Long userId);
+	
+	/**
+	 * 获取用户信息
+	 * @param userDto
+	 * @return
+	 */
+	ZcPageResult<UserEntity> getUserList(Integer limit, Integer offset);
 }

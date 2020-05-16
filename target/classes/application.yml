@@ -60,7 +60,7 @@ management:
         include: health,info # 如果需要所有的打开，配置 "*"
         exclude: 
         
-        
+
 bs: 
   gift: 
     type: /init/gift-type-config.json

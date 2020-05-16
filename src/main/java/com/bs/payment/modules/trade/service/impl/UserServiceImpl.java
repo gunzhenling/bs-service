@@ -1,5 +1,8 @@
 package com.bs.payment.modules.trade.service.impl;
 
+import java.util.List;
+
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +23,7 @@ import com.bs.payment.util.MD5;
 import com.bs.payment.util.QueryBuilder;
 
 import lombok.extern.slf4j.Slf4j;
+import xyz.nesting.common.message.ZcPageResult;
 
 
 @Service
@@ -168,6 +172,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
 		
 		
 		return resp;
+	}
+
+	@Override
+	public ZcPageResult<UserEntity> getUserList(Integer limit, Integer offset) {
+		
+		ZcPageResult<UserEntity> page = new ZcPageResult<UserEntity>();
+		
+		List<UserEntity> userList =null;
+		Long count = userMapper.getCount();
+		if(null==count){
+			
+			userList = Lists.newArrayList();
+			page.setData(userList);
+			page.setTotal(0);
+			
+			return page;
+		}
+		
+		userList = userMapper.getUserList(limit, offset);
+		
+		page.setData(userList);
+		page.setTotal(count);
+		
+		return page;
 	}
 
 }
