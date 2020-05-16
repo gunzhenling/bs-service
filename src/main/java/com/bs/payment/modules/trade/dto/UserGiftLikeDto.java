@@ -2,7 +2,6 @@ package com.bs.payment.modules.trade.dto;
 
 
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.alibaba.fastjson.annotation.JSONField;
@@ -22,10 +21,10 @@ public class UserGiftLikeDto  {
 	/**
 	 * 礼品编码
 	 */
-	@NotEmpty(message="礼品编码不能为空")
+	@NotNull(message="礼品编码不能为空")
 	@JSONField(name="gift_code")
 	@JsonProperty("gift_code")
-	private String giftCode;
+	private Integer giftCode;
 	/**
 	 * 用户主键id
 	 */
@@ -33,5 +32,38 @@ public class UserGiftLikeDto  {
 	@JSONField(name="user_id")
 	@JsonProperty("user_id")
 	private Long userId;
+	
+	/**
+	 * 礼品名称
+	 */
+	@NotNull(message="礼品名称不能为空")
+	@JSONField(name="gift_name")
+	@JsonProperty("gift_name")
+	private String  giftName;
+	
+	/**
+	 * 礼品图片
+	 */
+	@NotNull(message="礼品图片不能为空")
+	@JSONField(name="picture")
+	@JsonProperty("picture")
+	private String  picture;
+	
+	/**
+	 * 已售数量
+	 */
+	@NotNull(message="已售数量不能为空")
+	@JSONField(name="sale_num")
+	@JsonProperty("sale_num")
+	private Integer saleNum;
+	
+	/**
+	 * 单个实际价格
+	 */
+	@NotNull(message="单个实际价格不能为空")
+	@JSONField(name="real_gift_price")
+	@JsonProperty("real_gift_price")
+	private Integer realGiftPrice;
+	
 
 }

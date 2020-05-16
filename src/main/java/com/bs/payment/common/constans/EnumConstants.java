@@ -73,6 +73,72 @@ public class EnumConstants {
 		 
 		
 	}
+	
+
+	/**
+	/**
+	 * @author zhenling
+	 *
+	 */
+	public enum MadeTypeEnum{
+//	  "made_type": 0,//礼品定制类型，0成品，1定制
+		
+		DONE(0,"未结算"),
+		MAN_MADE(1,"可结算") ;
+		
+		Integer code;
+		String message;
+		
+		private MadeTypeEnum(Integer code, String message) {
+			this.code = code;
+			
+			this.message = message;
+		}
+		
+		public Integer getCode() {
+			return code;
+		}
+		public String getMessage() {
+			return message;
+		}
+		
+		public static Integer getCode(Integer code) {
+			
+			MadeTypeEnum[] statusEnums=values();
+			
+			for(MadeTypeEnum statusEnum:statusEnums) {
+				
+				if(statusEnum.getCode()==code) {
+					
+					return statusEnum.getCode();
+				}
+				
+			}
+			
+			return null;
+			
+		}
+		
+		public static String getMessage(Integer code) {
+			
+			MadeTypeEnum[]  statusEnums=values();
+			
+			for(MadeTypeEnum statusEnum:statusEnums) {
+				
+				if(statusEnum.getCode()==code) {
+					
+					return statusEnum.getMessage();
+				}
+				
+			}
+			
+			return null;
+			
+		}
+		
+		
+	}
+	
 	/**
 	 * 发货状态
 	 * @author zhenling

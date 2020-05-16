@@ -11,6 +11,8 @@ import com.bs.payment.modules.trade.dao.UserGiftLikeMapper;
 import com.bs.payment.modules.trade.dto.UserGiftLikeDto;
 import com.bs.payment.modules.trade.entity.UserGiftLikeEntity;
 import com.bs.payment.modules.trade.service.UserGiftLikeService;
+import com.bs.payment.modules.trade.vo.UserGiftLikeReqVO;
+import com.bs.payment.util.QueryBuilder;
 import com.google.common.collect.Lists;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,11 +26,11 @@ public class UserGiftLikeServiceImpl extends ServiceImpl<UserGiftLikeMapper, Use
 	private UserGiftLikeMapper  userGiftLikeMapper; 
 	
 	@Override
-	public ZcPageResult<UserGiftLikeEntity> getUserGiftLikeList(Integer limit, Integer offset) {
+	public ZcPageResult<UserGiftLikeDto> getUserGiftLikeList(Integer limit, Integer offset) {
 
-		ZcPageResult<UserGiftLikeEntity> page = new ZcPageResult<UserGiftLikeEntity>();
+		ZcPageResult<UserGiftLikeDto> page = new ZcPageResult<UserGiftLikeDto>();
 		
-		List<UserGiftLikeEntity> userGiftLikeList  = null;
+		List<UserGiftLikeDto> userGiftLikeList  = null;
 		
 		Long count = userGiftLikeMapper.getCount();
 		if(null==count){
@@ -50,12 +52,19 @@ public class UserGiftLikeServiceImpl extends ServiceImpl<UserGiftLikeMapper, Use
 	}
 
 	@Override
-	public String addUserGiftLike(UserGiftLikeDto dto) {
+	public String addUserGiftLike(UserGiftLikeReqVO req) {
 		 
 		UserGiftLikeEntity entity = new UserGiftLikeEntity();
+		Integer giftCode = req.getGiftCode();
+		Long userId = req.getUserId();
 		
-		entity.setGiftCode(dto.getGiftCode());
-		entity.setUserId(dto.getUserId());
+		UserGiftLikeEntity selectOne = userGiftLikeMapper.selectOne(QueryBuilder.where("gift_code", giftCode,"user_id",userId));
+		if(selectOne!=null){
+			
+			return Consts.SUCCESS;
+		}
+		entity.setGiftCode(giftCode);
+		entity.setUserId(userId);
 		
 		userGiftLikeMapper.insert(entity);
 		
@@ -73,6 +82,18 @@ public class UserGiftLikeServiceImpl extends ServiceImpl<UserGiftLikeMapper, Use
 		log.info("giftLike-cancleUserGiftLike-info:   success");
 		
 		return Consts.SUCCESS;
+	}
+
+	@Override
+	public String validGiftLike(Integer giftCode) {
+
+		UserGiftLikeEntity selectOne = userGiftLikeMapper.selectOne(QueryBuilder.where("gift_code", giftCode));
+		if(null==selectOne){
+			
+			return Consts.NO;
+		}
+		
+		return Consts.YES;
 	}
  
 

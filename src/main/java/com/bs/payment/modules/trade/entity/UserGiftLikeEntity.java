@@ -22,7 +22,7 @@ public class UserGiftLikeEntity  extends AbstractBaseEntity{
 	/**
 	 * 礼品编码
 	 */
-	private String giftCode;
+	private Integer giftCode;
 	/**
 	 * 用户主键id
 	 */

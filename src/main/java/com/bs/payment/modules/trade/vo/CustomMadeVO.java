@@ -43,5 +43,14 @@ public class CustomMadeVO {
 	@JSONField(name="prod_date")
 	@JsonProperty("prod_date")
 	private String prodDate;
+	
+	/**
+	 *  礼品定制类型，0成品，1定制
+	 */
+	@NotEmpty(message="礼品定制类型不能为空")
+	@ApiModelProperty(value="礼品定制类型，0成品，1定制")
+	@JSONField(name="made_type")
+	@JsonProperty("made_type")
+	private Integer madeType;
 
 }

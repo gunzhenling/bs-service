@@ -18,9 +18,10 @@ import com.bs.payment.modules.trade.vo.BsGiftInfoRespVO;
 public interface BsGiftInfoMapper extends BaseMapper<BsGiftInfoEntity>{
 
 	 
-	Long  getCount(@Param("typeCode")Integer typeCode) ;
+	Long  getCount(@Param("typeCode")Integer typeCode,@Param("madeType") Integer madeType) ;
 	
-	List<BsGiftInfoRespVO>  getList(@Param("typeCode") Integer typeCode,@Param("limit") Integer limit, @Param("offset")Integer offset) ;
+	List<BsGiftInfoRespVO>  getList(@Param("typeCode") Integer typeCode,@Param("madeType") Integer madeType,
+			@Param("limit") Integer limit, @Param("offset")Integer offset) ;
  	 
 	int  deteleByGiftCode(@Param("giftCode")Integer giftCode) ;
 }

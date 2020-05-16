@@ -45,11 +45,12 @@ public class GiftController {
 	@GetMapping("/get/list")
 	@ApiOperation(value = "获取礼品列表")
 	public ZcResult<ZcPageResult<BsGiftInfoRespVO>> getList(@RequestParam(value="type_code",required=false) Integer typeCode,
+			@RequestParam(value="made_type",required=false) Integer madeType,
 			@RequestParam(value="limit",required=false,defaultValue="5") Integer limit,@RequestParam(value="offset",required=false,defaultValue="0") Integer offset) throws Exception {
 		
-		log.info("GiftController-getList-info: request  type_code={},limit={},offset={}",typeCode,limit,offset);
+		log.info("GiftController-getList-info: request  type_code={},madeType={},limit={},offset={}",typeCode,madeType,limit,offset);
 		
-		ZcPageResult<BsGiftInfoRespVO> list = giftInfoService.getList(typeCode, limit, offset);
+		ZcPageResult<BsGiftInfoRespVO> list = giftInfoService.getList(typeCode, madeType,limit, offset);
 		 
 		return ZcResult.ok(list);
 	}

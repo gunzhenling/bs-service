@@ -3,6 +3,7 @@ package com.bs.payment.modules.trade.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.bs.payment.modules.trade.dto.UserGiftLikeDto;
 import com.bs.payment.modules.trade.entity.UserGiftLikeEntity;
+import com.bs.payment.modules.trade.vo.UserGiftLikeReqVO;
 
 import xyz.nesting.common.message.ZcPageResult;
 
@@ -19,14 +20,14 @@ public interface UserGiftLikeService extends IService<UserGiftLikeEntity> {
 	 * @param offset
 	 * @return
 	 */
-	ZcPageResult<UserGiftLikeEntity> getUserGiftLikeList(Integer limit ,Integer offset);
+	ZcPageResult<UserGiftLikeDto> getUserGiftLikeList(Integer limit ,Integer offset);
 	
 	/**
 	 * 用户新增礼品收藏
 	 * @param dto
 	 * @return
 	 */
-	String addUserGiftLike(UserGiftLikeDto dto);
+	String addUserGiftLike(UserGiftLikeReqVO dto);
 	
 	/**
 	 * 用户取消收藏
@@ -34,6 +35,12 @@ public interface UserGiftLikeService extends IService<UserGiftLikeEntity> {
 	 * @return
 	 */
 	String cancleUserGiftLike(Long id );
+	/**
+	 * 判断礼品是否用户已收藏
+	 * @param id
+	 * @return
+	 */
+	String validGiftLike(Integer giftCode );
 	
 
 }

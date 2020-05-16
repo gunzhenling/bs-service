@@ -17,7 +17,7 @@ public interface GiftInfoService extends IService<BsGiftInfoEntity> {
 	 * @param offset
 	 * @return
 	 */
-	ZcPageResult<BsGiftInfoRespVO> getList(Integer typeCode,Integer limit,Integer offset);
+	ZcPageResult<BsGiftInfoRespVO> getList(Integer typeCode,Integer madeType,Integer limit,Integer offset);
 	
 	/**
 	 * 获取礼品具体信息

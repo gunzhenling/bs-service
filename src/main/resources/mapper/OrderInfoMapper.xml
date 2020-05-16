@@ -11,35 +11,60 @@
 				order_no = #{orderNo}
 			</if>
 			<if test="userId!=null">
-				user_id = #{userId}
+				and user_id = #{userId}
+			</if>
+			<if test="madeType!=null">
+				and made_type = #{madeType}
+			</if>
+			<if test="payStatus!=null">
+				and pay_status = #{payStatus}
+			</if>
+			<if test="shipStatus!=null">
+				and ship_status = #{shipStatus}
 			</if>
 		</where>
 		 
 	</select>
 	
-	<select id="getBgOrderList" resultType="BgOrderInfoRespVO" >
-		select  user_id,order_no,gift_code,gift_name,gift_amount,gift_price,
-		real_gift_price,freight_price,sell_income,buyer_pay_amount,pay_status,
-		ship_status,pay_time,ship_time,settle_status,settle_time,refund_type,
-		refund_income,merchant_no,pay_channel,expiration_time,user_address_json,
-		specification,custom_made,create_time
+	<select id="getBgOrderList" resultType="OrderInfoEntity" >
+		select  *
 		from bs_order_info 
 		<where>
 			<if test="orderNo!=null">
 				order_no = #{orderNo}
 			</if>
-			 
+			<if test="madeType!=null">
+				and made_type = #{madeType}
+			</if>
+			<if test="payStatus!=null">
+				and pay_status = #{payStatus}
+			</if>
+			<if test="shipStatus!=null">
+				and ship_status = #{shipStatus}
+			</if>
+			 <if test="userId!=null">
+				and user_id = #{userId}
+			</if>
 		</where>
 		limit #{offset},#{limit}
 		 
 	</select>
 	
 	<select id="getOrderList" resultType="OrderInfoRespVO" >
-		select  user_id,order_no,pay_status,create_time
+		select  user_id,order_no,pay_status,ship_status,create_time
 		from bs_order_info 
 		<where> 
 			<if test="userId!=null">
 				user_id = #{userId}
+			</if>
+			<if test="madeType!=null">
+				and made_type = #{madeType}
+			</if>
+			<if test="payStatus!=null">
+				and pay_status = #{payStatus}
+			</if>
+			<if test="shipStatus!=null">
+				and ship_status = #{shipStatus}
 			</if>
 		</where>
 		limit #{offset},#{limit}

@@ -2,6 +2,7 @@ package com.bs.payment.modules.trade.vo;
 
 import java.math.BigDecimal;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.alibaba.fastjson.annotation.JSONField;
@@ -67,5 +68,14 @@ public class OrderCommitReqVO {
 	@JSONField(name="user_address_id")
 	@JsonProperty("user_address_id")
 	private Long userAddressId;
+	
+
+	/**
+	 * 礼品定制logo图片,相对路径
+	 */
+	@ApiModelProperty(value="礼品定制logo图片,相对路径")
+	@JSONField(name="picture_logo")
+	@JsonProperty("picture_logo")
+	private String pictureLogo;
 
 }

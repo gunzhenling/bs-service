@@ -198,4 +198,20 @@ public class BgOrderInfoRespVO {
 	@JSONField(name="create_time")
 	@JsonProperty("create_time")
 	private Date createTime;
+	
+	/**
+	 *  礼品定制类型，0成品，1定制
+	 */
+	@ApiModelProperty(value="礼品定制类型，0成品，1定制")
+	@JSONField(name="made_type")
+	@JsonProperty("made_type")
+	private Integer madeType;
+	
+	/**
+	 *  礼品定制logo图片,相对路径
+	 */
+	@ApiModelProperty(value="礼品定制logo图片,相对路径")
+	@JSONField(name="picture_logo")
+	@JsonProperty("picture_logo")
+	private String pictureLogo;
 }

@@ -10,6 +10,10 @@ public class Consts {
 	 
 	public static final String FAIL = "FAIL";
 	
+	public static final String YES = "yes";
+	
+	public static final String NO = "no";
+	
 	public static final	 String SELL_BILL_VERSION		= "001";
 	
 	/**
