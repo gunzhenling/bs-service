@@ -33,6 +33,10 @@ public class UserShopCardEntity extends AbstractBaseEntity{
 	 * 礼品名称
 	 */
 	private String giftName;
+	/**
+	 * 购买商品数量
+	 */
+	private Integer giftAmount;
 	 
 	/**
 	 * 单个原始价格
@@ -65,5 +69,12 @@ public class UserShopCardEntity extends AbstractBaseEntity{
 	 * 定制,json
 	 */
 	private String customMade;
+	
 	 
+	/**
+	 *图片,相对地址
+	 */
+	private String picture;
+	
+	
 }

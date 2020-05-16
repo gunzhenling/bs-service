@@ -61,5 +61,12 @@ public class ShopCommitReqVO {
 	@JsonProperty("custom_made")
 	private CustomMadeVO customMade;
 	 
+	/**
+	 * 礼品图片 前端接收文件类型
+	 */
+	@ApiModelProperty(value="礼品图片Url")
+	@JSONField(name="picture_url")
+	@JsonProperty("picture_url")
+	private String pictureUrl;
 
 }

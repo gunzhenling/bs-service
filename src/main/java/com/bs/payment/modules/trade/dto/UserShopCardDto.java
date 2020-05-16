@@ -73,5 +73,12 @@ public class UserShopCardDto  {
 	@JSONField(name="create_time")
 	@JsonProperty("create_time")
 	private Date	createTime;
+	
+
+	@ApiModelProperty(name="礼品图片")
+	@JSONField(name="pictrue")
+	@JsonProperty("pictrue")
+	private String 	pictrue;
+	
 	 
 }

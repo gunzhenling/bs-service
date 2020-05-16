@@ -15,12 +15,25 @@ public interface UserShopCardService extends IService<UserShopCardEntity> {
 	 * @return
 	 */
 	String add(ShopCommitReqVO dto);
+	/**
+	 * 取消购物车
+	 * @param dto
+	 * @return
+	 */
+	String cancleShops(Long id);
+	/**
+	 * 修改购物车购买数量
+	 * @param id
+	 * @param giftAmount
+	 * @return
+	 */
+	String updateShopGiftAmount(Long id, Integer giftAmount);
 	
 	/**
 	 * 获取购物车列表
 	 * @param dto
 	 * @return
 	 */
-	ZcPageResult<UserShopCardDto> getList(Long userId,Integer limit,Integer offset);
+	ZcPageResult<UserShopCardEntity> getList(Long userId,Integer limit,Integer offset);
 
 }

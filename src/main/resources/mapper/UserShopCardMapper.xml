@@ -14,9 +14,8 @@
 		 
 	</select>
 	
-	<select id="getList" resultType="UserShopCardDto" >
-		select  user_id,gift_code,gift_name,gift_price,real_gift_price
-		,sell_income,buyer_pay_amount,expiration_time,specification, custom_made,create_time
+	<select id="getList" resultType="UserShopCardEntity" >
+		select  *
 		from bs_user_shop_card 
 		<where>
 			<if test="userId!=null">
@@ -26,6 +25,10 @@
 		limit #{offset},#{limit}
 		 
 	</select>
+	
+	<delete id="deleteShopCardById">
+		delete from  bs_user_shop_card  where id=#{id}
+	</delete>
 	
 	 
 </mapper>

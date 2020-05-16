@@ -17,6 +17,7 @@ import com.bs.payment.modules.trade.service.GiftInfoService;
 import com.bs.payment.modules.trade.service.UserShopCardService;
 import com.bs.payment.modules.trade.vo.ShopCommitReqVO;
 import com.bs.payment.util.DateKit;
+import com.bs.payment.util.FileUtil;
 import com.bs.payment.util.QueryBuilder;
 import com.google.common.collect.Lists;
 
@@ -57,6 +58,8 @@ public class UserShopCardServiceImpl extends ServiceImpl<UserShopCardMapper, Use
 		entity.setSellIncome(dto.getSellIncome());
 		entity.setSpecification(JSON.toJSONString(dto.getSpecification()));
 		entity.setUserId(dto.getUserId());
+		entity.setPicture(dto.getPictureUrl());
+		entity.setGiftAmount(dto.getGiftAmount());
 		
 		userShopCardMapper.insert(entity );
 		
@@ -66,10 +69,10 @@ public class UserShopCardServiceImpl extends ServiceImpl<UserShopCardMapper, Use
 	}
 
 	@Override
-	public ZcPageResult<UserShopCardDto> getList(Long userId, Integer limit, Integer offset) {
+	public ZcPageResult<UserShopCardEntity> getList(Long userId, Integer limit, Integer offset) {
 		 
-		ZcPageResult<UserShopCardDto> page = new ZcPageResult<UserShopCardDto>();
-		List<UserShopCardDto> list = null;
+		ZcPageResult<UserShopCardEntity> page = new ZcPageResult<UserShopCardEntity>();
+		List<UserShopCardEntity> list = null;
 		Long count = userShopCardMapper.getCount(userId);
 		
 		if(count==null) {
@@ -82,6 +85,13 @@ public class UserShopCardServiceImpl extends ServiceImpl<UserShopCardMapper, Use
 		}
 		
 		list = userShopCardMapper.getList(userId, limit, offset);
+		String rootPath = FileUtil.getRootPath();
+		list.forEach(entity->{
+			
+			String picture = entity.getPicture();
+			entity.setPicture(rootPath+picture);
+		});
+		
 		
 		page.setData(list);
 		page.setTotal(count);
@@ -89,6 +99,52 @@ public class UserShopCardServiceImpl extends ServiceImpl<UserShopCardMapper, Use
 		log.info("UserShopCard-getList-info:  success");
 		
 		return page;
+	}
+
+	@Override
+	public String cancleShops(Long id) {
+		 
+		userShopCardMapper.deleteShopCardById(id);
+		
+
+		log.info("UserShopCard-cancleShops-info:  success  id={}",id);
+		 
+		return Consts.SUCCESS;
+	}
+
+	@Override
+	public String updateShopGiftAmount(Long id, Integer giftAmountReq) {
+		 
+		UserShopCardEntity userShopCardEntity = userShopCardMapper.selectById(id);
+		if(null==userShopCardEntity){
+			String message="对应购物车不存在";
+			log.warn("UserShopCard-updateShopGiftAmount-warn:  BusinessException message={},id={}",message,id);
+			throw new BusinessException(message);
+		}
+		if(0==giftAmountReq){
+			
+			cancleShops(id);
+			
+		}else{
+			
+			Integer giftAmount = userShopCardEntity.getGiftAmount();
+			giftAmount=giftAmount-giftAmountReq;
+			if(giftAmount<=0){
+				cancleShops(id);
+			}else{
+				
+				userShopCardEntity.setGiftAmount(giftAmount);
+				userShopCardEntity.setUpdateTime(DateKit.now());
+				
+				userShopCardMapper.updateById(userShopCardEntity);
+			}
+			
+		}
+		 
+		log.info("UserShopCard-updateShopGiftAmount-info:  success  id={},giftAmountReq={}",id,giftAmountReq);
+		 
+		
+		return Consts.SUCCESS;
 	}
 
 }

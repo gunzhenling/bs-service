@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.bs.payment.common.ZcResult;
-import com.bs.payment.modules.trade.dto.UserShopCardDto;
+import com.bs.payment.modules.trade.entity.UserShopCardEntity;
 import com.bs.payment.modules.trade.service.OrderService;
 import com.bs.payment.modules.trade.service.UserShopCardService;
 import com.bs.payment.modules.trade.vo.BgOrderInfoRespVO;
@@ -105,12 +106,12 @@ public class OrderController {
 	
 	@GetMapping("/get/shops")
 	@ApiOperation(value = "获取购物车列表")
-	public ZcResult<ZcPageResult<UserShopCardDto>> getShops(@RequestParam(value="user_id",required=true) Long userId,
+	public ZcResult<ZcPageResult<UserShopCardEntity>> getShops(@RequestParam(value="user_id",required=true) Long userId,
 			@RequestParam(value="limit",defaultValue="5") Integer limit,@RequestParam(value="offset",required=false,defaultValue="0") Integer offset) throws Exception {
 		
 		log.info("Order-getList-info: request  userId={},limit={},offset={}",userId,limit,offset);
 		 
-		ZcPageResult<UserShopCardDto> result = userShopCardService.getList(userId, limit, offset);
+		ZcPageResult<UserShopCardEntity> result = userShopCardService.getList(userId, limit, offset);
 		
 		return ZcResult.ok(result);
 	}
@@ -123,6 +124,30 @@ public class OrderController {
 		
 		String result = userShopCardService.add(req);
 		 
+		return ZcResult.ok(result);
+	}
+	
+	
+	@PostMapping("/cancle/shops/{id}")
+	@ApiOperation(value = "删除购物车")
+	public ZcResult<String> cancleShops(@PathVariable(value="id",required=true) Long id) throws Exception {
+		
+		log.info("Order-cancleShops-info: request  id={}",id);
+		
+		String result = userShopCardService.cancleShops(id);
+		
+		return ZcResult.ok(result);
+	}
+	
+	@PostMapping("/update/shops/{id}/{gift_amount}")
+	@ApiOperation(value = "修改购物车购买数量")
+	public ZcResult<String> updateShopGiftAmount(@PathVariable(value="id",required=true) Long id,
+			@PathVariable(value="gift_amount",required=true) Integer  giftAmount) throws Exception {
+		
+		log.info("Order-updateShopGiftAmount-info: request  id={}",id);
+		
+		String result = userShopCardService.updateShopGiftAmount(id, giftAmount);
+		
 		return ZcResult.ok(result);
 	}
 

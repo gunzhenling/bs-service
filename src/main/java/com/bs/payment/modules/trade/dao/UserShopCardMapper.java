@@ -19,6 +19,7 @@ public interface UserShopCardMapper extends BaseMapper<UserShopCardEntity>{
 	
 	Long getCount(@Param(value="userId")Long userId);
 	
-	List<UserShopCardDto> getList(@Param(value="userId") Long userId,@Param(value="limit") Integer limit,@Param(value="offset") Integer offset);
+	List<UserShopCardEntity> getList(@Param(value="userId") Long userId,@Param(value="limit") Integer limit,@Param(value="offset") Integer offset);
 
+	int deleteShopCardById(@Param(value="id")Long id);
 }
