@@ -75,6 +75,14 @@ public class BsGiftInfoRespVO  {
 	 * 规格,json
 	 */
 	private String specification;
+	
+	/**
+	 * 定制,json
+	 */
+	@ApiModelProperty(value="定制,jso")
+	@JSONField(name="custom_made")
+	@JsonProperty("custom_made")
+	private String customMade;
 	 
 	/**
 	 * 礼品图片 MEDIUMBLOB

@@ -65,5 +65,9 @@ bs:
   gift: 
     type: /init/gift-type-config.json
     
+operate: 
+  gudie: /init/operate-guide-config.json
+
+    
 file: 
   image-url: /frontend/public/images/

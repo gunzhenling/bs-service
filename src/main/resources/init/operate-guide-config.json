@@ -1,0 +1,106 @@
+[
+    {
+    	"id":1,
+    	"typeCode":1001,
+        "typeName":"美妆" ,
+        "sort":0, 
+        "status":0,
+        "updateTime":"2020-05-13 16:54:25",
+         "createTime":"2020-05-13 16:54:25"
+         
+    },
+    {
+    	"id":2,
+    	"typeCode":1002,
+        "typeName":"美食",
+        "sort":1, 
+        "status":0,
+         "updateTime":"2020-05-13 16:54:25",
+         "createTime":"2020-05-13 16:54:25",
+         
+    } ,
+     {
+    	"id":3,
+    	"typeCode":1003,
+        "typeName":"生子",
+        "sort":3, 
+        "status":0,
+         "updateTime":"2020-05-13 16:54:25",
+         "createTime":"2020-05-13 16:54:25",
+         
+    } , 
+     {
+    	"id":4,
+    	"typeCode":1004,
+        "typeName":"乔迁",
+        "sort":4, 
+        "status":0,
+         "updateTime":"2020-05-13 16:54:25",
+         "createTime":"2020-05-13 16:54:25",
+         
+    } , 
+     {
+    	"id":5,
+    	"typeCode":1005,
+        "typeName":"商务",
+        "sort":5, 
+        "status":0,
+         "updateTime":"2020-05-13 16:54:25",
+         "createTime":"2020-05-13 16:54:25",
+         
+    } ,  {
+    	"id":6,
+    	"typeCode":1006,
+        "typeName":"结婚",
+        "sort":6, 
+        "status":0,
+         "updateTime":"2020-05-13 16:54:25",
+         "createTime":"2020-05-13 16:54:25",
+         
+    } ,  {
+    	"id":7,
+    	"typeCode":1007,
+        "typeName":"生日",
+        "sort":7, 
+        "status":0,
+         "updateTime":"2020-05-13 16:54:25",
+         "createTime":"2020-05-13 16:54:25",
+         
+    } ,  {
+    	"id":8,
+    	"typeCode":1008,
+        "typeName":"礼盒",
+        "sort":8, 
+        "status":0,
+         "updateTime":"2020-05-13 16:54:25",
+         "createTime":"2020-05-13 16:54:25",
+         
+    } ,  {
+    	"id":9,
+    	"typeCode":1009,
+        "typeName":"感谢",
+        "sort":9, 
+        "status":0,
+         "updateTime":"2020-05-13 16:54:25",
+         "createTime":"2020-05-13 16:54:25",
+         
+    } ,  {
+    	"id":10,
+    	"typeCode":1010,
+        "typeName":"小心意",
+        "sort":10, 
+        "status":0,
+         "updateTime":"2020-05-13 16:54:25",
+         "createTime":"2020-05-13 16:54:25",
+         
+    } ,  {
+    	"id":11,
+    	"typeCode":1011,
+        "typeName":"爱心助农",
+        "sort":11, 
+        "status":0,
+         "updateTime":"2020-05-13 16:54:25",
+         "createTime":"2020-05-13 16:54:25",
+         
+    } , 
+]
