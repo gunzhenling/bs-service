@@ -139,6 +139,11 @@ public class OrderInfoRespVO {
 	 *  定制logo图片
 	 */
 	private String pictureLogo;
+	
+	/**
+	 * 物流信息json
+	 */
+	private String carrierTracksJson;
 	 
 
 }

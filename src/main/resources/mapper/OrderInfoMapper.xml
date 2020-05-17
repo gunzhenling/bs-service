@@ -51,26 +51,5 @@
 		 
 	</select>
 	
-	<select id="getOrderList" resultType="OrderInfoRespVO" >
-		select  user_id,order_no,pay_status,ship_status,create_time
-		from bs_order_info 
-		<where> 
-			<if test="userId!=null">
-				user_id = #{userId}
-			</if>
-			<if test="madeType!=null">
-				and made_type = #{madeType}
-			</if>
-			<if test="payStatus!=null">
-				and pay_status = #{payStatus}
-			</if>
-			<if test="shipStatus!=null">
-				and ship_status = #{shipStatus}
-			</if>
-		</where>
-		limit #{offset},#{limit}
-		 
-	</select>
-	
 	 
 </mapper>

@@ -50,6 +50,12 @@ public class OrderUtil {
 			orderNo = ZcDateFormatUtil.formatDate("yyyyMMddHHmmss", ZcDateUtil.today())
 			+ RandomStringUtils.randomNumeric(18);
 		}
+		if(Consts.OrderType.CARRIER.equals(type)) {
+			
+//			14+18
+			orderNo = ZcDateFormatUtil.formatDate("yyyyMMddHHmmss", ZcDateUtil.today())
+					+ RandomStringUtils.randomNumeric(18);
+		}
 		if("billF".equals(type)) {
 			
 			String corporateBillNo = "F" + Consts.SELL_BILL_VERSION + ZcDateFormatUtil.formatDate("yyyyMMddHHmmss", ZcDateUtil.today())

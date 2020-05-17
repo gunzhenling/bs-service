@@ -59,6 +59,7 @@ public class Consts {
 		public static final String PAY = "pay";
 		public static final String REFUND = "refund"; 
 		public static final String BANK_AVAIL = "bank_avail"; //账户余额流水号
+		public static final String CARRIER = "carrier"; //物流单号
 	}
 	
 	/**

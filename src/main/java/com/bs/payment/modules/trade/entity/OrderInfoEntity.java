@@ -133,5 +133,11 @@ public class OrderInfoEntity extends AbstractBaseEntity  implements Serializable
 	 *  定制logo图片
 	 */
 	private String pictureLogo;
+	
+	/**
+	 *  物流json
+	 */
+	private String carrierTracksJson;
+	
 
 }

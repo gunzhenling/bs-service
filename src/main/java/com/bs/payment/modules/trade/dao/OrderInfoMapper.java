@@ -23,15 +23,10 @@ public interface OrderInfoMapper extends BaseMapper<OrderInfoEntity>{
 			@Param(value="madeType") Integer madeType
 			,@Param(value="payStatus") Integer payStatus,@Param(value="shipStatus") Integer shipStatus);
 	
-	List<OrderInfoEntity> getBgOrderList(@Param(value="orderNo")String orderNo,
+	List<OrderInfoRespVO> getBgOrderList(@Param(value="orderNo")String orderNo,
 			@Param(value="madeType")Integer madeType
 			,@Param(value="payStatus") Integer payStatus,@Param(value="shipStatus") Integer shipStatus
 			,@Param(value="userId")Long userId
 			,@Param(value="limit") Integer limit,@Param(value="offset") Integer offset);
-	
-	List<OrderInfoRespVO> getOrderList(@Param(value="userId")Long userId,
-			@Param(value="madeType")Integer madeType
-			,@Param(value="payStatus") Integer payStatus,@Param(value="shipStatus") Integer shipStatus
-			,@Param(value="limit") Integer limit,@Param(value="offset") Integer offset);
-
+	 
 }

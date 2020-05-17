@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.bs.payment.common.ZcResult;
-import com.bs.payment.modules.trade.entity.OrderInfoEntity;
 import com.bs.payment.modules.trade.entity.UserShopCardEntity;
 import com.bs.payment.modules.trade.service.OrderService;
 import com.bs.payment.modules.trade.service.UserShopCardService;
 import com.bs.payment.modules.trade.vo.OrderCommitReqVO;
 import com.bs.payment.modules.trade.vo.OrderCommitRespVO;
+import com.bs.payment.modules.trade.vo.OrderInfoRespVO;
 import com.bs.payment.modules.trade.vo.OrderPayReqVO;
 import com.bs.payment.modules.trade.vo.ShopCommitReqVO;
 import com.bs.payment.modules.trade.vo.UpdateShipStatusVO;
@@ -81,34 +81,21 @@ public class OrderController {
 	 
 	@GetMapping("/get/list")
 	@ApiOperation(value = "获取订单列表")
-	public ZcResult<ZcPageResult<OrderInfoEntity>> bgGetList(@RequestParam(value="order_no",required=false) String orderNo,
+	public ZcResult<ZcPageResult<OrderInfoRespVO>> bgGetList(@RequestParam(value="order_no",required=false) String orderNo,
 			@RequestParam(value="user_id",required=false) Long userId,
 			@RequestParam(value="made_type",required=false) Integer madeType,
 			@RequestParam(value="pay_status",required=false) Integer payStatus,
 			@RequestParam(value="ship_status",required=false) Integer shipStatus,
 			@RequestParam(value="limit",required=false,defaultValue="5") Integer limit,@RequestParam(value="offset",required=false,defaultValue="0") Integer offset) throws Exception {
 		
-		log.info("Order-bgGetList-info: request  orderNo={},madeType={},limit={},offset={}",orderNo,madeType,limit,offset);
+		log.info("Order-bgGetList-info: request  orderNo={},madeType={},user_id={},pay_status={},ship_status={},limit={},offset={}"
+				,orderNo,madeType,userId,payStatus,shipStatus,limit,offset);
 		
-		ZcPageResult<OrderInfoEntity> bgGetOrderList = orderService.bgGetOrderList(orderNo,madeType,payStatus,shipStatus,userId, limit, offset);
+		ZcPageResult<OrderInfoRespVO> bgGetOrderList = orderService.bgGetOrderList(orderNo,madeType,payStatus,shipStatus,userId, limit, offset);
 		
 		return ZcResult.ok(bgGetOrderList);
 	}
-	/*
-	@GetMapping("/get/list")
-	@ApiOperation(value = "前端获取订单列表")
-	public ZcResult<ZcPageResult<OrderInfoRespVO>> getList(@RequestParam(value="user_id",required=true) Long userId,
-			@RequestParam(value="made_type",required=false) Integer madeType,
-			@RequestParam(value="pay_status",required=false) Integer payStatus,
-			@RequestParam(value="ship_status",required=false) Integer shipStatus,
-			@RequestParam(value="limit",defaultValue="5") Integer limit,@RequestParam(value="offset",required=false,defaultValue="0") Integer offset) throws Exception {
-		
-		log.info("Order-getList-info: request  userId={},madeType={},limit={},offset={}",userId,madeType,limit,offset);
-		
-		ZcPageResult<OrderInfoRespVO> getOrderList = orderService.getOrderList(userId, madeType,payStatus,shipStatus,limit, offset);
-		
-		return ZcResult.ok(getOrderList);
-	}*/
+	 
 	
 	@GetMapping("/get/shops")
 	@ApiOperation(value = "获取购物车列表")

@@ -23,6 +23,8 @@ import com.bs.payment.modules.trade.service.GiftInfoService;
 import com.bs.payment.modules.trade.service.OrderService;
 import com.bs.payment.modules.trade.service.PayService;
 import com.bs.payment.modules.trade.service.UserAddressService;
+import com.bs.payment.modules.trade.vo.CarrierTracksVO;
+import com.bs.payment.modules.trade.vo.OrderCarrierVO;
 import com.bs.payment.modules.trade.vo.OrderCommitReqVO;
 import com.bs.payment.modules.trade.vo.OrderCommitRespVO;
 import com.bs.payment.modules.trade.vo.OrderInfoRespVO;
@@ -30,7 +32,6 @@ import com.bs.payment.modules.trade.vo.OrderPayReqVO;
 import com.bs.payment.modules.trade.vo.UpdateShipStatusVO;
 import com.bs.payment.util.BeanKit;
 import com.bs.payment.util.DateKit;
-import com.bs.payment.util.FileUtil;
 import com.bs.payment.util.OrderUtil;
 import com.bs.payment.util.QueryBuilder;
 import com.google.common.collect.Lists;
@@ -53,12 +54,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderInfoMapper , OrderInfoEnt
 	private PayService payService;
 	
 	@Override
-	public ZcPageResult<OrderInfoEntity> bgGetOrderList(String orderNo, Integer madeType
+	public ZcPageResult<OrderInfoRespVO> bgGetOrderList(String orderNo, Integer madeType
 			,Integer payStatus,Integer shipStatus,Long userId
 			, Integer limit, Integer offset) {
 		
-		ZcPageResult<OrderInfoEntity> page = new ZcPageResult<OrderInfoEntity>();
-		List<OrderInfoEntity> bgOrderList = null;
+		ZcPageResult<OrderInfoRespVO> page = new ZcPageResult<OrderInfoRespVO>();
+		List<OrderInfoRespVO> bgOrderList = null;
 		
 		Long count = orderInfoMapper.getCount(orderNo, userId,madeType,payStatus,shipStatus);
 		
@@ -86,35 +87,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderInfoMapper , OrderInfoEnt
 		return page;
 	}
 
-	@Override
-	public ZcPageResult<OrderInfoRespVO> getOrderList(Long userId,Integer madeType
-			,Integer payStatus,Integer shipStatus
-			,Integer limit, Integer offset) {
-		 
-		ZcPageResult<OrderInfoRespVO> page = new ZcPageResult<OrderInfoRespVO>();
-		List<OrderInfoRespVO> orderList = null;
-		
-		String orderNo=null;
-		Long count = orderInfoMapper.getCount(orderNo, userId,madeType,payStatus,shipStatus);
-		
-		if(count==null) {
-			
-			orderList = Lists.newArrayList();
-			page.setData(orderList);
-			page.setTotal(0);
-			
-			return page;
-		}
-		
-		orderList = orderInfoMapper.getOrderList(userId, madeType,payStatus,shipStatus,limit, offset);
-		
-		page.setData(orderList);
-		page.setTotal(count);
-		
-		
-		return page;
-	}
-
+	 
 	@Override
 	public String updateShipStatus(UpdateShipStatusVO req) {
 		
@@ -178,6 +151,26 @@ public class OrderServiceImpl extends ServiceImpl<OrderInfoMapper , OrderInfoEnt
 		entity.setShipStatus(EnumConstants.ShipStatusEnum.WAIT_SHIP.getCode());
 		entity.setUpdateTime(date);
 		entity.setPayTime(date);
+		
+		OrderCarrierVO  orderCarrier = new OrderCarrierVO();
+		List<CarrierTracksVO> carrierTracks = Lists.newArrayList() ;
+		CarrierTracksVO tracks = new CarrierTracksVO();
+		tracks.setAcceptStation("物流公司已揽件");
+		tracks.setAcceptTime(date);
+		carrierTracks.add(tracks);
+		
+		orderCarrier.setCarrierNo(OrderUtil.getOrder(Consts.OrderType.CARRIER));
+		
+		orderCarrier.setCarrierTracks(carrierTracks);
+		orderCarrier.setCarrierType(0);
+		orderCarrier.setCompanyName("韵达快递");
+		orderCarrier.setCompanyNo("YD");
+		orderCarrier.setCreateTime(date);
+		orderCarrier.setOrderNo(orderNo);
+		orderCarrier.setUpdateTime(date);
+		orderCarrier.setCreateTime(date);
+		
+		entity.setCarrierTracksJson(JSON.toJSONString(orderCarrier));
 		
 		orderInfoMapper.updateById(entity);
 

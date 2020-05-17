@@ -26,20 +26,10 @@ public interface OrderService extends IService<OrderInfoEntity> {
 	 * @param offset
 	 * @return
 	 */
-	ZcPageResult<OrderInfoEntity> bgGetOrderList(String orderNo,Integer madeType
+	ZcPageResult<OrderInfoRespVO> bgGetOrderList(String orderNo,Integer madeType
 			,Integer payStatus,Integer shipStatus,Long userId
 			,Integer limit ,Integer offset);
-	/**
-	 * 前端获取订单列表
-	 * @param orderNo
-	 * @param limit
-	 * @param offset
-	 * @return
-	 */
-	ZcPageResult<OrderInfoRespVO> getOrderList(Long userId,Integer madeType
-			,Integer payStatus,Integer shipStatus
-			,Integer limit ,Integer offset);
-	
+	 
 	/**
 	 * 更新订单发货状态
 	 * @param orderNo
