@@ -288,4 +288,24 @@ public class OrderServiceImpl extends ServiceImpl<OrderInfoMapper , OrderInfoEnt
 		return resp;
 	}
 
+
+	@Override
+	public String cancelPay(String orderNo) {
+		 
+		OrderInfoEntity entity = orderInfoMapper.selectOne(QueryBuilder.where("order_no", orderNo));
+		if(entity==null){
+			
+			String message="订单不存在，无法取消";
+			log.warn("order-cancelPay-warn: orderNo={} ,message={}",orderNo,message);
+			throw new BusinessException(message);
+		}
+		
+		entity.setPayStatus(EnumConstants.PayStatusEnum.ORDER_PAY_FAILURE.getCode());
+		entity.setUpdateTime(DateKit.now());
+		
+		orderInfoMapper.updateById(entity);
+		
+		return Consts.SUCCESS;
+	}
+
 }

@@ -78,6 +78,17 @@ public class OrderController {
 		 
 		return ZcResult.ok(updateShipStatus);
 	}
+	
+	@PostMapping("/cancle/{order_no}")
+	@ApiOperation(value = "取消订单")
+	public ZcResult<String> cancelPay( @PathVariable(value="order_no",required=true) String orderNo) throws Exception {
+		
+		log.info("Order-canclePay-info: request  orderNo={}",orderNo);
+		
+		String result = orderService.cancelPay(orderNo);
+		
+		return ZcResult.ok(result);
+	}
 	 
 	@GetMapping("/get/list")
 	@ApiOperation(value = "获取订单列表")

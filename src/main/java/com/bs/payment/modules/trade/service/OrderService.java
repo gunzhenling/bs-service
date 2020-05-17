@@ -37,6 +37,12 @@ public interface OrderService extends IService<OrderInfoEntity> {
 	 */
 	String updateShipStatus(UpdateShipStatusVO req);
 	/**
+	 * 取消订单
+	 * @param orderNo
+	 * @return
+	 */
+	String cancelPay(String orderNo);
+	/**
 	 * 提交订单
 	 * @param orderNo
 	 * @return
