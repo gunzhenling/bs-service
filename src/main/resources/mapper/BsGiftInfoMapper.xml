@@ -17,6 +17,19 @@
 		 
 	</select>
 	
+	<select id="getSearchCount" resultType="Long" >
+		select  count(1) from bs_gift_info 
+		<where>
+		  <if test="madeType!=null">
+				 made_type = #{madeType}
+			</if>
+			<if test="searchQuery!=null">
+				and   gift_name like  CONCAT('%',#{searchQuery}, '%')
+			</if>
+		</where>
+		 
+	</select>
+	
 	<select id="getList" resultType="BsGiftInfoRespVO" >
 		select  gift_code,gift_name,type_code,gift_price,real_gift_price,sale_num
 		,limit_num, specification,custom_made,picture,made_type
@@ -27,6 +40,22 @@
 			</if>
 			<if test="madeType!=null">
 				and made_type = #{madeType}
+			</if>
+		</where>
+		limit #{offset},#{limit}
+		 
+	</select>
+	
+	<select id="getSearchList" resultType="BsGiftInfoRespVO" >
+		select  gift_code,gift_name,type_code,gift_price,real_gift_price,sale_num
+		,limit_num, specification,custom_made,picture,made_type
+		from bs_gift_info 
+		<where>
+			<if test="madeType!=null">
+				 made_type = #{madeType}
+			</if>
+			<if test="searchQuery!=null">
+				  and gift_name like   CONCAT('%',#{searchQuery}, '%')
 			</if>
 		</where>
 		limit #{offset},#{limit}

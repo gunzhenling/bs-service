@@ -18,6 +18,14 @@ public interface GiftInfoService extends IService<BsGiftInfoEntity> {
 	 * @return
 	 */
 	ZcPageResult<BsGiftInfoRespVO> getList(Integer typeCode,Integer madeType,Integer limit,Integer offset);
+	/**
+	 * 根据搜索词 获取礼品信息列表
+	 * @param typeCode
+	 * @param limit
+	 * @param offset
+	 * @return
+	 */
+	ZcPageResult<BsGiftInfoRespVO> search(String searchQuery,Integer madeType,Integer limit,Integer offset);
 	
 	/**
 	 * 获取礼品具体信息

@@ -125,7 +125,7 @@ public class FileUtil {
      * bs-service
      * @return
      */
-    public static String getRootPath() {
+    private  static String getRootPath() {
     	
     	String property = System.getProperty("user.dir");
 //    	/Users/zhenling/mygit/bs-service

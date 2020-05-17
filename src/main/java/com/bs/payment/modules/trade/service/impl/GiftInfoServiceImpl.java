@@ -56,13 +56,13 @@ public class GiftInfoServiceImpl extends ServiceImpl<BsGiftInfoMapper, BsGiftInf
 			list = Lists.newArrayList();
 		} else {
 
-			String rootPath = FileUtil.getRootPath();
+			/*String rootPath = FileUtil.getRootPath();
 			list.forEach(dto -> {
 
 				String picture = dto.getPicture();
 				dto.setPicture(rootPath + picture);
 
-			});
+			});*/
 
 		}
 
@@ -261,11 +261,47 @@ public class GiftInfoServiceImpl extends ServiceImpl<BsGiftInfoMapper, BsGiftInf
 
 		// 数据库中存储图片的相对地址
 		String picture = (String) entity.getPicture();
-		String rootPath = FileUtil.getRootPath();
-		picture = rootPath + picture;
+	/*	String rootPath = FileUtil.getRootPath();
+		picture = rootPath + picture;*/
 		entity.setPicture(picture);
 
 		return entity;
+	}
+
+	@Override
+	public ZcPageResult<BsGiftInfoRespVO> search(String searchQuery, Integer madeType,Integer limit, Integer offset) {
+
+		ZcPageResult<BsGiftInfoRespVO> page = new ZcPageResult<BsGiftInfoRespVO>();
+
+		List<BsGiftInfoRespVO> list = null;
+		Long total = bsGiftInfoMapper.getSearchCount(searchQuery,madeType);
+		page.setTotal(total);
+		if (total == 0) {
+
+			list = Lists.newArrayList();
+			page.setData(list);
+
+			return page;
+		}
+
+		list = bsGiftInfoMapper.getSearchList(searchQuery,madeType, limit, offset);
+		if (CollectionUtils.isEmpty(list)) {
+			list = Lists.newArrayList();
+		} else {
+
+			/*String rootPath = FileUtil.getRootPath();
+			list.forEach(dto -> {
+
+				String picture = dto.getPicture();
+				dto.setPicture(rootPath + picture);
+
+			});*/
+
+		}
+
+		page.setData(list);
+
+		return page;
 	}
 
 }

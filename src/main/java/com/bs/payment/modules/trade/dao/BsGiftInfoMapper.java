@@ -20,7 +20,13 @@ public interface BsGiftInfoMapper extends BaseMapper<BsGiftInfoEntity>{
 	 
 	Long  getCount(@Param("typeCode")Integer typeCode,@Param("madeType") Integer madeType) ;
 	
+	Long  getSearchCount( @Param("searchQuery") String searchQuery,@Param("madeType") Integer madeType) ;
+	
 	List<BsGiftInfoRespVO>  getList(@Param("typeCode") Integer typeCode,@Param("madeType") Integer madeType,
+			@Param("limit") Integer limit, @Param("offset")Integer offset) ;
+	
+	List<BsGiftInfoRespVO>  getSearchList(@Param("searchQuery") String searchQuery,
+			@Param("madeType") Integer madeType,
 			@Param("limit") Integer limit, @Param("offset")Integer offset) ;
  	 
 	int  deteleByGiftCode(@Param("giftCode")Integer giftCode) ;

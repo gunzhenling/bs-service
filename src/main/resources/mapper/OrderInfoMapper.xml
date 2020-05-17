@@ -26,24 +26,25 @@
 		 
 	</select>
 	
-	<select id="getBgOrderList" resultType="OrderInfoEntity" >
-		select  *
-		from bs_order_info 
+	<select id="getBgOrderList" resultType="OrderInfoRespVO" >
+		SELECT  ord.*,gift.picture
+		FROM bs_order_info AS ord
+		INNER JOIN bs_gift_info AS gift ON ord.gift_code = ord.gift_code
 		<where>
 			<if test="orderNo!=null">
-				order_no = #{orderNo}
+				ord.order_no = #{orderNo}
 			</if>
 			<if test="madeType!=null">
-				and made_type = #{madeType}
+				and ord.made_type = #{madeType}
 			</if>
 			<if test="payStatus!=null">
-				and pay_status = #{payStatus}
+				and ord.pay_status = #{payStatus}
 			</if>
 			<if test="shipStatus!=null">
-				and ship_status = #{shipStatus}
+				and ord.ship_status = #{shipStatus}
 			</if>
 			 <if test="userId!=null">
-				and user_id = #{userId}
+				and ord.user_id = #{userId}
 			</if>
 		</where>
 		limit #{offset},#{limit}

@@ -72,13 +72,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderInfoMapper , OrderInfoEnt
 		}
 		
 		bgOrderList = orderInfoMapper.getBgOrderList(orderNo, madeType,payStatus,shipStatus,userId,limit, offset);
-		String rootPath = FileUtil.getRootPath();
-		
+		/*String rootPath = FileUtil.getRootPath();
 		bgOrderList.forEach(order->{
 			
 			String pictureLogo = order.getPictureLogo();
 			order.setPictureLogo(rootPath+pictureLogo);
-		});
+		});*/
 		
 		page.setData(bgOrderList);
 		page.setTotal(count);

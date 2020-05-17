@@ -10,14 +10,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bs.payment.common.constans.Consts;
 import com.bs.payment.common.exception.BusinessException;
 import com.bs.payment.modules.trade.dao.UserShopCardMapper;
-import com.bs.payment.modules.trade.dto.UserShopCardDto;
 import com.bs.payment.modules.trade.entity.BsGiftInfoEntity;
 import com.bs.payment.modules.trade.entity.UserShopCardEntity;
 import com.bs.payment.modules.trade.service.GiftInfoService;
 import com.bs.payment.modules.trade.service.UserShopCardService;
 import com.bs.payment.modules.trade.vo.ShopCommitReqVO;
 import com.bs.payment.util.DateKit;
-import com.bs.payment.util.FileUtil;
 import com.bs.payment.util.QueryBuilder;
 import com.google.common.collect.Lists;
 
@@ -85,12 +83,12 @@ public class UserShopCardServiceImpl extends ServiceImpl<UserShopCardMapper, Use
 		}
 		
 		list = userShopCardMapper.getList(userId, limit, offset);
-		String rootPath = FileUtil.getRootPath();
+		/*String rootPath = FileUtil.getRootPath();
 		list.forEach(entity->{
 			
 			String picture = entity.getPicture();
 			entity.setPicture(rootPath+picture);
-		});
+		});*/
 		
 		
 		page.setData(list);

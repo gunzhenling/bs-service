@@ -42,6 +42,22 @@ public class GiftController {
 	@Autowired
 	private GiftTypeyService giftTypeyService;
 	
+	@GetMapping("/search")
+	@ApiOperation(value = "搜索关键词")
+	public ZcResult<ZcPageResult<BsGiftInfoRespVO>> search(
+			@RequestParam(value="search_query",required=true) String  searchQuery,
+			@RequestParam(value="made_type",required=false) Integer madeType,
+			@RequestParam(value="limit",required=false,defaultValue="10") Integer limit,
+			@RequestParam(value="offset",required=false,defaultValue="0") Integer offset) throws Exception {
+		
+		log.info("GiftController-getList-info: request  searchQuery={},madeType={},limit={},offset={}"
+				,searchQuery,madeType,limit,offset);
+		
+		ZcPageResult<BsGiftInfoRespVO> list = giftInfoService.search(searchQuery,madeType,limit, offset);
+		 
+		return ZcResult.ok(list);
+	}
+	
 	@GetMapping("/get/list")
 	@ApiOperation(value = "获取礼品列表")
 	public ZcResult<ZcPageResult<BsGiftInfoRespVO>> getList(@RequestParam(value="type_code",required=false) Integer typeCode,
