@@ -51,18 +51,23 @@ Page({
    */
   categoryClick: function(event) {
     console.log(event);
-    this.setData({ select: event.target.id, offset: 0 });
+    this.setData({ select: event.target.id, offset: 0, searchText: '' });
     this.getData();
     // 更新接口
   },
   getData: async function () {
     wx.showLoading();
-    let {offset,limit, select, categories} = this.data;
-    let res = await global.http.get('/api/bs/gift/get/list', {offset,limit, type_code: categories[select].type_code});
+    let {offset,limit, select, searchText, categories} = this.data;
+    let con = {offset,limit};
+    if (!searchText) {
+      con.type_code = categories[select].type_code;
+    } else {
+      con.search_query = searchText;
+    }
+    let res = await global.http.get(`/api/bs/gift/${searchText?"search":"get/list"}`, con);
     let goodsList = res.data;
     goodsList.forEach((item, i) => {
-      let pic = item.picture.split("\\");
-      item.pic = "http://localhost:5000/" + pic[pic.length-1].replace("bs-service/frontend/public", "");
+      item.pic = global.util.img(item.picture);
       item.specification = JSON.parse(item.specification);
       item.custom_made = JSON.parse(item.custom_made);
       // wx.getLocation({success: e => {
@@ -101,6 +106,7 @@ Page({
    let res = await global.http.post("/api/bs/order/add/shops", {
      gift_code: gift.gift_code,
      gift_amount: gift.buy_num,
+     picture_url: gift.picture,
      sell_income: Number((gift.gift_price*gift.buy_num).toFixed(2)),
      buyer_pay_amount: Number((gift.real_gift_price*gift.buy_num).toFixed(2)),
      specification: {standards:gift.standards},
@@ -111,67 +117,9 @@ Page({
    wx.showToast({ title: '加入成功！', })
    this.toggle();
  },
-  addToCart: function (event) {
-    // toast提示
-    wx.showToast({
-      title: '加入成功！',
-    })
-    // console.log(event.target.id)
-    // console.log(event.target.id.split(','))
-    // this.setData({
-    //   showImage: true,
-    //   imageUrl: event.target.id.split(',')[0],
-    //   btnId: event.target.id.split(',')[1]
-    // })
-    // console.log('imageUrl', this.data.imageUrl)
-    // var _this=this;
-    // /*创建节点选择器*/
-    // var query = wx.createSelectorQuery();
-    // /*选择id*/
-    // query.select('#goods-image-' + this.data.btnId).boundingClientRect()
-    // query.exec(function (res) {
-    //   /*res就是该元素的信息数组*/
-    //   console.log(res);
-    //   /*获取节点信息*/
-    //   _this.setData({
-    //     imageWidth: res[0].width,
-    //     imageHeight: res[0].height,
-    //     imageX: res[0].left,
-    //     imageY: res[0].top,
-    //     imageStyle: 'width:'+res[0].width + "px;" +
-    //                 'height:' + res[0].height + 'px;' +
-    //                 'position: fixed;' +
-    //                 'z-index: 100;' +
-    //                 'left: ' + res[0].left + 'px;' +
-    //                 'top: ' + res[0].top + 'px;' +
-    //                 'animation: drop 5s ease .5s;' +
-    //       '@-webkit-keyframes drop {\n' +
-    //     '  0% {\n' +
-    //     '    width: 60px;\n' +
-    //     '    height: 60px;\n' +
-    //     '  }\n' +
-    //     '  100% {\n' +
-    //     '    width: 1.15rem;\n' +
-    //     '    height: 1.15rem;\n' +
-    //     '    left: 200px;\n' +
-    //     '    top: 700px;\n' +
-    //     '    border-radius: 50%;\n' +
-    //     '    -webkit-transform: rotate(180deg);\n' +
-    //     '    -moz-transform: rotate(180deg);\n' +
-    //     '    -o-transform: rotate(180deg);\n' +
-    //     '    -ms-transform: rotate(180deg);\n' +
-    //     '  }\n' +
-    //     '}'
-    //
-    //   })
-    //   console.log('取坐标X', _this.data.imageX);
-    //   console.log('取坐标Y', _this.data.imageY);
-    //   /*动态渲染商品图片，用以动画效果*/
-    //   setTimeout(function () {
-    //     _this.setData({
-    //       showImage: false
-    //     })
-    //   }, 3000)
-    // })
+  search: function (e) {
+    console.log(e);
+    this.setData({select: 9999, searchText: e.detail.value});
+    this.getData();
   }
 })

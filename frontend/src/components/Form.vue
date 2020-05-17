@@ -20,7 +20,8 @@
       <div class="form-item" v-if="item.type === 'inputs'">
         <span>
           {{item.name}}
-          <a-button size="small" @click="e => changeInputs(index, item.value.length, '')">增加</a-button>
+        </br>
+          <a-button  v-if="!item.keys" size="small" @click="e => changeInputs(index, item.value.length, '')">增加</a-button>
         </span>
         <template v-if="!item.options">
           <div v-for="(e,_index) in item.value" :key="_index">
@@ -31,12 +32,13 @@
         <template v-else>
           <div v-for="(e,_index) in item.value" :key="_index" style="display:flex;align-items:center">
             <div class="">
+              <div v-if="item.keys" style="text-align:center;">{{e.name}}</div>
               <div v-for="(option,o_index) in item.options" :key="o_index">
                 <span style="display:inline-block;width:60px;">{{option.name}}</span>
                 <a-input style="width:78px;margin-right:5px" v-bind="item" :value="e[option.value]" @change="e => changeInputs(index, _index, e.target.value, option.value)"/>
               </div>
             </div>
-            <a-button size="small" style="margin-right:10px;text-align:center;" @click="e => changeInputs(index, _index)">删除</a-button>
+            <a-button v-if="!item.keys" size="small" style="margin-right:10px;text-align:center;" @click="e => changeInputs(index, _index)">删除</a-button>
           </div>
         </template>
       </div>
@@ -158,7 +160,7 @@ export default {
           e.value = e.value ? (e.value instanceof Array ? e.value : [e.value]) : [];
           e.value = e.value.map((item,index) => ({uid: index, name: index + "", url: item}))
         } else if (e.type == "inputs") {
-          e.value = e.value || [e.options?{}:''];
+          e.value = e.value || (e.keys ? e.keys : [e.options?{}:'']);
         }
         return e;
       });

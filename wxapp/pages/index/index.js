@@ -32,11 +32,10 @@ Page({
   getTops: async function () {
     wx.showLoading();
     let {offset,limit} = this.data;
-    let res = await global.http.get('/api/bs/gift/get/list', {offset:0,limit:5});
+    let res = await global.http.get('/api/bs/gift/get/list', {made_type:1,offset:0,limit:5});
     let topicList = res.data;
     topicList.forEach((item, i) => {
-      let pic = item.picture.split("\\");
-      item.pic = "http://localhost:5000/" + pic[pic.length-1].replace("bs-service/frontend/public", "");
+      item.pic = global.util.img(item.picture);
     });
     this.setData({hasMore: topicList.length < res.total, topicList});
     wx.hideLoading();
@@ -44,11 +43,10 @@ Page({
   getData: async function () {
     wx.showLoading();
     let {offset,limit} = this.data;
-    let res = await global.http.get('/api/bs/gift/get/list', {offset,limit});
+    let res = await global.http.get('/api/bs/gift/get/list', {made_type:0,offset,limit});
     let bargainList = res.data;
     bargainList.forEach((item, i) => {
-      let pic = item.picture.split("\\");
-      item.pic = "http://localhost:5000/" + pic[pic.length-1].replace("bs-service/frontend/public", "");
+      item.pic = global.util.img(item.picture);
     });
 
     if (offset != 0) {

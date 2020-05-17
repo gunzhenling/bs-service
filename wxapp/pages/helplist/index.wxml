@@ -141,5 +141,5 @@
  <view class='kefu contact_btn' >
     <image class='kufu_pic' src='../../images/kefu.png'></image>
     <view class='kefu_describe'>在线客服</view>
-    <button open-type="contact">联系客服</button>
+    <button open-type="contact"></button>
   </view>

@@ -11,13 +11,24 @@ page{
   width: calc(100% - 80rpx);
   padding: 20rpx 40rpx!important;
   margin-top: 10rpx;
+  font-size: 26rpx;
+}
+.order_title {
+  font-size:28rpx;
+  font-weight:bold;
+  padding-bottom: 20rpx;
+  padding-left: 20rpx;
+  margin-bottom:20rpx;
+  margin-left: -40rpx;
+  border-bottom:1px solid #ddd;
+  width: calc(100% + 80rpx);
 }
 .cell {
   display: flex;
   justify-content: space-between;
   align-items: center;
   /* border-bottom: 1px solid #ddd; */
-  padding: 10rpx 0;
+  padding: 5rpx 0;
 }
 .goods_info {
   display: flex;
@@ -31,7 +42,7 @@ page{
 }
 .goods_info >view {
   flex: 1;
-  font-size: 22rpx;
+  font-size: 20rpx;
   margin-bottom: 5rpx;
 }
 .goods_info >view>view:first-child {

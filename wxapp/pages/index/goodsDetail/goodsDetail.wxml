@@ -74,13 +74,14 @@
   <view class="handle-wrapper">
     <view class="btn-icon contact_btn">
       <image src="../../../images/customer_service.png"></image>
-      <button open-type="contact">联系客服</button>
+      <button open-type="contact"></button>
     </view>
     <view class="btn-icon" bindtap="clickCar">
       <image src="../../../images/cart.png"></image>
     </view>
     <view class="btn-icon" bindtap="clickLike">
-      <image src="../../../images/collect.png"></image>
+      <image wx:if="{{gift.like}}" src="../../../images/collect_select.png"></image>
+      <image wx:else src="../../../images/collect.png"></image>
     </view>
     <button class="btn-buy" bindtap="toggle" data-type="0">立即购买</button>
     <button class="btn-add" bindtap="toggle" data-type="1">加入购物车</button>

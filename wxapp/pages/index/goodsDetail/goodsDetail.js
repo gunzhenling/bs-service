@@ -115,9 +115,9 @@ Page({
     wx.showLoading();
     let gift = wx.getStorageSync('gift');
     let res = await global.http.get(`/api/bs/gift/get/detail?gift_code=${gift.gift_code}`);
-    let pic = res.picture.split("\\");
-    res.pic = "http://localhost:5000/" + pic[pic.length-1].replace("bs-service/frontend/public", "");
-    console.log(res);
+    let like = await global.http.post(`/api/bs/user/giftLike/valid/${gift.gift_code}`);
+    res.like = like;
+    res.pic = global.util.img(res.picture);
     res.specification = JSON.parse(res.specification);
     res.custom_made = JSON.parse(res.custom_made);
     this.setData({gift: res, selected: res.specification[0].standards, s_custom_made: 0});
@@ -150,28 +150,33 @@ Page({
   },
   buy () {
     let {gift,selected,buy_num, s_custom_made} = this.data;
+    gift = {...gift};
     gift.buy_num = buy_num;
     gift.buyer_pay_amount = Number((gift.real_gift_price*gift.buy_num).toFixed(2));
     gift.sell_income = Number((gift.gift_price*gift.buy_num).toFixed(2));
     gift.specification = {standards: selected};
     gift.custom_made = gift.custom_made[s_custom_made];
+    console.log(gift);
     wx.setStorageSync('gift', gift);
     wx.navigateTo({url: "/pages/orderon/index"})
   },
   tocar: async function () {
     let {gift,selected,buy_num, s_custom_made} = this.data;
+    gift = {...gift};
     gift.buy_num = buy_num;
     gift.buyer_pay_amount = Number((gift.real_gift_price*gift.buy_num).toFixed(2));
     gift.sell_income = Number((gift.gift_price*gift.buy_num).toFixed(2));
     gift.specification = {standards: selected};
+    gift.custom_made = gift.custom_made[s_custom_made];
+    console.log(gift, s_custom_made);
     let res = await global.http.post("/api/bs/order/add/shops", {
       gift_code: gift.gift_code,
       gift_amount: gift.buy_num,
       sell_income: gift.sell_income,
       buyer_pay_amount: gift.buyer_pay_amount,
-      picture: gift.picture,
+      picture_url: gift.picture,
       specification: gift.specification,
-      custom_made: gift.custom_made[s_custom_made],
+      custom_made: gift.custom_made,
     });
     wx.setStorageSync('gift', gift);
     wx.showToast({ title: '加入成功！', })
@@ -198,10 +203,13 @@ Page({
     let {gift} = this.data;
     let like = gift.like;
     global.util.showToast.loading();
-    let res = await global.http.post(`/api/bs/user/giftLike/${!like ? 'add' : `cancle/${like}`}`, {gift_code:gift.gift_code});
+    let res = await global.http.post(`/api/bs/user/giftLike/${like == 0 ? 'add' : `cancle/${like}`}`, {gift_code:gift.gift_code});
     global.util.showToast.hide();
     if (!res.code) {
       global.util.showToast.message(!like ? "收藏成功" : "取消收藏");
+      like = await global.http.post(`/api/bs/user/giftLike/valid/${gift.gift_code}`);
+      gift.like = like;
+      this.setData({gift});
     } else {
       global.util.showToast.message(res.message);
     }

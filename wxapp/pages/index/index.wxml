@@ -19,7 +19,7 @@
     <view class="btn-item contact_btn">
       <image src="../../images/icon-kefu.png"></image>
       <text>客服</text>
-      <button open-type="contact">联系客服</button>
+      <button open-type="contact"></button>
     </view>
     <view bindtap='goHelpList' class="btn-item">
       <image src="../../images/column.png"></image>
@@ -28,9 +28,9 @@
   </view>
   <!--精选专题-->
   <view class="special-topic-wrapper">
-    <view class="topic-header">
+    <view class="topic-header" bindtap="goDingZhiList">
       <text>最新定制</text>
-      <image class="icon-right" src="../../images/right_arrow_circle.png"></image>
+      <image class="icon-right" src="../../images/right_arrow_circle.png" style="width:30rpx;height:30rpx;"></image>
     </view>
     <view class="scroll-wrapper">
       <scroll-view scroll-x>

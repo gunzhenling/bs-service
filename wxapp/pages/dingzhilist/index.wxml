@@ -26,19 +26,19 @@
 	</view>
 </view>
 <view class="dingzhi-list">
-	<view wx:for="{{dingzhilist}}" wx:key="id" wx:for-item="item" class="dingzhi-item">
+	<view wx:for="{{dingzhilist}}" wx:key="id" wx:for-item="item" class="dingzhi-item" bindtap="goDetailDZ" data-item="{{item}}">
 		<view class='serve_head'>
 			<view class='line_left'></view>
 			<view class='serve_title' style="width:100%;text-align:center;">
 				<image class='serve_title_pic' src='../../images/icon-lipin-dingzhi.png'></image>
-				<text class='serve_title_word' style='padding-left:3px;width:100%;'>{{ item.name }}</text>
+				<text class='serve_title_word' style='padding-left:3px;width:100%;'>{{ item.gift_name }}</text>
 			</view>
 			<view class='line_right'></view>
 		</view>
 		<view class="guocheng">
-        <image class='dingzhi-img' src="{{item.fengmian}}"></image>
+        <image class='dingzhi-img' src="{{item.pic}}"></image>
 		</view>
-    <view class="dintzhi-price">￥{{item.price}}</view>
-    <image class="dingzhi-status-shouwan" src="../../images/icon-shouwan.png"></image>
+    <view class="dintzhi-price">￥{{item.real_gift_price}}</view>
+    <!-- <image class="dingzhi-status-shouwan" src="../../images/icon-shouwan.png"></image> -->
 	</view>
 </view>

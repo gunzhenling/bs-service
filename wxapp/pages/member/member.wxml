@@ -22,19 +22,19 @@
   </view>
   <!--订单状态  -->
   <view class="order-status">
-    <view class="item">
+    <view class="item" bindtap="gotopage" data-url="/pages/orderlist/index?current=1">
       <image class="icon-status" src="../../images/icon_not_pay.png"></image>
       <text>待付款</text>
     </view>
-    <view class="item">
+    <view class="item" bindtap="gotopage" data-url="/pages/orderlist/index?current=2">
       <image class="icon-status" src="../../images/icon_not_deliver.png"></image>
       <text>待发货</text>
     </view>
-    <view class="item">
+    <view class="item" bindtap="gotopage" data-url="/pages/orderlist/index?current=3">
       <image class="icon-status" src="../../images/icon_not_receive.png"></image>
       <text>待收货</text>
     </view>
-    <view class="item">
+    <view class="item" bindtap="gotopage" data-url="/pages/orderlist/index?current=4">
       <image class="icon-status" src="../../images/icon_not_comment.png"></image>
       <text>已完成</text>
     </view>
@@ -62,7 +62,7 @@
     </view>
     <view class="info-item contact_btn">
       <image class="icon-info" src="../../images/icon-kefu.png"></image>
-      <button open-type="contact">联系客服</button>
+      <button open-type="contact"></button>
       <text class="my-balance">联系客服</text>
     </view>
     <view bindtap="gotopage" data-url="/pages/editpwd/index"  class="info-item">

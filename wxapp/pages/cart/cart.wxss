@@ -51,8 +51,8 @@ page {
 }
 
 .icon-right {
-  width: 40rpx;
-  height: 40rpx;
+  width: 30rpx;
+  height: 30rpx;
   margin-left: 10rpx;
 }
 
@@ -192,10 +192,11 @@ page {
 	height: 20rpx;
 	margin: auto;
 	position: absolute;
-  top: 10rpx;
-  right: 10rpx;
+  top: 9rpx;
+  right: 9rpx;
   padding: 5rpx;
-  background: red;
+  background: white;
+  border: 1px solid #999;
   border-radius: 50%;
 }
 .cha::before,
@@ -206,7 +207,7 @@ page {
   width: 4rpx;
   top: 4rpx;
   right: 12rpx;  /*设置top和right使图像在20*20框中居中*/
-   background: white;
+   background: #999;
 }
 .cha::before{
   transform: rotate(45deg);  /*进行旋转*/

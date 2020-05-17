@@ -53,10 +53,10 @@ const requestPromise = (url, method, data, options) => {
                   });
                   return;
                 }
-                resolve(response.result || response);
+                resolve(response.result !== undefined ? response.result : response);
               } else {
                 showToast.message(response.message);
-                reject(response.result || response);
+                reject(response.result !== undefined ? response.result : response);
               }
             }
           },

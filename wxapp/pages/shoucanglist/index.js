@@ -12,34 +12,6 @@ Page({
     isBlank: true,
     ishavedata:true,
     guessList: [
-      {
-        id: 1,
-        img: "../../images/lipins/lipin1.jpg",
-        title: "手机LED补光灯 手机拍照补光灯、闪光灯 自拍神器 10元以下小礼品",
-        price: "3999",
-        sold: "1258"
-      },
-      {
-        id: 2,
-        img: "../../images/lipins/lipin2.jpg",
-        title: "VR眼镜手机科幻游戏  虚拟现实眼镜 多功能3D家庭影院",
-        price: "3999",
-        sold: "1258"
-      },
-      {
-        id: 3,
-        img: "../../images/lipins/lipin3.jpg",
-        title: "吃鸡耳机头戴式 电脑电竞游戏绝地求生带麦",
-        price: "3999",
-        sold: "1258"
-      },
-      {
-        id: 4,
-        img: "../../images/lipins/lipin4.jpg",
-        title: "复古迷你掌上游戏机3.0英寸大屏 内置168款游戏 怀旧掌机",
-        price: "3999",
-        sold: "1258"
-      }
     ]
   },
 //返回
@@ -52,14 +24,19 @@ wx.navigateBack();
   onLoad: function (options) {
     this.getData();
   },
+  onReachBottom: async function () {
+    let {limit,hasMore,offset} = this.data;
+    if (!hasMore) return ;
+    this.setData({offset: offset+limit});
+    this.getData();
+  },
   getData: async function () {
     wx.showLoading();
     let {offset,limit} = this.data;
     let res = await global.http.get('/api/bs/user/giftLike/getList', {offset,limit});
     let guessList = res.data;
     guessList.forEach((item, i) => {
-      let pic = (item.picture||'').split("\\");
-      item.pic = "http://localhost:5000/" + pic[pic.length-1].replace("bs-service/frontend/public", "");
+      item.img = global.util.img(item.picture);
     });
 
     if (offset != 0) {

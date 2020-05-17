@@ -47,33 +47,34 @@ page{
 }
 .list{
   width: 94%;
-  height: 248rpx;
+  /* height: 248rpx; */
   margin: 16rpx auto;
   background: #ffffff;
   border-radius: 8rpx;
 }
 .list_top{
   width: 100%;
-  height: 130rpx;
+  /* height: 130rpx; */
   display: flex;
   justify-content: space-between;
-  overflow: hidden
+  overflow: hidden;
+  border-bottom: 1xp solid #ddd;
+  align-items: flex-start;
 }
 .numAndTime{
-  width: 514rpx;
-  height: 98rpx;
-  margin: 30rpx 0 0 30rpx;
+  width: 680rpx;
+  /* height: 98rpx; */
+  margin: 30rpx 0 15rpx 30rpx;
   display: flex;
 }
 .numInfo{
   width: 380rpx;
-  height: 98rpx;
   font-size: 32rpx;
   color: #3d4663;
 }
 .numPic{
   width: 130rpx;
-  height: 90rpx;
+  height: 130rpx;
   display: block;
   margin:0 14rpx 0 0;
   float: left
@@ -85,7 +86,7 @@ page{
 .time{
   line-height: 24rpx;
   font-size: 24rpx;
-  margin-top: 16rpx;
+  margin-top: 30rpx;
   color:#999999;
 }
 .hr{
@@ -96,10 +97,10 @@ page{
 }
 .state{
   width: 140rpx;
-  height: 54rpx;
+  /* height: 54rpx; */
   background: #3d4663;
   font-size: 26rpx;
-  line-height: 54rpx;
+  /* line-height: 54rpx; */
   text-align: center;
   color:#ffffff;
   border-top-left-radius: 27rpx;
@@ -107,14 +108,18 @@ page{
   margin-top: 34rpx;
 }
 .loadBtn{
-  width: 392rpx;
-  height: 54rpx;
+  width: calc(100% - 60rpx);
+  /* height: 54rpx; */
   display: flex;
-  justify-content: space-between;
-  float: right;
-  margin:30rpx 26rpx 0 0;
+  justify-content: flex-end;
+  /* float: right; */
+  /* margin:30rpx 26rpx 0 0; */
+  padding: 15rpx 0;
+  margin: 0 30rpx;
+  border-top: 1px solid #ddd;
 }
-.see_btn{
+.loadBtn >view {
+
   width: 160rpx;
   height: 50rpx;
   display: block;
@@ -123,105 +128,7 @@ page{
   text-align: center;
   border-radius: 25rpx;
   border:1rpx solid #e6e6e6;
-  margin-left:3px;
-}
-.see_btn::after{
-  border:none
-}
-.edit_btn{
-  width: 200rpx;
-  height: 50rpx;
-  display: block;
-  font-size: 24rpx;
-  line-height: 50rpx;
-  text-align: center;
-  border-radius: 25rpx;
-  border:1rpx solid #e6e6e6;
-}
-.edit_btn::after{
-  border:none
-}
-.inBtn{
-  width: 540rpx;
-  height: 54rpx;
-  display: flex;
-  justify-content: space-between;
-  float: right;
-  margin:30rpx 26rpx 0 0;
-}
-.extend_btn{
-  width: 160rpx;
-  height: 50rpx;
-  display: block;
-  font-size: 24rpx;
-  line-height: 50rpx;
-  text-align: center;
-  border-radius: 25rpx;
-  border:1rpx solid #e6e6e6;
-}
-.extend_btn::after{
-  border:none
-}
-.goBack_btn{
-  width: 160rpx;
-  height: 50rpx;
-  display: block;
-  font-size: 24rpx;
-  line-height: 50rpx;
-  text-align: center;
-  border-radius: 25rpx;
-  border:1rpx solid #e6e6e6;
-}
-.goBack_btn::after{
-  border:none
-}
-.outBtn{
-  width: 352rpx;
-  height: 54rpx;
-  display: flex;
-  justify-content: space-between;
-  float: right;
-  margin:30rpx 26rpx 0 0;
-}
-.confirm_btn{
-  width: 160rpx;
-  height: 50rpx;
-  display: block;
-  font-size: 24rpx;
-  line-height: 50rpx;
-  text-align: center;
-  border-radius: 25rpx;
-  border:1rpx solid #e6e6e6;
-}
-.confirm_btn::after{
-  border:none
-}
-.finishBtn{
-  width: 352rpx;
-  height: 54rpx;
-  display: flex;
-  justify-content: space-between;
-  float: right;
-  margin:30rpx 26rpx 0 0;
-}
-.del_btn{
-  width: 160rpx;
-  height: 50rpx;
-  display: block;
-  font-size: 24rpx;
-  line-height: 50rpx;
-  text-align: center;
-  border-radius: 25rpx;
-  border:1rpx solid #e6e6e6;
-}
-.del_btn::after{
-  border:none
-}
-.rexian{
-  width: 100%;
-  height: 88rpx;
-  bottom:0;
-  left: 0
+  margin-left:10rpx;
 }
 .tel{
   width: 100%;
@@ -233,7 +140,7 @@ page{
 }
 .kefu{
   width: 200rpx;
-  height: 54rpx;
+  /* height: 54rpx; */
   background: #aaaaaa;
   border-top-left-radius: 27rpx;
   border-bottom-left-radius: 27rpx;
@@ -251,9 +158,9 @@ page{
 }
 .kefu_describe{
   width: 102rpx;
-  height: 54rpx;
+  /* height: 54rpx; */
   font-size: 24rpx;
-  line-height: 54rpx;
+  /* line-height: 54rpx; */
   color:#ededed;
 }
 .guanli{
@@ -336,4 +243,15 @@ checkbox .wx-checkbox-input.wx-checkbox-input-checked::before{
   text-align: center;
   line-height: 78rpx;
   float: right;
+}
+
+
+/*到底提示*/
+.bottom-tip {
+  height: 120rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #707070;
+  font-size: 12px;
 }

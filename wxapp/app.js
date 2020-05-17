@@ -1,6 +1,7 @@
 //app.js
 import http from './utils/http'
 import util from './utils/util'
+import config from "./utils/config.js";
 App({
   onLaunch: function () {
     // 展示本地存储能力
@@ -9,6 +10,7 @@ App({
     wx.setStorageSync('logs', logs)
     global.http = http;
     global.util = util;
+    global.host = config.host;
     // 登录
     wx.login({
       success: res => {

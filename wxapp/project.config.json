@@ -183,6 +183,13 @@
 					"id": -1,
 					"name": "pages/order_detail/index",
 					"pathName": "pages/order_detail/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/orderlist/index",
+					"pathName": "pages/orderlist/index",
 					"scene": null
 				}
 			]

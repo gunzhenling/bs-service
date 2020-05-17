@@ -5,7 +5,7 @@
 
 <!--搜索栏 -->
 <view class="search-wrapper">
-  <input class="search-input" type="text" placeholder='请输入搜索关键词'> </input>
+  <input class="search-input" type="text" placeholder='请输入搜索关键词' confirm-type="search" bindconfirm="search" value="{{searchText}}"> </input>
   <image class="icon-search" src="../../images/search.png"> </image>
 </view>
 
@@ -56,7 +56,7 @@
             <view class="fl fw">定制</view>
             <view  class="custom_made">
               <view wx:for="{{gift.custom_made}}" wx:key='{{index}}' data-index="{{index}}" bindtap='clickCustom' class='{{index == s_custom_made ? "active" : ""}}'>
-                <view> {{index==0?"标品":"定制"}} </view>
+                <view>{{item.made_type == 0 ? "标品" : "定制"}}</view>
                 <view>
                   <view>版费<text>{{item.b_fee}}</text>元</view>
                   <view>定制费<text>{{item.made_fee}}</text>元</view>

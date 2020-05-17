@@ -1,18 +1,24 @@
 <view>
-	<view class="goods_info block">
-		<image src="{{order.pic}}"></image>
-		<view>
-			<view>商品名称{{order.gift_name}}</view>
-			<view>规格{{order.specification.standards}}</view>
-			<view>购买数量{{order.gift_amount || order.buy_num}}</view>
+	<view class="block ">
+		<view class="order_title">礼品信息</view>
+		<view class="goods_info">
+			<image src="{{order.pic}}"></image>
+			<view>
+				<view>商品名称： {{order.gift_name}}</view>
+				<view>规格： {{order.specification.standards}}</view>
+				<view>数量： {{order.gift_amount}}</view>
+				<view>单价： {{order.gift_price}}元</view>
+			</view>
 		</view>
-	</view>
-	<view class="block "  wx:if="{{order._picture_logo}}">
-		<view class="cell">
+		<view class="cell" wx:if="{{order._picture_logo}}">
+			<text>定制图片</text>
+			<image src="{{order._picture_logo}}" style="width:100rpx; height:100rpx;"></image>
+		</view>
+		<view class="cell" wx:if="{{order._picture_logo}}">
 			<text>礼品定制</text>
 			<view class="custom_made">
 				<view style="border:0;text-align:right;margin:0;padding:0">
-					<view>标品</view>
+					<view>{{order.custom_made.made_type == 0 ? "标品" : "定制"}}</view>
 					<view>
 						<view>版费<text>{{order.custom_made.b_fee}}</text>元</view>
 						<view>定制费<text>{{order.custom_made.made_fee}}</text>元</view>
@@ -21,12 +27,24 @@
 				</view>
 			</view>
 		</view>
+	</view>
+	<view class="block">
+		<view class="order_title">订单信息</view>
 		<view class="cell">
-			<text>定制图片</text>
-			<image src="{{order._picture_logo}}" style="width:100rpx; height:100rpx;"></image>
+			<text>订单编号</text>
+			<text>{{order._order_no}}</text>
+		</view>
+		<view class="cell">
+			<text>订单总价</text>
+			<text>{{order.buyer_pay_amount}}元</text>
+		</view>
+		<view class="cell">
+			<text>实付金额</text>
+			<text>{{order.buyer_pay_amount}}元</text>
 		</view>
 	</view>
 	<view class="block">
+		<view class="order_title">收货信息</view>
 		<view class="cell">
 			<text>收货人</text>
 			<text>{{order.user_address_json.name}}</text>
@@ -40,22 +58,25 @@
 			<text>{{order.user_address_json.province}}{{order.user_address_json.city}}{{order.user_address_json.district}}{{order.user_address_json.order.user_address_json}}</text>
 		</view>
 	</view>
-	<view class="block">
+
+	<view class="block" wx:if="{{order.carrier_tracks_json && order.ship_status>0}}">
+		<view class="order_title">物流信息</view>
 		<view class="cell">
-			<text>订单编号</text>
-			<text>{{order._order_no}}</text>
+			<text>物流编号</text>
+			<text>{{order.carrier_tracks_json.carrier_no}}</text>
 		</view>
 		<view class="cell">
-			<text>单价</text>
-			<text>{{order.gift_price}}元</text>
+			<text>物流公司</text>
+			<text>{{order.carrier_tracks_json.company_name}}</text>
 		</view>
 		<view class="cell">
-			<text>订单总价</text>
-			<text>{{order.buyer_pay_amount}}元</text>
-		</view>
-		<view class="cell">
-			<text>实付金额</text>
-			<text>{{order.buyer_pay_amount}}元</text>
+			<text style="align-self:flex-start;">物流轨迹 </text>
+			<view>
+				<view wx:for="{{order.carrier_tracks_json.carrier_tracks}}" style="font-size:20rpx;color:#666;margin-bottom:10rpx;text-align:right">
+					<view>{{item.accept_station}}</view>
+					<view>{{item.accept_time}}</view>
+				</view>
+			</view>
 		</view>
 	</view>
 </view>

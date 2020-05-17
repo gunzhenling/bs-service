@@ -77,7 +77,10 @@ export default {
       {key: "sale_num", name: "已售数量", type: "number", float: true},
       {key: "limit_num", name: "定制最少数量", type: "number", float: true},
       {key: "specification", name: "礼品规格", type: "inputs"},
-      {key: "custom_made", name: "礼品定制", type: "inputs", options: this.custom_made},
+      {key: "custom_made", name: "礼品定制", type: "inputs", options: this.custom_made, Switch: {
+        0: [{name: "标品",value:0}],
+        1: [{name: "标品",value:0}, {name: "定制",value:1}],
+      }},
       {key: "picture_url", name: "礼品图片", type: "image", style:"max-width:200px"},
       {key: "content", name: "礼品详情", type: "editor"},
     ];
@@ -104,7 +107,7 @@ export default {
       this.loading = true;
       let res = await this._http.post(`/api/bs/gift/delete/${record.gift_code}`, );
       this.loading = false;
-      this.page = 0;
+      this.page = 1;
       this.getData();
     },
     add (record) {
@@ -149,7 +152,7 @@ export default {
       } else {
         this.$message.success(edit?'编辑礼品成功':'新增礼品成功');
         this.show=false;
-        this.page = 0;
+        this.page = 1;
         this.getData();
       }
     }

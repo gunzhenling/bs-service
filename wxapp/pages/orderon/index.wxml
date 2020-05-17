@@ -11,6 +11,11 @@
     +请选择收货地址
   </view>
   <view class="content">
+    <view wx:if="{{gift.custom_made && gift.custom_made.made_type == 1}}" bindtap="uploadFile">
+      <text>定制logo</text>
+      <view wx:if="{{!gift._picture_logo}}" style="height:100rpx;width:100rpx;box-sizing:border-box;border:1px solid #ddd; font-size:20rpx;color:#999;display:flex;align-items:center;justify-content:center;">点击上传</view>
+      <image wx:else src="{{gift._picture_logo}}" style="height:100rpx;width:100rpx;"></image>
+    </view>
     <view>
       <text>礼品图片</text>
       <image src="{{gift.pic}}"></image>
@@ -31,7 +36,7 @@
       <text>礼品定制</text>
       <view class="custom_made">
         <view style="border:0;text-align:right;margin:0;padding:0">
-          <view>标品</view>
+          <view>{{gift.custom_made.made_type == 0 ? "标品" : "定制"}}</view>
           <view>
             <view>版费<text>{{gift.custom_made.b_fee}}</text>元</view>
             <view>定制费<text>{{gift.custom_made.made_fee}}</text>元</view>

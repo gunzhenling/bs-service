@@ -8,6 +8,57 @@ const formatTime = date => {
 
   return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
+
+export const formatDate = (time, format = "YYYY-MM-DD hh:mm:ss") => {
+  if (time == '' || time == null || time == undefined)
+    return ''
+  time = new Date(time)
+  const datetime = new Date()
+  datetime.setTime(time)
+  const year = datetime.getFullYear()
+  const month = datetime.getMonth() + 1 < 10
+    ? '0' + (
+    datetime.getMonth() + 1)
+    : datetime.getMonth() + 1
+  const date = datetime.getDate() < 10
+    ? '0' + datetime.getDate()
+    : datetime.getDate()
+  const hour = datetime.getHours() < 10
+    ? '0' + datetime.getHours()
+    : datetime.getHours()
+  const minute = datetime.getMinutes() < 10
+    ? '0' + datetime.getMinutes()
+    : datetime.getMinutes()
+  const second = datetime.getSeconds() < 10
+    ? '0' + datetime.getSeconds()
+    : datetime.getSeconds()
+  const timeArr = [
+    year,
+    month,
+    date,
+    hour,
+    minute,
+    second
+  ]
+  let _mapper = {};
+  [
+    'YYYY',
+    'MM',
+    'DD',
+    'hh',
+    'mm',
+    'ss'
+  ].forEach((_symbol, i) => (_mapper[_symbol] = timeArr[i]))
+  if (format) {
+    const matchArr = format.match(/\w+/g)
+    matchArr.forEach(match => {
+      format = format.replace(match, _mapper[match])
+    })
+    return format
+  } else {
+    return (year + '月' + month + '月' + date + '日 ' + ' ' + hour + ':' + minute)
+  }
+}
 let loading =false;
 export const formatNumber = n => {
   n = n.toString()
@@ -35,6 +86,10 @@ export const showToast = {
   isloading: () => loading,
 }
 
+const img = (img) => {
+  return img ? `http://localhost:5000${img.replace("/frontend/public", "")}` : '';
+}
+
 module.exports = {
-  formatTime,showToast
+  formatTime,showToast, img,formatDate
 }

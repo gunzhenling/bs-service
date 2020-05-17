@@ -8,6 +8,7 @@ Page({
       offset: 0,
       limit: 10,
       hasMore: true,
+      current: 1,
     //页面切换
     currentIndex1: true,//待付款
     currentIndex2: false,//待发货
@@ -26,85 +27,49 @@ Page({
       { id: 1, num: "D19060122", fengmian: '../../images/lipins/lipin1.jpg', time: "2019-03-02" },
       { id: 2, num: "D19060123", fengmian: '../../images/lipins/lipin2.jpg', time: "2019-03-02" }
     ],
-    //待发货数据
-    inList: [
-      { id: 1, num: "A19060122", fengmian: '../../images/lipins/lipin2.jpg', time: "2019-03-02" },
-      { id: 2, num: "A19060123", fengmian: '../../images/lipins/lipin3.jpg', time: "2019-03-02" },
-      { id: 3, num: "A19060124", fengmian: '../../images/lipins/lipin4.jpg', time: "2019-03-02" },
-      { id: 4, num: "A19060124", fengmian: '../../images/lipins/lipin1.jpg', time: "2019-03-02" },
-    ],
-    //待收货数据
-    outList: [
-      { id: 1, num: "A19060125", fengmian: '../../images/lipins/lipin3.jpg', time: "2019-03-02" },
-      { id: 2, num: "A19060126", fengmian: '../../images/lipins/lipin2.jpg', time: "2019-03-02" },
-      { id: 3, num: "A19060127", fengmian: '../../images/lipins/lipin4.jpg', time: "2019-03-02" },
-      { id: 4, num: "A19060127", fengmian: '../../images/lipins/lipin1.jpg', time: "2019-03-02" },
-    ],
-    //已完成数据
-    finishList: [
-      { id: 1, num: "A19060128", fengmian: '../../images/lipins/lipin2.jpg', time: "2019-03-02" },
-      { id: 2, num: "A19060129", fengmian: '../../images/lipins/lipin3.jpg', time: "2019-03-02" },
-      { id: 3, num: "A19060120", fengmian: '../../images/lipins/lipin1.jpg', time: "2019-03-02" }
-    ],
     //在仓的导航栏样式
     kong2: false
   },
 
   //待付款
-  currentIndex1: function (e) {
-    // this.onShow()
-    this.setData({
-      kong2: false,
-      currentIndex1: true,
-      currentIndex2: false,
-      currentIndex3: false,
-      currentIndex4: false
-    })
-  },
-  //待发货
-  currentIndex2: function (e) {
-    // this.onShow(),
-    this.setData({
-      kong2: true,
-      currentIndex1: false,
-      currentIndex2: true,
-      currentIndex3: false,
-      currentIndex4: false
-    })
-  },
-  //待收货
-  currentIndex3: function (e) {
-    // this.onShow()
-    this.setData({
-      kong2: false,
-      currentIndex1: false,
-      currentIndex2: false,
-      currentIndex3: true,
-      currentIndex4: false
-    })
-  },
-  //已完成
-  currentIndex4: function (e) {
-    // this.onShow()
-    this.setData({
-      kong2: false,
-      currentIndex1: false,
-      currentIndex2: false,
-      currentIndex3: false,
-      currentIndex4: true
-    })
+  changeTab: function (e) {
+    let index = e.currentTarget.dataset.index;
+    this.setData({current: index, offset: 0});
+    this.getData();
   },
   onLoad: async function (options) {
+    this.setData({current: options.current || 1})
+    this.getData();
+  },
+  onReachBottom: async function () {
+    let {limit,hasMore,offset} = this.data;
+    if (!hasMore) return ;
+    this.setData({offset: offset+limit});
     this.getData();
   },
 
   getData: async function () {
     wx.showLoading();
-    let {offset,limit} = this.data;
-    let res = await global.http.get('/api/bs/order/get/list', {offset,limit});
+    let {offset,limit, current} = this.data;
+    let con = {};
+    if (current == 1) {
+      con.pay_status = 0;
+    } else if (current == 2) {
+      con.pay_status = 2;
+      con.ship_status = 0;
+    } else if (current == 3) {
+      con.pay_status = 2;
+      con.ship_status = 1;
+    } else if (current == 4) {
+      con.pay_status = 2;
+      con.ship_status = 2;
+    }
+    let res = await global.http.get('/api/bs/order/get/list', {...con,offset,limit});
     let loadList = res.data;
     loadList.forEach((e, i) => {
       e._order_no = e.order_no.substr(22,10);
+      e.pic = global.util.img(e.picture);
+      e._picture_logo = global.util.img(e.picture_logo);
     });
 
     if (offset != 0) {
@@ -119,6 +84,32 @@ Page({
     let res = await global.http.post(`/api/bs/order/pay`, {order_no: item.order_no, pay_channel: "YuE"});
     if (!res.code) {
       await global.util.showToast.message('支付成功');
+      this.setData({offset: 0});
+      this.getData();
+    } else {
+      global.util.showToast.hide();
+      global.util.showToast.message(res.message);
+    }
+  },
+  cancel: async function (e) {
+    let item = e.currentTarget.dataset.item;
+    global.util.showToast.loading();
+    let res = await global.http.post(`/api/bs/order/cancle/${item.order_no}`,);
+    if (!res.code) {
+      await global.util.showToast.message('取消成功');
+      this.setData({offset: 0});
+      this.getData();
+    } else {
+      global.util.showToast.hide();
+      global.util.showToast.message(res.message);
+    }
+  },
+  receive: async function (e) {
+    let item = e.currentTarget.dataset.item;
+    global.util.showToast.loading();
+    let res = await global.http.post(`/api/bs/order/update/shipStatus`, {order_no: item.order_no, ship_status: 2});
+    if (!res.code) {
+      await global.util.showToast.message('操作成功');
       this.setData({offset: 0});
       this.getData();
     } else {

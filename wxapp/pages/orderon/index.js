@@ -6,7 +6,10 @@ Page({
    */
   data: {
     address: '',
-    gift: wx.getStorageSync('gift')
+    gift: '',
+  },
+  onLoad() {
+    this.setData({gift: wx.getStorageSync('gift')});
   },
   onShow: async function () {
     let address =  wx.getStorageSync('s_address');
@@ -27,6 +30,9 @@ Page({
   orderon: async function () {
     let {gift,address} = this.data;
     if (!address || !address.user_address_id) return global.util.showToast.message("请选择收货地址");
+    if (gift.custom_made && gift.custom_made.made_type == 1) {
+      if (!gift.picture_logo) return global.util.showToast.message("请先上传定制logo图片");
+    }
     global.util.showToast.loading();
     let res = await global.http.post(`/api/bs/order/commit`, {
       gift_code: gift.gift_code,
@@ -36,7 +42,8 @@ Page({
       picture: gift.picture,
       specification: gift.specification,
       custom_made: gift.custom_made,
-      user_address_id: address.user_address_id
+      picture_logo: gift.picture_logo,
+      user_address_id: address.user_address_id,
     });
     if (!res.code) {
       let order = res;
@@ -59,5 +66,33 @@ Page({
       global.util.showToast.hide();
       global.util.showToast.message(res.message);
     }
+  },
+  uploadFile: async function () {
+    var that = this;
+
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['compressed'],
+      success: function(res) {
+        wx.showLoading({ title: '上传中...', mask: true })
+        wx.uploadFile({
+          url: `${global.host}/api/bs/file/upload/image`,
+          filePath: res.tempFilePaths[0],
+          name: 'picture_file',
+          fileType: 'image',
+          success(res) {
+            res = JSON.parse(res.data);
+            if (res.code) {
+              global.util.showToast.message(res.message)
+            } else {
+              global.util.showToast.hide();
+              that.data.gift.picture_logo = res.result;
+              that.data.gift._picture_logo = global.util.img(res.result);
+              that.setData({gift: {...that.data.gift}});
+            }
+          }
+        })
+      },
+    })
   }
 })

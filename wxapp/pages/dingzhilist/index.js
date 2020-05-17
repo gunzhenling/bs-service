@@ -5,6 +5,9 @@ Page({
    * 页面的初始数据
    */
   data: {
+    offset: 0,
+    limit: 10,
+    hasMore: true,
     dingzhilist: [
       { id: 1, name: 'VR设备定制', price: '3000.00', fengmian: '../../images/tuijians/tuijian1.png' },
       { id: 2, name: '耳机定制粉色', price: '80.00', fengmian: '../../images/tuijians/tuijian2.png' },
@@ -19,55 +22,34 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.getData();
+  },
+  onReachBottom: async function () {
+    let {limit,hasMore,offset} = this.data;
+    if (!hasMore) return ;
+    this.setData({offset: offset+limit});
+    this.getData();
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
+  getData: async function () {
+    wx.showLoading();
+    let {offset,limit} = this.data;
+    let res = await global.http.get('/api/bs/gift/get/list', {made_type:1,offset,limit});
+    let dingzhilist = res.data;
+    dingzhilist.forEach((item, i) => {
+      item.pic = global.util.img(item.picture);
+    });
 
+    if (offset != 0) {
+      dingzhilist = this.data.dingzhilist.concat(dingzhilist);
+    }
+    this.setData({hasMore: dingzhilist.length < res.total, dingzhilist});
+    wx.hideLoading();
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
+  goDetailDZ: function (e) {
+    wx.setStorageSync('gift', e.currentTarget.dataset.item);
+    wx.navigateTo({
+      url: '/pages/index/goodsDetail/goodsDetail?dz=1'
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })

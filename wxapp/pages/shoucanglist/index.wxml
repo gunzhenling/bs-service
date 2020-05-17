@@ -14,7 +14,7 @@
   <view wx:if="{{ishavedata}}" class="guess-you-like-wrapper">
     <view class="guess-you-like-list">
       <view class="guess-goods-item" wx:for="{{guessList}}" wx:key="{{item.id}}" bindtap="goDetail" data-item="{{item}}">
-        <image class="guess-img" src="{{item.pic}}"></image>
+        <image class="guess-img" src="{{item.img}}"></image>
         <text class="guess-title">{{item.gift_name}}</text>
         <view class="price-wrapper">
           <text class="price">￥{{item.real_gift_price}}</text>
