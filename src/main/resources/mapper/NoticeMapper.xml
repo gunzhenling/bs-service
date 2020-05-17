@@ -4,13 +4,14 @@
 <mapper namespace="com.bs.payment.modules.trade.dao.NoticeMapper">
 	
 	<select id="getCount" resultType="Long" >
-		select  count(1) from bs_notice 
+		select  count(1) from bs_notice  where status=0
 		 
 	</select>
 	
 	<select id="getNoticeList" resultType="NoticeDto" >
 		select  id, title,content,create_time
 		from bs_notice 
+		where status=0
 		limit #{offset},#{limit}
 		 
 	</select>
