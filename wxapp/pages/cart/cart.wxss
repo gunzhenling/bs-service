@@ -113,6 +113,7 @@ page {
   padding-top: 140rpx;
 }
 .goods_list >view{
+  position: relative;
   padding: 20rpx;
   margin-top: 20rpx;
   background: white;
@@ -130,18 +131,19 @@ page {
   width: 100rpx;
   height: 100rpx;
   margin: 20rpx;
+  padding-bottom: 50rpx;
 }
-.goods_list .goods_btn {
-  border-radius: 6rpx;
-  padding: 8rpx 0;
-  width: 100rpx;
-  border: 1rpx solid #ddd;
+.goods_btn {
+  height: 50rpx;
+  line-height: 50rpx;
   text-align: center;
-  margin-bottom: 20rpx;
-}
-.goods_list .goods_btn.del{
-  background-color: red;
-  color: white
+  /* position:absolute;
+  bottom: 0;
+  left:0; */
+  width:100rpx;
+  border-radius: 8rpx;
+    background-color: red;
+    color: white;
 }
 
 /*到底提示*/
@@ -153,4 +155,62 @@ page {
   color: #707070;
   font-size: 12px;
   background: transparent!important;
+}
+
+.amount-view {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10rpx 0;
+}
+.amount-view > view:first-child {
+  margin-right: 10rpx;
+  /* flex: 1; */
+}
+.amount-view .num {
+  display: flex;
+  align-items: center;
+  width: 160rpx;
+  text-align: center;
+}
+.amount-view .num > view {
+  border: 1rpx solid #ddd;
+  flex: 1;
+  line-height: 50rpx;
+  height: 50rpx;
+}
+.amount-view .num input {
+  border: 1rpx solid #ddd;
+  flex: 2;
+  line-height: 50rpx;
+  height: 50rpx;
+  user-select: none;
+}
+
+.cha{
+	width: 20rpx;
+	height: 20rpx;
+	margin: auto;
+	position: absolute;
+  top: 10rpx;
+  right: 10rpx;
+  padding: 5rpx;
+  background: red;
+  border-radius: 50%;
+}
+.cha::before,
+.cha::after{
+  content: "";
+  position: absolute;  /*方便进行定位*/
+  height: 20rpx;
+  width: 4rpx;
+  top: 4rpx;
+  right: 12rpx;  /*设置top和right使图像在20*20框中居中*/
+   background: white;
+}
+.cha::before{
+  transform: rotate(45deg);  /*进行旋转*/
+}
+.cha::after{
+  transform: rotate(-45deg);
 }

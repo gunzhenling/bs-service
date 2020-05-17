@@ -1,15 +1,7 @@
 <!--pages/shoucanglist/index.wxml-->
-<!--模拟标题栏-->
-<view class="navigation" >
-  <view class="go-back-wrapper" bindtap="goBack">
-    <image class="icon-go-back" src="../../images/left_arrow.png"></image>
-  </view>
-  <text class="nav-title">我的收藏</text>
-</view>
 <!--购物车为空-->
- 
+
 <view class="cart-blank-wrapper">
-  <view style="height:5rem;"></view>
   <!--空页面-->
   <view wx:if="{{!ishavedata}}" class="blank-wrapper">
     <view class="black-content">
@@ -18,15 +10,15 @@
     </view>
   </view>
   <!--收藏列表_S-->
- 
+
   <view wx:if="{{ishavedata}}" class="guess-you-like-wrapper">
     <view class="guess-you-like-list">
-      <view class="guess-goods-item" wx:for="{{guessList}}" wx:key="{{item.id}}">
-        <image class="guess-img" src="{{item.img}}"></image>
-        <text class="guess-title">{{item.title}}</text>
+      <view class="guess-goods-item" wx:for="{{guessList}}" wx:key="{{item.id}}" bindtap="goDetail" data-item="{{item}}">
+        <image class="guess-img" src="{{item.pic}}"></image>
+        <text class="guess-title">{{item.gift_name}}</text>
         <view class="price-wrapper">
-          <text class="price">￥{{item.price}}</text>
-          <text class="sold">已售{{item.sold}}</text>
+          <text class="price">￥{{item.real_gift_price}}</text>
+          <text class="sold">已售{{item.sale_num}}</text>
         </view>
       </view>
     </view>

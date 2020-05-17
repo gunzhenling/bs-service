@@ -1,8 +1,8 @@
 <view class="container">
   <!--返回按钮-->
-  <view class="go-back-wrapper" bindtap="goBack">
+  <!-- <view class="go-back-wrapper" bindtap="goBack">
     <image class="icon-go-back" src="../../../images/go_back.png"></image>
-  </view>
+  </view> -->
   <!--轮播图-->
   <swiper class="swiper-wrapper" autoplay="true" circular="true" indicator-dots="true" indicator-color="#fff" indicator-active-color="#FFA042">
     <swiper-item class="swiper-item" wx:for="{{slides}}" wx:key="*this">
@@ -15,7 +15,7 @@
     <text class="sub-title">让你的暑假无懈可击</text>
     <view class="price-wrapper">
       <text class="price">￥{{gift.real_gift_price}}<text class="original-price">￥{{gift.gift_price}}</text></text>
-      <text class="sold">已售249</text>
+      <text class="sold">已售{{gift.sale_num}}</text>
     </view>
   </view>
   <!--选择规格-->
@@ -59,7 +59,7 @@
     </view>
     <view class="introduce-content" wx:if="{{detailSelect == 1 ? true : false}}">
       <view class="introduce">
-        {{gift.content}}
+        <rich-text nodes="{{gift.content}}"></rich-text>
       </view>
     </view>
     <view class="consult-and-after-sales" wx:else>
@@ -72,13 +72,14 @@
   </view>
   <!--底部操作（购买、加入购物车、收藏等）-->
   <view class="handle-wrapper">
-    <view class="btn-icon">
+    <view class="btn-icon contact_btn">
       <image src="../../../images/customer_service.png"></image>
+      <button open-type="contact">联系客服</button>
     </view>
-    <view class="btn-icon">
+    <view class="btn-icon" bindtap="clickCar">
       <image src="../../../images/cart.png"></image>
     </view>
-    <view class="btn-icon">
+    <view class="btn-icon" bindtap="clickLike">
       <image src="../../../images/collect.png"></image>
     </view>
     <button class="btn-buy" bindtap="toggle" data-type="0">立即购买</button>
@@ -94,7 +95,7 @@
             <view class="fn fw mb10"> {{gift.gift_name}} </view>
             <view class="price-wrapper">
               <text class="price">￥{{gift.real_gift_price}}<text class="original-price">￥{{gift.gift_price}}</text></text>
-              <text class="sold">已售249</text>
+              <text class="sold">已售{{gift.sale_num}}</text>
             </view>
           </view>
         </view>
@@ -106,7 +107,7 @@
                 bindtap='clickItem' class='item {{item.standards == selected ? "active" : ""}}'>{{item.standards}}</view>
             </view>
           </view>
-          <view>
+          <view wx:if="{{dz}}">
             <view class="fl fw">定制</view>
             <view  class="custom_made">
               <view wx:for="{{gift.custom_made}}" wx:key='{{index}}' data-index="{{index}}" bindtap='clickCustom' class='{{index == s_custom_made ? "active" : ""}}'>

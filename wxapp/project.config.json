@@ -141,6 +141,48 @@
 					"id": -1,
 					"name": "pages/jiaoyilist/index",
 					"pathName": "pages/jiaoyilist/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/dingzhilist/index",
+					"pathName": "pages/dingzhilist/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/editpwd/index",
+					"pathName": "pages/editpwd/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/index/goodsDetail/goodsDetail",
+					"pathName": "pages/index/goodsDetail/goodsDetail",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/shoucanglist/index",
+					"pathName": "pages/shoucanglist/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/index/goodsDetail/goodsDetail",
+					"pathName": "pages/index/goodsDetail/goodsDetail",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/order_detail/index",
+					"pathName": "pages/order_detail/index",
 					"scene": null
 				}
 			]

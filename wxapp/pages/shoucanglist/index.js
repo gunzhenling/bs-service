@@ -5,6 +5,10 @@ Page({
    * 页面的初始数据
    */
   data: {
+    offset: 0,
+    limit: 10,
+    hasMore: true,
+
     isBlank: true,
     ishavedata:true,
     guessList: [
@@ -46,55 +50,28 @@ wx.navigateBack();
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.getData();
   },
+  getData: async function () {
+    wx.showLoading();
+    let {offset,limit} = this.data;
+    let res = await global.http.get('/api/bs/user/giftLike/getList', {offset,limit});
+    let guessList = res.data;
+    guessList.forEach((item, i) => {
+      let pic = (item.picture||'').split("\\");
+      item.pic = "http://localhost:5000/" + pic[pic.length-1].replace("bs-service/frontend/public", "");
+    });
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+    if (offset != 0) {
+      guessList = this.data.guessList.concat(guessList);
+    }
+    this.setData({hasMore: guessList.length < res.total, guessList});
+    wx.hideLoading();
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
+  goDetail: function (e) {
+    wx.setStorageSync('gift', e.currentTarget.dataset.item);
+    wx.navigateTo({
+      url: '/pages/index/goodsDetail/goodsDetail'
+    })
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })

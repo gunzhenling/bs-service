@@ -44,7 +44,7 @@
     <view bindtap="gotopage" data-url="/pages/jiaoyilist/index" class="info-item">
       <image class="icon-info" src="../../images/money.png"></image>
       <text class="my-balance">我的余额</text>
-      <text class="money">0.00元</text>
+      <text class="money">{{user.available_money}}元</text>
     </view>
     <view class="info-item">
       <image class="icon-info" src="../../images/icon-lipin.png"></image>
@@ -60,8 +60,9 @@
       <image class="icon-info" src="../../images/address.png"></image>
       <text class="my-balance">我的地址</text>
     </view>
-    <view class="info-item">
+    <view class="info-item contact_btn">
       <image class="icon-info" src="../../images/icon-kefu.png"></image>
+      <button open-type="contact">联系客服</button>
       <text class="my-balance">联系客服</text>
     </view>
     <view bindtap="gotopage" data-url="/pages/editpwd/index"  class="info-item">

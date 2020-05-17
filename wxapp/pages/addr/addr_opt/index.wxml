@@ -1,11 +1,5 @@
 <!--pages/addr/addr_opt/index.wxml-->
-<view class="navigation" >
-  <view class="go-back-wrapper" bindtap="goBack">
-    <image class="icon-go-back" src="../../../images/left_arrow.png"></image>
-  </view>
-  <text class="nav-title">{{opttile}}</text>
-</view>
- <view class='main' style="padding-top:4rem;">
+ <view class='main' style="padding-top:0;">
   <form>
     <view class='addr'>
       <input bindinput="change" data-key='name' value="{{name}}" id="name" placeholder='请输入姓名' placeholder-class='name'></input>

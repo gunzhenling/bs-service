@@ -39,10 +39,7 @@ Page({
     ]
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad:async function (options) {
+  onShow:async function (options) {
     this.getData();
   },
   getData: async function () {
@@ -52,21 +49,53 @@ Page({
     list.forEach((item, i) => {
       item.specification = JSON.parse(item.specification);
       item.custom_made = JSON.parse(item.custom_made);
+      let pic = item.picture.split("\\");
+      item.pic = "http://localhost:5000/" + pic[pic.length-1].replace("bs-service/frontend/public", "");
     });
+    console.log(list);
     this.setData({goodsList: list});
     global.util.showToast.hide();
   },
-  delGoods: async function() {
+  delGoods: async function(e) {
+    let item = e.currentTarget.dataset.item;
     wx.showModal({
       title: '',
-      content: '确定要删除改商品？',
-      success: async function(res) {
+      content: '确定要删除该商品？',
+      success: async res => {
         if (res.confirm) {
-          let res = await global.http.get(`/api/bs/order/get/shops`);
-
+          global.util.showToast.loading();
+          let res = await global.http.post(`/api/bs/order/update/shops/${item.id}/0`);
+          global.util.showToast.hide();
+          if (res.code) {
+            global.util.showToast.message(res.message);
+          } else {
+            global.util.showToast.message("删除成功");
+            this.getData();
+          }
         }
       }
     })
+  },
+  c_buy_num: async function (e) {
+    let {item, num} = e.currentTarget.dataset;
+    let amount = Number(item.gift_amount) + Number(num);
+    if (amount == 0) {
+      this.delGoods(e);
+      return ;
+    }
+    global.util.showToast.loading();
+    let res = await global.http.post(`/api/bs/order/update/shops/${item.id}/${amount}`, {gift_amount: amount});
+    global.util.showToast.hide();
+    this.getData();
+  },
+  orderon: async function(e) {
+    let item = e.currentTarget.dataset.item;
+    // item.custom_made = JSON.parse(item.custom_made);
+    // item.specification = JSON.parse(item.specification);
+    let pic = (item.picture||'').split("\\");
+    item.pic = "http://localhost:5000/" + pic[pic.length-1].replace("bs-service/frontend/public", "");
+    wx.setStorageSync("gift", item);
+    wx.navigateTo({url: "/pages/orderon/index"})
   },
 
   /**
@@ -75,14 +104,6 @@ Page({
   onReady: function () {
 
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
   /**
    * 生命周期函数--监听页面隐藏
    */

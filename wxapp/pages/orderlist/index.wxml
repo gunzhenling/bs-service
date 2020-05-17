@@ -1,16 +1,10 @@
 <!--pages/orderlist/index.wxml-->
-<view class="navigation">
-	<view class="go-back-wrapper" bindtap="goBack">
-		<image class="icon-go-back" src="../../images/left_arrow.png"></image>
-	</view>
-	<text class="nav-title">我的订单</text>
-</view>
 
-<view class="swiper-tab" style="margin-top:4rem;">
-	<view class="tab-item {{currentIndex1?'active':''}} " bindtap="currentIndex1">待付款({{loadNum}})</view>
-	<view class="tab-item {{currentIndex2?'active':''}}" bindtap="currentIndex2">待发货({{inNum}})</view>
-	<view class="tab-item {{currentIndex3?'active':''}}" bindtap="currentIndex3">待收货({{outNum}})</view>
-	<view class="tab-item {{currentIndex4?'active':''}}" bindtap="currentIndex4">已完成({{finishNum}})</view>
+<view class="swiper-tab" style="">
+	<view class="tab-item {{currentIndex1?'active':''}} " bindtap="currentIndex1">待付款</view>
+	<view class="tab-item {{currentIndex2?'active':''}}" bindtap="currentIndex2">待发货</view>
+	<view class="tab-item {{currentIndex3?'active':''}}" bindtap="currentIndex3">待收货</view>
+	<view class="tab-item {{currentIndex4?'active':''}}" bindtap="currentIndex4">已完成</view>
 </view>
 <view class='tab-items'>
 	<view class='kong {{kong2?"kong2":""}}'></view>
@@ -30,7 +24,7 @@
 			<view class='hr'></view>
 			<view class='loadBtn' style="width:240px;">
 				<view class='see_btn' data-item="{{item}}" bindtap='loadDetails'>详情</view>
-				<view class='extend_btn' data-item="{{item}}" bindtap='pay'>去付款</view>
+				<view class='extend_btn' data-item="{{item}}" bindtap='pay'>余额支付</view>
         <view class='extend_btn' data-item="{{item}}" bindtap='delay'>取消</view>
 			</view>
 		</view>

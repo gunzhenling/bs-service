@@ -1,10 +1,4 @@
 <!--pages/register/index.wxml-->
-<view class="navigation">
-  <view class="go-back-wrapper" bindtap="goBack">
-    <image  wx:if="{{showBack}}" class="icon-go-back" src="../../images/left_arrow.png"></image>
-  </view>
-  <text class="nav-title">会员注册</text>
-</view>
 <view class='form' style="padding-top:10rem;">
   <view class='listInput'>
     <input value='{{name}}' data-key="name" bindchange="change" type='text' placeholder='昵称：' placeholder-class='tel'></input>

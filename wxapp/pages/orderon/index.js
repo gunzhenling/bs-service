@@ -33,6 +33,7 @@ Page({
       gift_amount: gift.gift_amount || gift.buy_num,
       sell_income: gift.sell_income,
       buyer_pay_amount: gift.buyer_pay_amount,
+      picture: gift.picture,
       specification: gift.specification,
       custom_made: gift.custom_made,
       user_address_id: address.user_address_id
@@ -40,6 +41,12 @@ Page({
     if (!res.code) {
       let order = res;
       await global.util.showToast.message('下单成功');
+      global.util.showToast.loading();
+      // NOTE: 删除购物车
+      if (gift.id && gift.expiration_time) {
+        let c = await global.http.post(`/api/bs/order/update/shops/${gift.id}/0`);
+        console.log(c);
+      }
       res = await global.http.post(`/api/bs/order/pay`, {order_no: order.order_no, pay_channel: "YuE"});
       if (!res.code) {
         await global.util.showToast.message('支付成功');

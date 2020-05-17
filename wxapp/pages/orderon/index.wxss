@@ -4,7 +4,6 @@ page{
 }
 
 .container {
-  padding-top: 140rpx;
 }
 
 .list{

@@ -1,12 +1,5 @@
 <!--pages/dingzhilist/index.wxml-->
-<!-- 定制 -->
-<view class="navigation">
-	<view class="go-back-wrapper" bindtap="goBack">
-		<image class="icon-go-back" src="../../images/left_arrow.png"></image>
-	</view>
-	<text class="nav-title">礼品定制</text>
-</view>
-<view class='serve' style='padding-top:4rem;height:180px;'>
+<view class='serve' style='height:180px;'>
 	<view class="guocheng">
 		<image class='cun' src='../../images/cun.png'></image>
 		<image class='dian' src='../../images/dian.png'></image>

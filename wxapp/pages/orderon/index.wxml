@@ -1,10 +1,4 @@
 <!--pages/helplist/index.wxml-->
-<view class="navigation" >
-  <view class="go-back-wrapper" bindtap="goBack">
-    <image class="icon-go-back" src="../../images/left_arrow.png"></image>
-  </view>
-  <text class="nav-title">确认订单</text>
-</view>
 <view class="container">
   <view class='list' bindtap="goAddr" wx:if="{{address && address.phone}}">
     <view class='nameAndTel'>
@@ -27,11 +21,11 @@
     </view>
     <view>
       <text>礼品数量</text>
-      <text>{{gift.buy_num}}</text>
+      <text>{{gift.gift_amount || gift.buy_num}}</text>
     </view>
     <view>
       <text>礼品规格</text>
-      <text>{{gift.standards}}</text>
+      <text>{{gift.specification.standards}}</text>
     </view>
     <view>
       <text>礼品定制</text>

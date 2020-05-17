@@ -38,13 +38,19 @@
     <image src="{{item.pic}}"></image>
     <view>
       <view class="goods_name">{{item.gift_name}}</view>
-      <view>数量：{{item.gift_amount}}</view>
-      <view>总价：{{item.buyer_pay_amount}}</view>
+      <view class="amount-view">规格：{{item.specification.standards}}</view>
+      <!-- <view class="amount-view">总价：{{item.buyer_pay_amount}}</view> -->
+      <view class="amount-view">
+        <view>购买数量</view>
+        <view class="num">
+          <view bindtap='c_buy_num' data-item="{{item}}" data-num="-1">-</view>
+          <input type="number" value="{{item.gift_amount}}" disabled bindchange="c_buy_num"/>
+          <view bindtap='c_buy_num' data-item="{{item}}" data-num="1">+</view>
+        </view>
+        <view class="goods_btn" bindtap="orderon" data-item="{{item}}">去结算</view>
+      </view>
     </view>
-    <view>
-      <view class="goods_btn" bindtap="orderon" data-item="{{item}}">去结算</view>
-      <view class="goods_btn del" bindtap="delGoods" data-item="{{item}}">删除</view>
-    </view>
+    <view class="cha"  bindtap="delGoods" data-item="{{item}}"></view>
   </view>
   <view class="bottom-tip">
     <text>到底了，再往上逛逛吧~</text>

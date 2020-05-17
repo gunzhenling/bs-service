@@ -1,10 +1,4 @@
 <!--pages/chongzhi/index.wxml-->
-<view class="navigation" >
-  <view class="go-back-wrapper" bindtap="goBack">
-    <image class="icon-go-back" src="../../images/left_arrow.png"></image>
-  </view>
-  <text class="nav-title">充值</text>
-</view>
 <view class='main' style="padding-top:4rem;">
   <form>
     <view class='panel'>

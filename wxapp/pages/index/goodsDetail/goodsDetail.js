@@ -6,6 +6,8 @@ Page({
     buy_num: 1,
     buy_type: 0,
 
+    dz: '',
+
     select: 1,//tab默认选中第一个
     detailSelect: 1,//商品详情tab默认选中第一个
     slides: [
@@ -102,13 +104,14 @@ Page({
       id: 1,
       name: "商品介绍"
       },
-      {
-        id: 2,
-        name: "咨询与售后"
-      }
+      // {
+      //   id: 2,
+      //   name: "咨询与售后"
+      // }
     ]
   },
-  onLoad: async function () {
+  onLoad: async function (options) {
+    this.setData({dz: options.dz || ''});
     wx.showLoading();
     let gift = wx.getStorageSync('gift');
     let res = await global.http.get(`/api/bs/gift/get/detail?gift_code=${gift.gift_code}`);
@@ -166,10 +169,10 @@ Page({
       gift_amount: gift.buy_num,
       sell_income: gift.sell_income,
       buyer_pay_amount: gift.buyer_pay_amount,
-      specification: {standards:gift.standards},
+      picture: gift.picture,
+      specification: gift.specification,
       custom_made: gift.custom_made[s_custom_made],
     });
-    console.log(res);
     wx.setStorageSync('gift', gift);
     wx.showToast({ title: '加入成功！', })
     this.toggle();
@@ -190,5 +193,20 @@ Page({
     this.setData({
       detailSelect: event.currentTarget.id
     })
+  },
+  clickLike: async function () {
+    let {gift} = this.data;
+    let like = gift.like;
+    global.util.showToast.loading();
+    let res = await global.http.post(`/api/bs/user/giftLike/${!like ? 'add' : `cancle/${like}`}`, {gift_code:gift.gift_code});
+    global.util.showToast.hide();
+    if (!res.code) {
+      global.util.showToast.message(!like ? "收藏成功" : "取消收藏");
+    } else {
+      global.util.showToast.message(res.message);
+    }
+  },
+  clickCar () {
+    wx.switchTab({url: `/pages/cart/cart`})
   }
 })

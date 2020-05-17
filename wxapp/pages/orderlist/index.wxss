@@ -40,7 +40,6 @@ page{
 }
 .show{
   display: block;
-  padding-top:4rem;
 }
 .hidden{
   display: none;
