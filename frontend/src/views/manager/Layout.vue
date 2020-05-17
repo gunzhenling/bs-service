@@ -46,8 +46,8 @@ export default {
       pathname: location.pathname,
       actions: [
         {title: "用户管理", link: "/manager/user"},
-        {title: "礼物列表", link: "/manager/gift"},
-        {title: "类型管理", link: "/manager/type"},
+        {title: "礼品列表", link: "/manager/gift"},
+        // {title: "类型管理", link: "/manager/type"},
         {title: "订单列表", link: "/manager/order"},
         {title: "公告管理", link: "/manager/notice"},
       ]

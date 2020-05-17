@@ -11,7 +11,10 @@ import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN';
 export default {
   data() {
     window.formatImg = (img) => {
-      return img ? `http://localhost:5000${img.replace("/frontend/public", "")}` : '';
+      return img ? `http://localhost:9998${img.replace("/frontend/public/images", "").replace("/frontend/images", "")}` : '';
+    }
+    window.decodeImg = (img) => {
+      return img ? img.replace(`http://localhost:9998`, "") : '';
     }
     return {
       locale: zhCN,

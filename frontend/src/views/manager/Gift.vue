@@ -13,9 +13,12 @@
         <br/>
         <a-button :loading="loading" @click="add(record)">编辑</a-button>
       </template>
+      <template slot="picture_url" slot-scope="text, record, index">
+        <img :src="record.picture_url" style="width:100px;height:100px;">
+      </template>
     </a-table>
     <a-modal :current="page" :visible="show" :title="record&&record.gift_code ? '编辑' : '新增礼品'" width="680px" :confirmLoading="loading" @ok="confirm" @cancel="show = false">
-      <div style="height:60vh;overflow:auto">
+      <div v-if="show" style="height:60vh;overflow:auto">
         <Form :content="form" :record="record" @change="change"/>
       </div>
     </a-modal>
@@ -52,6 +55,7 @@ export default {
       columns: [
         {dataIndex: "gift_code", title: "礼品编码"},
         {dataIndex: "gift_name", title: "礼品名称"},
+        {dataIndex: "picture_url", title: "图片", scopedSlots: {customRender: "picture_url"}, custom: "picture_url"},
         {dataIndex: "gift_price", title: "原始价格"},
         {dataIndex: "real_gift_price", title: "实际价格"},
         {dataIndex: "sale_num", title: "已售数量"},
@@ -63,7 +67,7 @@ export default {
   mounted: async function () {
     let res = await this._http.get(`/api/bs/gift/get/giftTypes`);
     this.types = res.result;
-    this.form = [
+    this.initForm = [
       {key: "gift_code", name: "礼品编码", style:"max-width:200px"},
       {key: "gift_name", name: "礼品名称", style:"max-width:200px"},
       {key: "type_code", name: "礼品分类", type: "selector", options: [
@@ -76,10 +80,10 @@ export default {
       {key: "real_gift_price", name: "实际价格", type: "number", float: true},
       {key: "sale_num", name: "已售数量", type: "number", float: true},
       {key: "limit_num", name: "定制最少数量", type: "number", float: true},
-      {key: "specification", name: "礼品规格", type: "inputs"},
+      {key: "specification", name: "礼品规格", type: "inputs", options: [{name:"",value:"standards"}]},
       {key: "custom_made", name: "礼品定制", type: "inputs", options: this.custom_made, Switch: {
-        0: [{name: "标品",value:0}],
-        1: [{name: "标品",value:0}, {name: "定制",value:1}],
+        0: {name: "标品",value:0},
+        1: {name: "定制",value:1},
       }},
       {key: "picture_url", name: "礼品图片", type: "image", style:"max-width:200px"},
       {key: "content", name: "礼品详情", type: "editor"},
@@ -95,6 +99,13 @@ export default {
       this.t_loading = true;
       let res = await this._http.get(`/api/bs/gift/get/list`, {offset: (this.page-1)*this.limit, limit: this.limit});
       this.t_loading = false;
+      res.result.data.forEach((item, i) => {
+        item.specification = JSON.parse(item.specification);
+        item.custom_made = JSON.parse(item.custom_made);
+        item.picture_url = formatImg(item.picture);
+        console.log(item);
+      });
+
       this.list = res.result.data;
       this.total = res.result.total;
       this.pagination = {
@@ -112,7 +123,8 @@ export default {
     },
     add (record) {
       this.show = true;
-      this.record = record;
+      this.record = record || {};
+      this.form = JSON.parse(JSON.stringify(this.initForm));
       this.formData = [];
     },
     change (e) {
@@ -121,9 +133,10 @@ export default {
     },
     confirm: async function () {
       let body = {};
+      console.log(this.formData );
       (this.formData || []).forEach((e, i) => {
         if (e.type == "image") {
-          body[e.key] = e.value && e.value[0] ? (e.value[0].response &&  e.value[0].response.result || '') : undefined;
+          body[e.key] = e.value && e.value[0] ? (e.value[0].url || (e.value[0].response &&  e.value[0].response.result) || '') : undefined;
         } else {
           body[e.key] = e.value;
         }
@@ -136,14 +149,15 @@ export default {
       if (!body.real_gift_price) return this.$message.error("请输入实际价格");
       if (!body.sale_num) return this.$message.error("请输入已售数量");
       if (!body.limit_num) return this.$message.error("请输入定制最少数量");
-      if (body.specification) body.specification = body.specification.filter(e => e.replace(/ /g, '')).map(e => ({standards:e}));
       if (!body.specification || !body.specification.length) return this.$message.error("礼品规格不能为空");
+      if (!body.specification || body.specification.some(e => [{name:"规格",value:"standards"}].some(made => !e[made.value])))  return this.$message.error("请填写完整礼品规格");
       if (!body.custom_made || !body.custom_made.length) return this.$message.error("礼品定制不能为空");
-      if (!body.custom_made || !body.custom_made.some(e => this.custom_made.some(made => e[made.value])))  return this.$message.error("请填写完整礼品定制");
+      if (!body.custom_made || body.custom_made.some(e => this.custom_made.some(made => !e[made.value])))  return this.$message.error("请填写完整礼品定制");
       if (body.picture_url == undefined) return this.$message.error("请输入礼品图片");
       if (!body.picture_url) return this.$message.error("请输入礼品图片上传成功");
       if (!body.content) return this.$message.error("请输入礼品详情");
       let edit = this.record && this.record.gift_code;
+      body.picture_url = decodeImg(body.picture_url);
       this.loading = true;
       let res = await this._http.post(`/api/bs/gift/${edit ?'update':'add'}`, body);
       this.loading = false;
