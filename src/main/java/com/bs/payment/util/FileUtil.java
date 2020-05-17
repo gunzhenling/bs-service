@@ -78,7 +78,6 @@ public class FileUtil {
             }
 //          放到对应路径目录中
             String filePath = rootPath+fileUrlPrefix+fileName;
-//            String filePath = fileUrlPrefix+fileName;
             FileOutputStream out = new FileOutputStream(filePath);
             out.write(file.getBytes());
             out.flush();
@@ -94,7 +93,7 @@ public class FileUtil {
 //            byte[] bytes = file.getBytes();
 //            dataMap.put("bytes", bytes);
             
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
         	
