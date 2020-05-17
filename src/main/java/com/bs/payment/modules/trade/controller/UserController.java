@@ -186,11 +186,11 @@ public class UserController {
 	
 	@PostMapping("/giftLike/valid/{gift_code}")
 	@ApiOperation(value = "判断礼品是否用户已收藏")
-	public ZcResult<String> validGiftLike(@PathVariable(value="gift_code",required=true) Integer giftCode) throws Exception {
+	public ZcResult<Long> validGiftLike(@PathVariable(value="gift_code",required=true) Integer giftCode) throws Exception {
 		
 		log.info("user-validGiftLike-info: request   giftCode={}",giftCode);
 		 
-		String result = userGiftLikeService.validGiftLike(giftCode);
+		Long result = userGiftLikeService.validGiftLike(giftCode);
 		
 		return ZcResult.ok(result);
 	}

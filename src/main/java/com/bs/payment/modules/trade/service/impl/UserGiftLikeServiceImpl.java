@@ -85,15 +85,15 @@ public class UserGiftLikeServiceImpl extends ServiceImpl<UserGiftLikeMapper, Use
 	}
 
 	@Override
-	public String validGiftLike(Integer giftCode) {
+	public Long validGiftLike(Integer giftCode) {
 
 		UserGiftLikeEntity selectOne = userGiftLikeMapper.selectOne(QueryBuilder.where("gift_code", giftCode));
 		if(null==selectOne){
 			
-			return Consts.NO;
+			return 0l;
 		}
 		
-		return Consts.YES;
+		return selectOne.getId();
 	}
  
 

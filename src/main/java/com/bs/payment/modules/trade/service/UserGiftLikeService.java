@@ -40,7 +40,7 @@ public interface UserGiftLikeService extends IService<UserGiftLikeEntity> {
 	 * @param id
 	 * @return
 	 */
-	String validGiftLike(Integer giftCode );
+	Long validGiftLike(Integer giftCode );
 	
 
 }
