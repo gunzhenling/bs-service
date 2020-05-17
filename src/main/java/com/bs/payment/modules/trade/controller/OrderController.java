@@ -86,7 +86,9 @@ public class OrderController {
 			@RequestParam(value="made_type",required=false) Integer madeType,
 			@RequestParam(value="pay_status",required=false) Integer payStatus,
 			@RequestParam(value="ship_status",required=false) Integer shipStatus,
-			@RequestParam(value="limit",required=false,defaultValue="5") Integer limit,@RequestParam(value="offset",required=false,defaultValue="0") Integer offset) throws Exception {
+			@RequestParam(value="limit",required=false,defaultValue="5") Integer limit,
+			@RequestParam(value="offset",required=false,defaultValue="0") Integer offset
+			) throws Exception {
 		
 		log.info("Order-bgGetList-info: request  orderNo={},madeType={},user_id={},pay_status={},ship_status={},limit={},offset={}"
 				,orderNo,madeType,userId,payStatus,shipStatus,limit,offset);

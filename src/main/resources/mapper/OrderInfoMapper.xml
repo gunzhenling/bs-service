@@ -27,9 +27,9 @@
 	</select>
 	
 	<select id="getBgOrderList" resultType="OrderInfoRespVO" >
-		SELECT  ord.*,gift.picture
-		FROM bs_order_info AS ord
-		INNER JOIN bs_gift_info AS gift ON ord.gift_code = ord.gift_code
+		
+		SELECT   ord.*,gift.picture FROM bs_order_info AS ord 
+		INNER JOIN bs_gift_info AS gift ON gift.gift_code = ord.gift_code 
 		<where>
 			<if test="orderNo!=null">
 				ord.order_no = #{orderNo}

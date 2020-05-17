@@ -2,7 +2,6 @@ package com.bs.payment.modules.trade.service.impl;
 
 import java.util.List;
 
-import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +9,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bs.payment.modules.trade.dao.CommonProblemMapper;
 import com.bs.payment.modules.trade.entity.CommonProblemEntity;
 import com.bs.payment.modules.trade.service.CommonProblemService;
+import com.google.common.collect.Lists;
 
 import lombok.extern.slf4j.Slf4j;
 import xyz.nesting.common.message.ZcPageResult;
