@@ -11,131 +11,68 @@
     </view>
     <view class='hr'></view>
     <view class='introduces_content'>
-      <view>1.	输入包裹长宽高明确月租金。</view>
-      <view class='list'>2.	点击（存放）把物品邮寄到黑洞仓储，并上传快递信息。</view>
-      <view class='list'>3.	选择存放时长。</view>
-      <view class='list'>4.	仓库签收快递，用户支付租金。</view>
-      <view class='list'>5.	物品正式入仓保管。</view>
+      <view>1.	进入礼品详情页面，点击购买选择规格以及定制（不是成品）</view>
+      <view class='list'>2.	下单时，上传定制logo图片</view>
+      <view class='list'>3.	等待客服审核发货</view>
+      <view class='list'>4.	定制礼品到手啦~</view>
     </view>
   </view>
   <!-- 如何存放物品 -->
   <view class='introduce'  bindtap='howStorage' wx:if="{{howStorage}}">
-    <view class='introduce_title'>如何存放物品</view>
+    <view class='introduce_title'>如何修改密码</view>
     <view class='zhankai'>+</view>
   </view>
   <view class='introduces'  bindtap='howStorage' wx:else>
     <view class='introduces_head'>
-      <view class='introduce_titles'>如何存放物品</view>
+      <view class='introduce_titles'>如何修改密码</view>
       <view class='zhankai'>-</view>
     </view>
     <view class='hr'></view>
     <view class='introduces_content'>
-      <view>1.	输入包裹长宽高明确月租金。</view>
-      <view class='list'>2.	点击（存放）把物品邮寄到黑洞仓储，并上传快递信息。</view>
-      <view class='list'>3.	选择存放时长。</view>
-      <view class='list'>4.	仓库签收快递，用户支付租金。</view>
-      <view class='list'>5.	物品正式入仓保管。</view>
+      <view>1.	进入主页面点击右下角个人中心</view>
+      <view class='list'>2.	点击修改密码</view>
+      <view class='list'>3.	填写旧密码以及新密码</view>
+      <view class='list'>4.	修改成功~</view>
     </view>
   </view>
   <!--如何取回物品-->
   <view class='introduce' bindtap='howRetrieved' wx:if="{{howRetrieved}}">
-    <view class='introduce_title'>如何取回物品</view>
+    <view class='introduce_title'>收藏列表</view>
     <view class='zhankai'>+</view>
   </view>
   <view class='introduces' bindtap='howRetrieved' wx:else>
     <view class='introduces_head'>
-      <view class='introduce_titles'>如何取回物品</view>
+      <view class='introduce_titles'>收藏列表</view>
       <view class='zhankai'>-</view>
     </view>
     <view class='hr'></view>
     <view class='introduces_content'>
-      <view>1.	输入包裹长宽高明确月租金。</view>
-      <view class='list'>2.	点击（存放）把物品邮寄到黑洞仓储，并上传快递信息。</view>
-      <view class='list'>3.	选择存放时长。</view>
-      <view class='list'>4.	仓库签收快递，用户支付租金。</view>
-      <view class='list'>5.	物品正式入仓保管。</view>
+      <view>1.	进入礼品详情</view>
+      <view class='list'>2.	点击左下角第三个图标</view>
+      <view class='list'>3.	收藏成功~</view>
+      <view class='list'>4.	【个人中心】-【收藏列表】可以查看已收藏礼品</view>
     </view>
   </view>
   <!-- 收费标准 -->
   <view class='introduce' bindtap='feeScale' wx:if="{{feeScale}}">
-    <view class='introduce_title'>收费标准</view>
+    <view class='introduce_title'>购物车</view>
     <view class='zhankai'>+</view>
   </view>
   <view class='introduces' bindtap='feeScale' wx:else>
     <view class='introduces_head'>
-      <view class='introduce_titles'>收费标准</view>
+      <view class='introduce_titles'>购物车</view>
       <view class='zhankai'>-</view>
     </view>
     <view class='hr'></view>
     <view class='introduces_content'>
-      <view>1.	输入包裹长宽高明确月租金。</view>
-      <view class='list'>2.	点击（存放）把物品邮寄到黑洞仓储，并上传快递信息。</view>
-      <view class='list'>3.	选择存放时长。</view>
-      <view class='list'>4.	仓库签收快递，用户支付租金。</view>
-      <view class='list'>5.	物品正式入仓保管。</view>
-    </view>
-  </view>
-  <!-- 安全保障 -->
-  <view class='introduce' bindtap='insurance' wx:if="{{insurance}}">
-    <view class='introduce_title'>安全保障</view>
-    <view class='zhankai'>+</view>
-  </view>
-  <view class='introduces' bindtap='insurance' wx:else>
-    <view class='introduces_head'>
-      <view class='introduce_titles'>安全保障</view>
-      <view class='zhankai'>-</view>
-    </view>
-    <view class='hr'></view>
-    <view class='introduces_content'>
-      <view>1.	输入包裹长宽高明确月租金。</view>
-      <view class='list'>2.	点击（存放）把物品邮寄到黑洞仓储，并上传快递信息。</view>
-      <view class='list'>3.	选择存放时长。</view>
-      <view class='list'>4.	仓库签收快递，用户支付租金。</view>
-      <view class='list'>5.	物品正式入仓保管。</view>
-    </view>
-  </view>
-  <!-- 存放品限制 -->
-  <view class='introduce' bindtap='storageLimit' wx:if="{{storageLimit}}">
-    <view class='introduce_title'>存放品限制</view>
-    <view class='zhankai'>+</view>
-  </view>
-  <view class='introduces' bindtap='storageLimit' wx:else>
-    <view class='introduces_head'>
-      <view class='introduce_titles'>存放品限制</view>
-      <view class='zhankai'>-</view>
-    </view>
-    <view class='hr'></view>
-    <view class='introduces_content'>
-      <view>1.	输入包裹长宽高明确月租金。</view>
-      <view class='list'>2.	点击（存放）把物品邮寄到黑洞仓储，并上传快递信息。</view>
-      <view class='list'>3.	选择存放时长。</view>
-      <view class='list'>4.	仓库签收快递，用户支付租金。</view>
-      <view class='list'>5.	物品正式入仓保管。</view>
-    </view>
-  </view>
-  <!-- 用户服务协议 -->
-  <view class='introduce' bindtap='protocol' wx:if="{{protocol}}">
-    <view class='introduce_title'>如何取回物品</view>
-    <view class='zhankai'>+</view>
-  </view>
-  <view class='introduces' bindtap='protocol' wx:else>
-    <view class='introduces_head'>
-      <view class='introduce_titles'>如何取回物品</view>
-      <view class='zhankai'>-</view>
-    </view>
-    <view class='hr'></view>
-    <view class='introduces_content'>
-      <view>1.	输入包裹长宽高明确月租金。</view>
-      <view class='list'>2.	点击（存放）把物品邮寄到黑洞仓储，并上传快递信息。</view>
-      <view class='list'>3.	选择存放时长。</view>
-      <view class='list'>4.	仓库签收快递，用户支付租金。</view>
-      <view class='list'>5.	物品正式入仓保管。</view>
+      <view>1.	礼品详情页面点击加入购物车</view>
+      <view class='list'>2.	提示加入购物车成功，即可在购物车中查看已加入购物车的礼品</view>
     </view>
   </view>
 </view>
 <!-- 热线 -->
 <!-- <view class='tel-h'></view> -->
-<view class='rexian' style='position:{{display}}'>
+<view class='rexian'>
   <view class='tel'>服务热线：4008-888-999</view>
 </view>
  <view class='kefu contact_btn' >

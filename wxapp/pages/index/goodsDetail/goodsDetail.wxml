@@ -4,8 +4,8 @@
     <image class="icon-go-back" src="../../../images/go_back.png"></image>
   </view> -->
   <!--轮播图-->
-  <swiper class="swiper-wrapper" autoplay="true" circular="true" indicator-dots="true" indicator-color="#fff" indicator-active-color="#FFA042">
-    <swiper-item class="swiper-item" wx:for="{{slides}}" wx:key="*this">
+  <swiper class="swiper-wrapper"  indicator-color="#fff" indicator-active-color="#FFA042">
+    <swiper-item class="swiper-item" wx:for="{{[gift.pic]}}" wx:key="{{index}}">
       <image class="slider-image" src="{{item}}" mode="widthFix"></image>
     </swiper-item>
   </swiper>
@@ -108,7 +108,7 @@
                 bindtap='clickItem' class='item {{item.standards == selected ? "active" : ""}}'>{{item.standards}}</view>
             </view>
           </view>
-          <view wx:if="{{dz}}">
+          <view wx:if="{{gift.custom_made && gift.custom_made.length == 2}}">
             <view class="fl fw">定制</view>
             <view  class="custom_made">
               <view wx:for="{{gift.custom_made}}" wx:key='{{index}}' data-index="{{index}}" bindtap='clickCustom' class='{{index == s_custom_made ? "active" : ""}}'>

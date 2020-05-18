@@ -1,9 +1,8 @@
 <template>
   <div class="">
     <Title content="订单管理"/>
-    <div style="text-align:left">
-      共 {{total}} 条
-    </div>
+    <FilterView :content="filter" @change="filterChange"/>
+    <div style="text-align:left"> 共 {{total}} 条 </div>
     <a-table :pagination="pagination" :loading="t_loading" :rowKey="(e,i) => i" :columns="columns" bordered :data-source="list" @change="changePage">
       <template slot="oprate" slot-scope="text, record, index">
         <!-- <a-button v-if="record.order_status=='未付款'" :loading="loading" @click="add(record)">编辑</a-button>
@@ -25,9 +24,10 @@
 <script>
 import Title from "../../components/Title.vue";
 import Form from "../../components/Form.vue";
+import FilterView from "../../components/FilterView.vue";
 import Editor from "../../components/common/Editor.vue";
 export default {
-  components: {Title, Form},
+  components: {Title, Form, FilterView},
   data () {
     // 函数编号	功能函数名	父级标签	访问级别	函数类型	函数状态	操作
     return {
@@ -35,6 +35,13 @@ export default {
         {name: "版费", value: "b_fee"},
         {name: "定制费", value: "made_fee"},
         {name: "定做工期", value: "prod_date"},
+      ],
+      filter: [
+        {name:"定制",type:"selector", key: "made_type", options: [
+          {name: '全部',value:"all"},
+          {name: '成品',value:"0"},
+          {name: '定制',value:"1"},
+        ]},
       ],
       page: 1,
       limit: 10,
@@ -95,7 +102,9 @@ export default {
     },
     getData: async function (){
       this.t_loading = true;
-      let res = await this._http.get(`/api/bs/order/get/list`, {offset: (this.page-1)*this.limit, limit: this.limit});
+      let res = await this._http.get(`/api/bs/order/get/list`, {
+        made_type: this.made_type,
+        offset: (this.page-1)*this.limit, limit: this.limit});
       this.t_loading = false;
       res.result.data.forEach((item, i) => {
         let user_address_json = JSON.parse(item.user_address_json);
@@ -145,6 +154,12 @@ export default {
     },
     change (e) {
       this.formData = e;
+    },
+    filterChange (e) {
+      Object.keys(e).forEach((key, i) => {
+        this[key] = e[key];
+      });
+      this.getData();
     },
     changeStatus: async function (record, ship_status) {
       this.loading = true;

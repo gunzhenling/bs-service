@@ -1,9 +1,8 @@
 <template>
   <div class="">
     <Title content="礼品管理"/>
-    <div style="text-align:left">
-      共 {{total}} 条
-    </div>
+    <FilterView :content="filter" @change="filterChange"/>
+    <div style="text-align:left"> 共 {{total}} 条 </div>
     <a-button style="float:right;margin-top:-40px;" @click="add({})">新增礼品</a-button>
     <a-table :pagination="pagination" :loading="t_loading" :rowKey="(e,i) => i" :columns="columns" bordered :data-source="list" @change="changePage">
       <template slot="oprate" slot-scope="text, record, index">
@@ -28,9 +27,10 @@
 <script>
 import Title from "../../components/Title.vue";
 import Form from "../../components/Form.vue";
+import FilterView from "../../components/FilterView.vue";
 import Editor from "../../components/common/Editor.vue";
 export default {
-  components: {Title, Form},
+  components: {Title, Form,FilterView},
   data () {
     // 函数编号	功能函数名	父级标签	访问级别	函数类型	函数状态	操作
     return {
@@ -38,6 +38,13 @@ export default {
         {name: "版费", value: "b_fee"},
         {name: "定制费", value: "made_fee"},
         {name: "定做工期", value: "prod_date"},
+      ],
+      filter: [
+        {name:"定制",type:"selector", key: "made_type", options: [
+          {name: '全部',value:"all"},
+          {name: '成品',value:"0"},
+          {name: '定制',value:"1"},
+        ]},
       ],
       page: 1,
       limit: 10,
@@ -97,7 +104,9 @@ export default {
     },
     getData: async function (){
       this.t_loading = true;
-      let res = await this._http.get(`/api/bs/gift/get/list`, {offset: (this.page-1)*this.limit, limit: this.limit});
+      let res = await this._http.get(`/api/bs/gift/get/list`, {
+        made_type: this.made_type,
+        offset: (this.page-1)*this.limit, limit: this.limit});
       this.t_loading = false;
       res.result.data.forEach((item, i) => {
         item.specification = JSON.parse(item.specification);
@@ -121,7 +130,14 @@ export default {
       this.page = 1;
       this.getData();
     },
-    add (record) {
+    add: async function (record) {
+      if (record && record.gift_code && !record.content) {
+        this.loading = true;
+        let res = await this._http.get(`/api/bs/gift/get/detail?gift_code=${record.gift_code}`);
+        console.log(res);
+        this.loading = false;
+        record.content = res.result.content;
+      }
       this.show = true;
       this.record = record || {};
       this.form = JSON.parse(JSON.stringify(this.initForm));
@@ -130,6 +146,12 @@ export default {
     change (e) {
       this.formData = e;
       console.log(e);
+    },
+    filterChange (e) {
+      Object.keys(e).forEach((key, i) => {
+        this[key] = e[key];
+      });
+      this.getData();
     },
     confirm: async function () {
       let body = {};
@@ -156,6 +178,7 @@ export default {
       if (body.picture_url == undefined) return this.$message.error("请输入礼品图片");
       if (!body.picture_url) return this.$message.error("请输入礼品图片上传成功");
       if (!body.content) return this.$message.error("请输入礼品详情");
+      body.made_type = body.custom_made.length == 2 ? 1 : 0;
       let edit = this.record && this.record.gift_code;
       body.picture_url = decodeImg(body.picture_url);
       this.loading = true;
