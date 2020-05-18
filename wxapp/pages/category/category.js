@@ -58,7 +58,7 @@ Page({
   getData: async function () {
     wx.showLoading();
     let {offset,limit, select, searchText, categories} = this.data;
-    let con = {offset,limit};
+    let con = {offset,limit,made_type: 0};
     if (!searchText) {
       con.type_code = categories[select].type_code;
     } else {

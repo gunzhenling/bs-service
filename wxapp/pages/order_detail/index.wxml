@@ -35,6 +35,10 @@
 			<text>{{order._order_no}}</text>
 		</view>
 		<view class="cell">
+			<text>下单时间</text>
+			<text>{{order.create_time}}</text>
+		</view>
+		<view class="cell">
 			<text>订单总价</text>
 			<text>{{order.buyer_pay_amount}}元</text>
 		</view>
