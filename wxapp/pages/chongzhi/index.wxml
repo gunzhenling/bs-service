@@ -1,5 +1,5 @@
 <!--pages/chongzhi/index.wxml-->
-<view class='main' style="padding-top:4rem;">
+<view class='main' style="padding-top:0;">
   <form>
     <view class='panel'>
       <view class='recharge'>充值金额</view>

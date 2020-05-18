@@ -52,76 +52,44 @@ page{
   background: #ffffff;
   border-radius: 8rpx;
 }
-.list_top{
-  width: 100%;
-  /* height: 130rpx; */
+
+.order_title {
+  font-size:28rpx;
   display: flex;
   justify-content: space-between;
-  overflow: hidden;
-  border-bottom: 1xp solid #ddd;
-  align-items: flex-start;
-}
-.numAndTime{
-  width: 680rpx;
-  /* height: 98rpx; */
-  margin: 30rpx 0 15rpx 30rpx;
-  display: flex;
-}
-.numInfo{
-  width: 380rpx;
-  font-size: 32rpx;
-  color: #3d4663;
-}
-.numPic{
-  width: 130rpx;
-  height: 130rpx;
-  display: block;
-  margin:0 14rpx 0 0;
-  float: left
-}
-.num{
-  font-weight: bold;
-  /* float: left */
-}
-.time{
-  line-height: 24rpx;
-  font-size: 24rpx;
-  margin-top: 30rpx;
-  color:#999999;
-}
-.hr{
-  width: 90%;
-  height: 1rpx;
-  background: #e6e6e6;
-  margin: auto;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding: 20rpx 0;
+  padding-left: 20rpx;
 }
 .state{
-  width: 140rpx;
+  width: 120rpx;
   /* height: 54rpx; */
   background: red;
-  font-size: 24rpx;
-  padding: 10rpx;
+  font-size: 22rpx;
+  padding: 10rpx 5rpx;
   /* line-height: 54rpx; */
   text-align: center;
   color:#ffffff;
   border-top-left-radius: 27rpx;
   border-bottom-left-radius: 27rpx;
-  margin-top: 34rpx;
+  /* margin-top: 34rpx; */
 }
 .loadBtn{
-  width: calc(100% - 60rpx);
-  /* height: 54rpx; */
   display: flex;
   justify-content: flex-end;
-  /* float: right; */
-  /* margin:30rpx 26rpx 0 0; */
-  padding: 15rpx 0;
-  margin: 0 30rpx;
+  align-items: center;
+  padding: 15rpx;
   border-top: 1px solid #ddd;
 }
-.loadBtn >view {
 
-  width: 160rpx;
+.time {
+  float: left;
+  font-size: 22rpx;
+  flex: 1;
+}
+.loadBtn >view {
+  width: 140rpx;
   height: 50rpx;
   display: block;
   font-size: 24rpx;
@@ -255,4 +223,39 @@ checkbox .wx-checkbox-input.wx-checkbox-input-checked::before{
   align-items: center;
   color: #707070;
   font-size: 12px;
+}
+
+
+.block {
+  background: white;
+  width: calc(100% - 80rpx);
+  padding: 20rpx 40rpx!important;
+  margin-top: 10rpx;
+  font-size: 26rpx;
+}
+.cell {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* border-bottom: 1px solid #ddd; */
+  padding: 5rpx 0;
+}
+.goods_info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.goods_info >image {
+  width: 120rpx;
+  height: 120rpx;
+  margin-right: 30rpx;
+}
+.goods_info >view {
+  flex: 1;
+  font-size: 20rpx;
+  margin-bottom: 5rpx;
+}
+.goods_info >view>view:first-child {
+  font-size: 28rpx;
+  margin-bottom: 15rpx;
 }

@@ -66,15 +66,36 @@ Page({
     }
     let res = await global.http.get('/api/bs/order/get/list', {...con,offset,limit});
     let loadList = res.data;
-    loadList.forEach((e, i) => {
-      e._order_no = e.order_no.substr(22,10);
-      e.pic = global.util.img(e.picture);
-      e._picture_logo = global.util.img(e.picture_logo);
+    loadList.forEach((order, i) => {
+      order._order_no = order.order_no.substr(22,10);
+      if ( order.picture) {
+        order.pic = global.util.img(order.picture);
+      }
+      if (order.picture_logo) {
+        order._picture_logo = global.util.img(order.picture_logo);
+      }
+      order.carrier_tracks_json = JSON.parse(order.carrier_tracks_json);
+      order.specification = JSON.parse(order.specification);
+      order.custom_made = JSON.parse(order.custom_made);
+      order.user_address_json = JSON.parse(order.user_address_json);
+      if (order.carrier_tracks_json) {
+        try {
+          order.carrier_tracks_json.carrier_tracks.forEach((item, i) => {
+            item.accept_time = global.util.formatDate(item.accept_time);
+          });
+
+        } catch (e) {
+          console.log(e);
+        } finally {
+
+        }
+      }
     });
 
     if (offset != 0) {
       loadList = this.data.loadList.concat(loadList);
     }
+    console.log(loadList);
     this.setData({hasMore: loadList.length < res.total, loadList});
     wx.hideLoading();
   },

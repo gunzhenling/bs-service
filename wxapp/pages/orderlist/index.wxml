@@ -10,24 +10,32 @@
 	<view class='kong {{kong2?"kong2":""}}'></view>
 	<view>
 		<view class='list' wx:for="{{loadList}}" wx:for-item="item" wx:key='id'>
-			<view class='list_top'>
-				<view class='numAndTime'>
-					<image class='numPic' src='{{item.pic}}'></image>
-					<view class='numInfo'>
-						<view class='num'>订单编号:{{item._order_no}}</view>
-						<view class='time'>创建时间:{{item.create_time}}</view>
+			<view>
+				<view class="order_title">
+					<view >订单编号 <text>{{item._order_no}}</text> </view>
+					<view class='state' wx:if="{{current == 1}}">待付款</view>
+					<view class='state' wx:if="{{current == 2}}" style="background:#EFD43A">待发货</view>
+					<view class='state' wx:if="{{current == 3}}" style="background:green">待收货</view>
+				</view>
+				<view class="block ">
+					<view class="goods_info">
+						<image src="{{item.pic}}"></image>
+						<view>
+							<view>商品名称： {{item.gift_name}}</view>
+							<view>规格： {{item.specification.standards}}</view>
+							<view>数量： {{item.gift_amount}}</view>
+							<view>单价： {{item.gift_price}}元</view>
+						</view>
 					</view>
 				</view>
-				<view class='state' wx:if="{{current == 1}}">待付款</view>
-				<view class='state' wx:if="{{current == 2}}">待发货</view>
-				<view class='state' wx:if="{{current == 3}}">待收货</view>
 				<!-- <view class='state'wx:if="{{current == 4}}">已完成</view> -->
 			</view>
 			<view class='loadBtn'>
-				<view class='see_btn' data-item="{{item}}" bindtap='loadDetails'>详情</view>
-				<view class='extend_btn' data-item="{{item}}" bindtap='pay' wx:if="{{current == 1}}">余额支付</view>
-        <view class='extend_btn' data-item="{{item}}" bindtap='cancel' wx:if="{{current == 1}}">取消</view>
-				<view class='extend_btn' data-item="{{item}}" bindtap='receive' wx:if="{{current == 3}}">确认收货</view>
+				<text class="time">{{item.create_time}}</text>
+				<view class='extend_btn' data-item="{{item}}" bindtap='loadDetails'>详情</view>
+				<view class='extend_btn' data-item="{{item}}" bindtap='pay' wx:if="{{current == 1}}"  style="background:red;color:white">余额支付</view>
+        <view class='extend_btn' data-item="{{item}}" bindtap='cancel' wx:if="{{current == 1}}"  style="background:green;color:white">取消</view>
+				<view class='extend_btn' data-item="{{item}}" bindtap='receive' wx:if="{{current == 3}}"  style="background:green;color:white">确认收货</view>
 			</view>
 		</view>
 	</view>
