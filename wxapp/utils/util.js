@@ -1,3 +1,5 @@
+import config from "./config.js";
+
 const formatTime = date => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
@@ -87,7 +89,7 @@ export const showToast = {
 }
 
 const img = (img) => {
-  return img ? `http://localhost:5000${img.replace("/frontend/public", "")}` : '';
+  return img ? `${config.ip}:9998${img.replace("/frontend/public/images", "").replace("/frontend/images", "")}` : '';
 }
 
 module.exports = {

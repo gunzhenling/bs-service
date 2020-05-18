@@ -98,8 +98,9 @@ page{
 .state{
   width: 140rpx;
   /* height: 54rpx; */
-  background: #3d4663;
-  font-size: 26rpx;
+  background: red;
+  font-size: 24rpx;
+  padding: 10rpx;
   /* line-height: 54rpx; */
   text-align: center;
   color:#ffffff;

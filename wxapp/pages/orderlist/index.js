@@ -24,8 +24,8 @@ Page({
     select_all: false,
     //待付款数据
     loadList: [
-      { id: 1, num: "D19060122", fengmian: '../../images/lipins/lipin1.jpg', time: "2019-03-02" },
-      { id: 2, num: "D19060123", fengmian: '../../images/lipins/lipin2.jpg', time: "2019-03-02" }
+      // { id: 1, num: "D19060122", fengmian: '../../images/lipins/lipin1.jpg', time: "2019-03-02" },
+      // { id: 2, num: "D19060123", fengmian: '../../images/lipins/lipin2.jpg', time: "2019-03-02" }
     ],
     //在仓的导航栏样式
     kong2: false

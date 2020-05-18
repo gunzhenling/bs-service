@@ -1,7 +1,7 @@
 # 服务
 
 ## 前置依赖
-- MySQL 数据库 
+- MySQL 数据库
 
 
 ## Quick start
@@ -18,6 +18,17 @@ mvn clean compile package -DskipTests
 
 ### 运行
 ```
+管理后台项目
+  启动端口 5000 浏览器访问  http://localhost:5000
+    cd frontend
+    npm install (第一次启动)
+    npm run dev
+  启动端口 9998 图片服务端口 http://localhost:9998 获取图片
+    node z-image.js
+
+小程序请使用工具，导入wxapp项目
+
+
 cd target
 
 # 以 dev 配置启动 (默认)

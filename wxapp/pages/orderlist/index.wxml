@@ -18,9 +18,9 @@
 						<view class='time'>创建时间:{{item.create_time}}</view>
 					</view>
 				</view>
-				<view class='state'wx:if="{{current == 1}}">待付款</view>
-				<view class='state'wx:if="{{current == 2}}">待发货</view>
-				<view class='state'wx:if="{{current == 3}}">待收货</view>
+				<view class='state' wx:if="{{current == 1}}">待付款</view>
+				<view class='state' wx:if="{{current == 2}}">待发货</view>
+				<view class='state' wx:if="{{current == 3}}">待收货</view>
 				<!-- <view class='state'wx:if="{{current == 4}}">已完成</view> -->
 			</view>
 			<view class='loadBtn'>
