@@ -97,7 +97,7 @@ public class GiftController {
 	@ApiOperation(value = "新增礼品")
 	public ZcResult<?> add(@RequestBody BsGiftInfoReqVO giftInfoReqVO) throws Exception {
 		
-//		log.info("GiftController-add-info: request giftInfoReqVO={}",JSON.toJSONString(giftInfoReqVO));
+		log.info("GiftController-add-info: request giftInfoReqVO={}",JSON.toJSONString(giftInfoReqVO));
 		
 		String result = giftInfoService.add(giftInfoReqVO);
 		
