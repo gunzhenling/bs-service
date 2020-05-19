@@ -10,9 +10,9 @@
 	
 	<select id="getList" resultType="CommonProblemEntity" >
 		select  *
-		from bs_common_problem 
-		limit #{offset},#{limit}
-		 
+		from bs_common_problem  
+		 order by update_time desc 
+		limit #{offset},#{limit}  
 	</select>
 	
 	 

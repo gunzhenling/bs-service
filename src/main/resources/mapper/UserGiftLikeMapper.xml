@@ -12,9 +12,10 @@
 		
 		SELECT ugl.user_id,ugl.gift_code,gift.gift_name,gift.picture,gift.sale_num,gift.real_gift_price
 		FROM bs_user_gift_like AS ugl
-		INNER JOIN bs_gift_info AS gift ON ugl.gift_code = gift.gift_code
-		 
-		limit #{offset},#{limit}
+		INNER JOIN bs_gift_info AS gift ON ugl.gift_code = gift.gift_code 
+		order by ugl.update_time desc
+		limit #{offset},#{limit} 
+		
 		 
 	</select>
 

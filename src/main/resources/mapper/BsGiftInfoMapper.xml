@@ -42,7 +42,9 @@
 				and made_type = #{madeType}
 			</if>
 		</where>
+		order by update_time desc 
 		limit #{offset},#{limit}
+		 
 		 
 	</select>
 	
@@ -58,8 +60,9 @@
 				  and gift_name like   CONCAT('%',#{searchQuery}, '%')
 			</if>
 		</where>
-		limit #{offset},#{limit}
-		 
+		order by update_time desc 
+		limit #{offset},#{limit} 
+		  
 	</select>
 	
 	<delete id="deteleByGiftCode">
