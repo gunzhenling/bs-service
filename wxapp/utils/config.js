@@ -1,4 +1,4 @@
-const  ip = "http://192.168.42.104";
+const  ip = "http://192.168.43.65";
 module.exports = {
   ip: ip,
   host: `${ip}:9999`

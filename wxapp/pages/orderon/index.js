@@ -57,10 +57,11 @@ Page({
       res = await global.http.post(`/api/bs/order/pay`, {order_no: order.order_no, pay_channel: "YuE"});
       if (!res.code) {
         await global.util.showToast.message('支付成功');
-        wx.redirectTo({url: "/pages/orderlist/index"})
+        wx.redirectTo({url: "/pages/orderlist/index?current=2"})
       } else {
         global.util.showToast.hide();
-        global.util.showToast.message(res.message);
+        await global.util.showToast.message(res.message);
+        wx.redirectTo({url: "/pages/orderlist/index?current=1"})
       }
     } else {
       global.util.showToast.hide();

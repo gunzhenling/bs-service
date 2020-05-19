@@ -59,7 +59,7 @@
   border-bottom: 2rpx solid #f8f8f8;
   padding: 20rpx;
 }
-.bargain-img {  
+.bargain-img {
   width: 180rpx;
   height: 180rpx;
   margin-right: 20rpx;
@@ -146,6 +146,12 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+.topic-item-title {
+  padding-right: 10rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .topic-item-price {
   color: #ed4040;
 }
@@ -169,4 +175,3 @@
   color: #707070;
   font-size: 12px;
 }
-

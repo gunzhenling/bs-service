@@ -190,6 +190,13 @@
 					"id": -1,
 					"name": "pages/orderlist/index",
 					"pathName": "pages/orderlist/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/helplist/index",
+					"pathName": "pages/helplist/index",
 					"scene": null
 				}
 			]
