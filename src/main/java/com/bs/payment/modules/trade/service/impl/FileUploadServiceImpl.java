@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.bs.payment.common.constans.Consts;
 import com.bs.payment.common.exception.BusinessException;
 import com.bs.payment.modules.trade.service.FileUploadService;
-import com.bs.payment.util.FileUtil;
+import com.bs.payment.util.BsFileUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,7 +32,7 @@ public class FileUploadServiceImpl implements FileUploadService {
 		String fileUrl= "";
 		try {
 			
-			Map<String, String> dataMap = FileUtil.uploadFile(pictureFile, filePath, fileType);
+			Map<String, String> dataMap = BsFileUtil.uploadFile(pictureFile, filePath, fileType);
 			String returnCode = dataMap.get("return_code");
 			 
 			if(!Consts.SUCCESS.equals(returnCode)) {

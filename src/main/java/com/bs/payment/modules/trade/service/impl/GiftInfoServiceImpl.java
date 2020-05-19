@@ -22,7 +22,7 @@ import com.bs.payment.modules.trade.vo.BsGiftInfoReqVO;
 import com.bs.payment.modules.trade.vo.BsGiftInfoRespVO;
 import com.bs.payment.modules.trade.vo.CustomMadeVO;
 import com.bs.payment.modules.trade.vo.SpecificationVO;
-import com.bs.payment.util.FileUtil;
+import com.bs.payment.util.BsFileUtil;
 import com.bs.payment.util.QueryBuilder;
 import com.google.common.collect.Lists;
 
@@ -238,7 +238,7 @@ public class GiftInfoServiceImpl extends ServiceImpl<BsGiftInfoMapper, BsGiftInf
 
 		// 删除本地图片
 		String fileUrlPrefix = selectOne.getPicture();
-		FileUtil.deleteFileImage(fileUrlPrefix);
+		BsFileUtil.deleteFileImage(fileUrlPrefix);
 
 		log.info("giftInfo-delete-info:  delete success gift_code={}", giftCode);
 
