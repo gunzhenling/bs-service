@@ -69,3 +69,4 @@ bs:
     
 file: 
   image-url: /frontend/images/
+  wxapp-config: /wxapp/utils/config.js

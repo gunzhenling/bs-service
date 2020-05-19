@@ -15,6 +15,7 @@ import com.bs.payment.modules.trade.service.GiftTypeyService;
  *
  */
 public class ApplicationStartup implements ApplicationListener<ContextRefreshedEvent> {
+	
 	private static Logger logger = LoggerFactory.getLogger(ApplicationStartup.class);
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {

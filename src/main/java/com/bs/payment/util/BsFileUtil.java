@@ -1,12 +1,22 @@
 package com.bs.payment.util;
 
+import java.io.BufferedReader;
+import java.io.CharArrayWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.util.Base64;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
@@ -24,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Component
 @Slf4j
-public class FileUtil {
+public class BsFileUtil {
 	
 	//文件上传工具类服务方法
     @SuppressWarnings("finally")
@@ -124,12 +134,96 @@ public class FileUtil {
      * bs-service
      * @return
      */
-    private  static String getRootPath() {
+    public  static String getRootPath() {
     	
     	String property = System.getProperty("user.dir");
 //    	/Users/zhenling/mygit/bs-service
     	return property;
     }
+    
+    private static String getHostIp(){
+        try{
+            Enumeration<NetworkInterface> allNetInterfaces = NetworkInterface.getNetworkInterfaces();
+            while (allNetInterfaces.hasMoreElements()){
+                NetworkInterface netInterface = (NetworkInterface) allNetInterfaces.nextElement();
+                Enumeration<InetAddress> addresses = netInterface.getInetAddresses();
+                while (addresses.hasMoreElements()){
+                    InetAddress ip = (InetAddress) addresses.nextElement();
+                    if (ip != null 
+                            && ip instanceof Inet4Address
+                            && !ip.isLoopbackAddress() //loopback地址即本机地址，IPv4的loopback范围是127.0.0.0 ~ 127.255.255.255
+                            && ip.getHostAddress().indexOf(":")==-1){
+                        System.out.println("本机的IP = " + ip.getHostAddress());
+                        String hostIp="http://"+ ip.getHostAddress();
+                        return hostIp;
+                    } 
+                }
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    /**	 
+     * * 替换文本文件中的 非法字符串	 
+     * * @param path
+     *  * @throws IOException	 */
+    public static void replaConfigJsHostIp() {			
+    	
+    	String rootPath = getRootPath();
+    	String hostIp = getHostIp();
+    	String path=rootPath+"/wxapp/utils/config.js";
+		try {
+			replacTextContent(path, hostIp);
+		} catch (IOException e) {
+			log.warn("bsFileUtil-replaConfigJsHostIp-warn: config js 文件 ip 覆盖失败  err={}",e.getMessage());
+		}
+		
+    }
+    
+    /**	 
+     * * 替换文本文件中的 非法字符串	 
+     * * @param path
+     *  * @throws IOException	 */
+    public static void replacTextContent(String path,String hostIp) throws IOException{			
+    	//原有的内容			
+    	String srcStr = "";        			
+    	//要替换的内容	       
+    	String replaceStr = hostIp;     	        
+    	// 读  	        
+    	File file = new File(path);   	       
+    	FileReader in = new FileReader(file);  	       
+    	BufferedReader bufIn = new BufferedReader(in);  	        // 内存流, 作为临时流  	       
+    	CharArrayWriter  tempStream = new CharArrayWriter();  	        // 替换  	       
+    	String line = null;  	       
+    	
+    	String regex = "http://\\w+(\\.\\w+){3}"; 
+    	Pattern p = Pattern.compile(regex);
+    	
+    	while ( (line = bufIn.readLine()) != null) {  
+    		
+    		Matcher m = p.matcher(line);
+    		while(m.find()){
+    			
+    			srcStr = m.group();
+    		 	System.out.println("====group:"+srcStr);			
+    			// 替换每行中, 符合条件的字符串  	           
+    		 	line = line.replaceAll(srcStr, replaceStr);  	            // 将该行写入内存  	    
+    		}
+    		
+    		tempStream.write(line);  	            // 添加换行符  	           
+    		tempStream.append(System.getProperty("line.separator"));  	    
+    	   
+    	}  	        // 关闭 输入流  	      
+    	bufIn.close();  	        // 将内存中的流 写入 文件  	     
+    	FileWriter out = new FileWriter(file);  	       
+    	tempStream.writeTo(out);  	        
+    	out.close();  	       
+    	System.out.println("====path:"+path);			
+    	 
+    }
+    	 
     
     /**
      * 获取项目的绝对路径 精确到classes
@@ -157,7 +251,7 @@ public class FileUtil {
     }
     
     public static void main(String[] args) throws IOException {
-		System.out.println("getAbsolutePath:"+getAbsolutePath());// /Users/zhenling/mygit/bs-service/target/classes
+		/*System.out.println("getAbsolutePath:"+getAbsolutePath());// /Users/zhenling/mygit/bs-service/target/classes
 		File upload = new File(getAbsolutePath(),"static/images/upload/");// /Users/zhenling/mygit/bs-service/target/classes/static/images/upload
 		
 		String property = System.getProperty("user.dir");
@@ -169,8 +263,18 @@ public class FileUtil {
              targetFile.mkdirs();
          }
 
-         System.out.println("targetFile.getAbsolutePath:"+targetFile.getAbsolutePath());
+         System.out.println("targetFile.getAbsolutePath:"+targetFile.getAbsolutePath());*/
          // /Users/zhenling/mygit/bs-service/frontend/public/images
+    	
+    	
+    	
+    	String rootPath = getRootPath();
+    	String hostIp = getHostIp();
+    	String path=rootPath+"/wxapp/utils/config.js";
+		replacTextContent(path, hostIp);
+    	 
+    		
+         
 	}
     
   //图片转换为base64 str
