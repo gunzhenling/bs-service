@@ -181,6 +181,7 @@ export default {
       body.made_type = body.custom_made.length == 2 ? 1 : 0;
       let edit = this.record && this.record.gift_code;
       body.picture_url = decodeImg(body.picture_url);
+      body.made_type = body.custom_made.length==2?0:1;
       this.loading = true;
       let res = await this._http.post(`/api/bs/gift/${edit ?'update':'add'}`, body);
       this.loading = false;
