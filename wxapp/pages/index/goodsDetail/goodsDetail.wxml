@@ -12,7 +12,7 @@
   <!--商品信息-->
   <view class="goods-info">
     <text class="title">{{gift.gift_name}}</text>
-    <text class="sub-title">让你的暑假无懈可击</text>
+    <!-- <text class="sub-title">让你的暑假无懈可击</text> -->
     <view class="price-wrapper">
       <text class="price">￥{{gift.real_gift_price}}<text class="original-price">￥{{gift.gift_price}}</text></text>
       <text class="sold">已售{{gift.sale_num}}</text>
@@ -24,13 +24,13 @@
     <image class="right_arrow" src="../../../images/right_arrow.png"></image>
   </view>
   <!--配送地址-->
-  <view class="address">
+  <!-- <view class="address">
     <text>配送至</text>
     <view class="address-detail">
       <text>深圳市南山区大冲华润置地大厦</text>
       <image class="icon-address" src="../../../images/address_small.png"></image>
     </view>
-  </view>
+  </view> -->
   <!--服务信息-->
   <view class="service-info">
     <view class="service-item">

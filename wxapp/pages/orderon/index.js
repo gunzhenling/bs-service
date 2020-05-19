@@ -55,6 +55,7 @@ Page({
         console.log(c);
       }
       res = await global.http.post(`/api/bs/order/pay`, {order_no: order.order_no, pay_channel: "YuE"});
+      console.log(res);
       if (!res.code) {
         await global.util.showToast.message('支付成功');
         wx.redirectTo({url: "/pages/orderlist/index?current=2"})

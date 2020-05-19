@@ -34,11 +34,11 @@ Page({
   //待付款
   changeTab: function (e) {
     let index = e.currentTarget.dataset.index;
-    this.setData({current: index, offset: 0});
+    this.setData({current: index, offset: 0, loadList: []});
     this.getData();
   },
   onLoad: async function (options) {
-    this.setData({current: options.current || 1})
+    this.setData({current: options.current || 1});
     this.getData();
   },
   onReachBottom: async function () {
