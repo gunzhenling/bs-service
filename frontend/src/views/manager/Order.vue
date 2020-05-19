@@ -12,7 +12,7 @@
         <!-- <a-button v-if="record.order_status=='已收货'" :loading="loading" @click="add(record)">编辑</a-button> -->
       </template>
       <template slot="pic" slot-scope="text, record, index">
-        <img :src="record.pic" style="width:100px;height:100px;">
+        <img :src="text" v-if="text" style="width:100px;height:100px;">
       </template>
       <template slot="_custom_made" slot-scope="text, record, index">
         <div v-html="text"> </div>
@@ -63,6 +63,7 @@ export default {
         {dataIndex: "pic", title: "图片", scopedSlots: {customRender: "pic"}, custom: "pic"},
         {dataIndex: "specification", title: "规格"},
         {dataIndex: "_custom_made", title: "定制", scopedSlots: {customRender: "_custom_made"}, custom: "_custom_made", width: '120px'},
+        {dataIndex: "_picture_logo", title: "定制logo", scopedSlots: {customRender: "pic"}, custom: "pic"},
         {dataIndex: "gift_amount", title: "数量"},
         {dataIndex: "buyer_pay_amount", title: "实付"},
         {dataIndex: "address", title: "收货人信息", scopedSlots: {customRender: "_custom_made"}, custom: "_custom_made", width: '200px'},
@@ -110,9 +111,10 @@ export default {
         let user_address_json = JSON.parse(item.user_address_json);
         item.address = `收货人：${user_address_json.name}</br>联系方式：${user_address_json.phone}</br>地址：${user_address_json.province+user_address_json.city+user_address_json.district+user_address_json.address}`;
         item.pic = formatImg(item.picture);
+        item._picture_logo = formatImg(item.picture_logo);
         item.specification = JSON.parse(item.specification).standards;
         item.custom_made = JSON.parse(item.custom_made);
-        item._custom_made = `${item.custom_made.made_type==0 ? "标品" : "定制"}</br>版费${item.custom_made.b_fee}</br>定制费${item.custom_made.made_fee}</br>工期${item.custom_made.prod_date}`
+        item._custom_made = `${item.custom_made.title || (item.custom_made.made_type==0 ? "标品" : "定制")}</br>版费${item.custom_made.b_fee}</br>定制费${item.custom_made.made_fee}</br>工期${item.custom_made.prod_date}`
         item.gift_name = `(${item.gift_code})${item.gift_name}`;
 
 
