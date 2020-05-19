@@ -13,6 +13,7 @@ import org.springframework.util.CollectionUtils;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bs.payment.common.constans.Consts;
+import com.bs.payment.common.constans.EnumConstants;
 import com.bs.payment.common.exception.BusinessException;
 import com.bs.payment.modules.trade.dao.BsGiftInfoMapper;
 import com.bs.payment.modules.trade.entity.BsGiftInfoEntity;
@@ -98,7 +99,12 @@ public class GiftInfoServiceImpl extends ServiceImpl<BsGiftInfoMapper, BsGiftInf
 		entity.setStatus(0);
 		entity.setTypeCode(giftInfoReqVO.getTypeCode());
 		entity.setUpdateTime(date);
-		entity.setMadeType(giftInfoReqVO.getMadeType());
+		
+		Integer madeType = giftInfoReqVO.getMadeType();
+		if(null==madeType) {
+			madeType=EnumConstants.MadeTypeEnum.DONE.getCode();
+		}
+		entity.setMadeType(madeType);
 
 		bsGiftInfoMapper.insert(entity);
 
