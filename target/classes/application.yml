@@ -17,7 +17,7 @@ logging:
 
 spring:
   profiles:
-    active: dev
+    active: szdev
   application:
     name: bc-service
   jackson:

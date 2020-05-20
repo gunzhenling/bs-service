@@ -11,9 +11,9 @@ spring:
   datasource:
     druid:
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://119.23.252.140:33306/paycenter?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=round&autoReconnect=true
-      username: intbee
-      password: intbee@mysql
+      url: jdbc:mysql://localhost:3306/bs?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=round&autoReconnect=true&serverTimezone=UTC 
+      username: root
+      password: 123456
       initial-size: 2
       max-active: 10
       min-idle: 2
