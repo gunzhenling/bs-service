@@ -45,6 +45,7 @@ const requestPromise = (url, method, data, options) => {
             //   });
             // }
             let response = res.data;
+            console.log(response, options);
             if (statusCode == 200) {
               if (!response.code || response.code == 3005) {
                 if (response.code == 3005) {
@@ -54,6 +55,8 @@ const requestPromise = (url, method, data, options) => {
                   return;
                 }
                 resolve(response.result !== undefined ? response.result : response);
+              } else if (options.header && options.header.no_toast) {
+                resolve(response);
               } else {
                 showToast.message(response.message);
                 reject(response.result !== undefined ? response.result : response);
