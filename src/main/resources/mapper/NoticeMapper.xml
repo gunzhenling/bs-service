@@ -12,8 +12,9 @@
 		select  id, title,content,create_time
 		from bs_notice 
 		where status=0
+		 order by update_time desc 
 		limit #{offset},#{limit}
-		 
+		
 	</select>
 	
 	 

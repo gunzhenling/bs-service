@@ -10,9 +10,10 @@
 	
 	<select id="getUserList" resultType="UserEntity" >
 		select  *
-		from bs_user 
+		from bs_user  
+		 order by update_time desc
 		limit #{offset},#{limit}
-		 
+		  
 	</select>
 	
 	 

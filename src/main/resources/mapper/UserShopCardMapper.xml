@@ -22,8 +22,9 @@
 				user_id = #{userId}
 			</if>
 		</where>
-		limit #{offset},#{limit}
-		 
+	   order by update_time desc
+		limit #{offset},#{limit} 
+		
 	</select>
 	
 	<delete id="deleteShopCardById">
