@@ -31,10 +31,10 @@
         <view class='consume' wx:for="{{consume}}" wx:key="id" wx:for-item="item">
           <view class='record'>
             <view class='list'>
-              <view class='word'>订单号 {{item.index}} 定制礼品：VR耳机,银白测款式的</view>
-              <view class='time'>{{item.time}}</view>
+              <view class='word'>{{item.description}}</view>
+              <view class='time'>{{item.create_time}}</view>
             </view>
-            <view class='money red'>- ¥ {{item.money}}</view>
+            <view class='money red'>- ¥ {{item.change_money}}</view>
           </view>
         </view>
       </view>
