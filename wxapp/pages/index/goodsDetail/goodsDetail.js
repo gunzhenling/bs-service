@@ -152,10 +152,10 @@ Page({
     let {gift,selected,buy_num, s_custom_made} = this.data;
     gift = {...gift};
     gift.buy_num = buy_num;
-    gift.buyer_pay_amount = Number((gift.real_gift_price*gift.buy_num).toFixed(2));
+    gift.custom_made = gift.custom_made[s_custom_made];
+    gift.buyer_pay_amount = Number(((gift.real_gift_price+(+gift.custom_made.b_fee)+(+gift.custom_made.made_fee))*gift.buy_num).toFixed(2));
     gift.sell_income = Number((gift.gift_price*gift.buy_num).toFixed(2));
     gift.specification = {standards: selected};
-    gift.custom_made = gift.custom_made[s_custom_made];
     console.log(gift);
     wx.setStorageSync('gift', gift);
     wx.navigateTo({url: "/pages/orderon/index"})
@@ -164,10 +164,10 @@ Page({
     let {gift,selected,buy_num, s_custom_made} = this.data;
     gift = {...gift};
     gift.buy_num = buy_num;
-    gift.buyer_pay_amount = Number((gift.real_gift_price*gift.buy_num).toFixed(2));
+    gift.custom_made = gift.custom_made[s_custom_made];
+    gift.buyer_pay_amount = Number(((gift.real_gift_price+(+gift.custom_made.b_fee)+(+gift.custom_made.made_fee))*gift.buy_num).toFixed(2));
     gift.sell_income = Number((gift.gift_price*gift.buy_num).toFixed(2));
     gift.specification = {standards: selected};
-    gift.custom_made = gift.custom_made[s_custom_made];
     console.log(gift, s_custom_made);
     let res = await global.http.post("/api/bs/order/add/shops", {
       gift_code: gift.gift_code,

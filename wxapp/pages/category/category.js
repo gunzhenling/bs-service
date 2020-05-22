@@ -101,6 +101,8 @@ Page({
    */
  tocar: async function () {
    let {gift,selected,buy_num, s_custom_made} = this.data;
+   gift = {...gift};
+   gift.custom_made = gift.custom_made[s_custom_made];
    gift.buy_num = buy_num;
    gift.standards = selected;
    let res = await global.http.post("/api/bs/order/add/shops", {
@@ -108,9 +110,9 @@ Page({
      gift_amount: gift.buy_num,
      picture_url: gift.picture,
      sell_income: Number((gift.gift_price*gift.buy_num).toFixed(2)),
-     buyer_pay_amount: Number((gift.real_gift_price*gift.buy_num).toFixed(2)),
+     buyer_pay_amount: Number(((gift.real_gift_price+(+gift.custom_made.b_fee)+(+gift.custom_made.made_fee))*gift.buy_num).toFixed(2)),
      specification: {standards:gift.standards},
-     custom_made: gift.custom_made[s_custom_made],
+     custom_made: gift.custom_made,
    });
    console.log(res);
    wx.setStorageSync('gift', gift);

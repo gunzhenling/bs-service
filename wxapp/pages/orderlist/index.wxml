@@ -1,6 +1,7 @@
 <!--pages/orderlist/index.wxml-->
 
 <view class="swiper-tab" style="">
+	<view class="tab-item {{current == 0?'active':''}} " bindtap="changeTab" data-index="{{0}}">全部</view>
 	<view class="tab-item {{current == 1?'active':''}} " bindtap="changeTab" data-index="{{1}}">待付款</view>
 	<view class="tab-item {{current == 2?'active':''}}" bindtap="changeTab" data-index="{{2}}">待发货</view>
 	<view class="tab-item {{current == 3?'active':''}}" bindtap="changeTab" data-index="{{3}}">待收货</view>
@@ -13,9 +14,13 @@
 			<view>
 				<view class="order_title">
 					<view >订单编号 <text>{{item._order_no}}</text> </view>
-					<view class='state' wx:if="{{current == 1}}">待付款</view>
-					<view class='state' wx:if="{{current == 2}}" style="background:#EFD43A">待发货</view>
-					<view class='state' wx:if="{{current == 3}}" style="background:green">待收货</view>
+					<view class='state' style="background:gray" wx:if="{{item.pay_status == 1}}">已取消</view>
+					<view class='state' style="background:red" wx:if="{{item.pay_status == 0}}">待付款</view>
+					<view class='state' wx:if="{{item.pay_status == 2 && item.ship_status == 0}}" style="background:#EFD43A">待发货</view>
+					<view class='state' wx:if="{{item.pay_status == 2 && item.ship_status == 1}}" style="background:red">待收货</view>
+					<view class='state' wx:if="{{item.pay_status == 2 && item.ship_status == 2}}" style="background:green">已完成</view>
+					<view class='state' wx:if="{{item.pay_status == 2 && item.ship_status == 3}}" style="background:#EFD43A">退货中</view>
+					<view class='state' wx:if="{{item.pay_status == 2 && item.ship_status == 4}}" style="background:gray">退货成功</view>
 				</view>
 				<view class="block ">
 					<view class="goods_info">
@@ -24,7 +29,7 @@
 							<view>商品名称： {{item.gift_name}}</view>
 							<view>规格： {{item.specification.standards}}</view>
 							<view>数量： {{item.gift_amount}}</view>
-							<view>单价： {{item.gift_price}}元</view>
+							<view>单价： {{item.real_gift_price}}元</view>
 						</view>
 					</view>
 				</view>
@@ -33,9 +38,10 @@
 			<view class='loadBtn'>
 				<text class="time">{{item.create_time}}</text>
 				<view class='extend_btn' data-item="{{item}}" bindtap='loadDetails'>详情</view>
-				<view class='extend_btn' data-item="{{item}}" bindtap='pay' wx:if="{{current == 1}}"  style="background:red;color:white">余额支付</view>
-        <view class='extend_btn' data-item="{{item}}" bindtap='cancel' wx:if="{{current == 1}}"  style="background:green;color:white">取消</view>
-				<view class='extend_btn' data-item="{{item}}" bindtap='receive' wx:if="{{current == 3}}"  style="background:green;color:white">确认收货</view>
+				<view class='extend_btn' data-item="{{item}}" bindtap='pay' wx:if="{{item.pay_status == 0}}"  style="background:red;color:white">余额支付</view>
+        <view class='extend_btn' data-item="{{item}}" bindtap='cancel' wx:if="{{item.pay_status == 0}}"  style="background:gray;color:white">取消</view>
+				<view class='extend_btn' data-item="{{item}}" bindtap='receive' wx:if="{{item.pay_status == 2 && item.ship_status == 1}}"  style="background:red;color:white">确认收货</view>
+				<view class='extend_btn' data-item="{{item}}" bindtap='to_return' wx:if="{{item.pay_status == 2 && item.ship_status == 2}}"  style="background:green;color:white">申请退货</view>
 			</view>
 		</view>
 	</view>

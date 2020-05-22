@@ -4,7 +4,11 @@
     <FilterView :content="filter" @change="filterChange"/>
     <div style="text-align:left"> 共 {{total}} 条 </div>
     <a-button style="float:right;margin-top:-40px;" @click="add({})">新增礼品</a-button>
-    <a-table :pagination="pagination" :loading="t_loading" :rowKey="(e,i) => i" :columns="columns" bordered :data-source="list" @change="changePage">
+
+    <a-popconfirm v-if="selectedRowKeys.length" placement="top" title="确定批量删除这些礼品？" :okText="'确定'" :cancelText="'取消'" @confirm="delAll()"  style="float:right;margin-top:-40px;margin-right: 100px">
+      <a-button type="danger">批量删除({{selectedRowKeys.length}})</a-button>
+    </a-popconfirm>
+    <a-table :pagination="pagination" :loading="t_loading" :rowKey="(e,i) => e.gift_code" :columns="columns" bordered :data-source="list" @change="changePage" :row-selection="rowSelection" >
       <template slot="oprate" slot-scope="text, record, index">
         <a-popconfirm placement="top" title="确定删除该礼品？" :okText="'确定'" :cancelText="'取消'" @confirm="delItem(record)">
           <a-button :loading="loading" type="danger">删除</a-button>
@@ -29,11 +33,18 @@ import Title from "../../components/Title.vue";
 import Form from "../../components/Form.vue";
 import FilterView from "../../components/FilterView.vue";
 import Editor from "../../components/common/Editor.vue";
+
 export default {
   components: {Title, Form,FilterView},
   data () {
     // 函数编号	功能函数名	父级标签	访问级别	函数类型	函数状态	操作
     return {
+      rowSelection: {
+        onChange: (selectedRowKeys, selectedRows) => {
+          this.selectedRowKeys = selectedRowKeys;
+        },
+      },
+      selectedRowKeys: [],
       custom_made: [
         {name: "版费", value: "b_fee"},
         {name: "定制费", value: "made_fee"},
@@ -112,7 +123,7 @@ export default {
         item.specification = JSON.parse(item.specification);
         item.custom_made = JSON.parse(item.custom_made);
         item.picture_url = formatImg(item.picture);
-        console.log(item);
+        // console.log(item);
       });
 
       this.list = res.result.data;
@@ -122,6 +133,25 @@ export default {
         current: this.page,
         total: this.total
       }
+    },
+    delAll: async function (record){
+      this.loading = true;
+      let {selectedRowKeys} = this;
+      let fail = [];
+      for (let i = 0; i < selectedRowKeys.length; i++) {
+        let res = await this._http.post(`/api/bs/gift/delete/${selectedRowKeys[i]}`, );
+        if (res.code) {
+          fail.push(selectedRowKeys[i]);
+        }
+      }
+      if (fail.length) {
+        this.$message.error(`礼品 ${fail.join("、")} 删除失败`);
+      } else {
+        this.$message.success(`礼品批量删除成功`);
+      }
+      this.loading = false;
+      this.page = 1;
+      this.getData();
     },
     delItem: async function (record){
       this.loading = true;
@@ -134,7 +164,7 @@ export default {
       if (record && record.gift_code && !record.content) {
         this.loading = true;
         let res = await this._http.get(`/api/bs/gift/get/detail?gift_code=${record.gift_code}`);
-        console.log(res);
+        // console.log(res);
         this.loading = false;
         record.content = res.result.content;
       }
@@ -145,7 +175,7 @@ export default {
     },
     change (e) {
       this.formData = e;
-      console.log(e);
+      // console.log(e);
     },
     filterChange (e) {
       Object.keys(e).forEach((key, i) => {
@@ -155,7 +185,7 @@ export default {
     },
     confirm: async function () {
       let body = {};
-      console.log(this.formData );
+      // console.log(this.formData );
       (this.formData || []).forEach((e, i) => {
         if (e.type == "image") {
           body[e.key] = e.value && e.value[0] ? (e.value[0].url || (e.value[0].response &&  e.value[0].response.result) || '') : undefined;

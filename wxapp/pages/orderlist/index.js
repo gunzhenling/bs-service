@@ -38,7 +38,7 @@ Page({
     this.getData();
   },
   onLoad: async function (options) {
-    this.setData({current: options.current || 1});
+    this.setData({current: options.current || 0});
     this.getData();
   },
   onReachBottom: async function () {
@@ -52,7 +52,9 @@ Page({
     wx.showLoading();
     let {offset,limit, current} = this.data;
     let con = {};
-    if (current == 1) {
+    if (current == 0) {
+      // con.pay_status = 0;
+    } else if (current == 1) {
       con.pay_status = 0;
     } else if (current == 2) {
       con.pay_status = 2;
@@ -131,6 +133,19 @@ Page({
     let res = await global.http.post(`/api/bs/order/update/shipStatus`, {order_no: item.order_no, ship_status: 2});
     if (!res.code) {
       await global.util.showToast.message('操作成功');
+      this.setData({offset: 0});
+      this.getData();
+    } else {
+      global.util.showToast.hide();
+      global.util.showToast.message(res.message);
+    }
+  },
+  to_return: async function (e) {
+    let item = e.currentTarget.dataset.item;
+    global.util.showToast.loading();
+    let res = await global.http.post(`/api/bs/order/update/shipStatus`, {order_no: item.order_no, ship_status: 3});
+    if (!res.code) {
+      await global.util.showToast.message('申请退货成功');
       this.setData({offset: 0});
       this.getData();
     } else {

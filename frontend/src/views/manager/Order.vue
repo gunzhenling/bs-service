@@ -9,6 +9,7 @@
         <a-button v-if="record.order_status=='已取消'" :loading="loading" @click="add(record)">编辑</a-button> -->
         <a-button v-if="record.order_status=='未发货'" :loading="loading" @click="e=>changeStatus(record, 1)">发货</a-button>
         <a-button v-if="record.order_status=='已发货'" :loading="loading" @click="e=>changeStatus(record, 2)">用户已收货</a-button>
+        <a-button v-if="record.order_status=='申请退货'" :loading="loading" @click="e=>changeStatus(record, 4)">确认退货</a-button>
         <!-- <a-button v-if="record.order_status=='已收货'" :loading="loading" @click="add(record)">编辑</a-button> -->
       </template>
       <template slot="pic" slot-scope="text, record, index">
@@ -129,6 +130,10 @@ export default {
             item.order_status = "已发货";
           } else if (item.ship_status == 2) {
             item.order_status = "已收货";
+          } else if (item.ship_status == 3) {
+            item.order_status = "申请退货";
+          } else if (item.ship_status == 4) {
+            item.order_status = "退货完成";
           }
         }
       });

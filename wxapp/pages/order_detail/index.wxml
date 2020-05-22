@@ -7,7 +7,7 @@
 				<view>商品名称： {{order.gift_name}}</view>
 				<view>规格： {{order.specification.standards}}</view>
 				<view>数量： {{order.gift_amount}}</view>
-				<view>单价： {{order.gift_price}}元</view>
+				<view>单价： {{order.real_gift_price}}元</view>
 			</view>
 		</view>
 		<view class="cell" wx:if="{{order._picture_logo}}">

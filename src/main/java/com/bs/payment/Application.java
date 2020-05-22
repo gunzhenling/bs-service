@@ -37,7 +37,7 @@ public class Application {
 	public MultipartConfigElement multipartConfigElement() {
 		MultipartConfigFactory factory = new MultipartConfigFactory();
 //		factory.setLocation("/tmp");//指定临时文件路径，这个路径可以随便写
-		factory.setLocation("d:/tmp");//指定临时文件路径，这个路径可以随便写
+		factory.setLocation("e:/tmp");//指定临时文件路径，这个路径可以随便写
 		return factory.createMultipartConfig();
 	}
 
