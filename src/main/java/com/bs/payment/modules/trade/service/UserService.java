@@ -1,7 +1,5 @@
 package com.bs.payment.modules.trade.service;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.bs.payment.modules.trade.dto.UpdatePasswordDto;
 import com.bs.payment.modules.trade.dto.UserLoginDto;

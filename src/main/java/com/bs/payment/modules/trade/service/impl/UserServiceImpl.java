@@ -2,7 +2,9 @@ package com.bs.payment.modules.trade.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +36,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
 	private UserMapper  userMapper;
 	@Autowired
 	private BankUserService   bankUserService;
+	@Value("${icon.default-url}")
+	private String iconDefaultUrl;
 
 	@Transactional(rollbackFor=Exception.class)
 	@Override
@@ -55,6 +59,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
 		UserEntity entity = new UserEntity();
 		String passwordMd5Encode = MD5.MD5Encode(password);
 		
+		if(StringUtils.isBlank(icon)){
+			icon=iconDefaultUrl;
+		}
 		entity.setIcon(icon);
 		entity.setName(name);
 		entity.setPassword(passwordMd5Encode);
