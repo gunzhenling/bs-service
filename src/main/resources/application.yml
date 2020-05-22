@@ -65,7 +65,8 @@ bs:
   gift: 
     type: /init/gift-type-config.json
     
-
+icon: 
+  default-url: http://static.intbee.com/users/icon/FkWn4V3iA65-4QsyH0k1GswP6iJa.jpg
     
 file: 
   image-url: /frontend/images/
