@@ -1,0 +1,14 @@
+<view class="carriers">
+	<view wx:for="{{order.carrier_tracks_json.carrier_tracks}}" style="">
+		<view>{{item.accept_station}}</view>
+		<view class="time">{{item.accept_time}}</view>
+	</view>
+	<view wx:for="{{order.carrier_tracks_json.carrier_tracks}}" style="">
+		<view>{{item.accept_station}}</view>
+		<view class="time">{{item.accept_time}}</view>
+	</view>
+	<view wx:for="{{order.carrier_tracks_json.carrier_tracks}}" style="">
+		<view>{{item.accept_station}}</view>
+		<view class="time">{{item.accept_time}}</view>
+	</view>
+</view>

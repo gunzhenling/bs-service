@@ -1,0 +1,44 @@
+/* pages/orderlist/index.wxss */
+page{
+  background: #ededed;
+  height: 100%;
+  font-size: 28rpx;
+  /* padding-bottom: 88rpx; */
+  /* position: relative; */
+}
+.carriers {
+  background: white;
+}
+.carriers >view {
+  position: relative;
+  font-size:28rpx;color:#666;
+  padding: 20rpx;
+  padding-bottom: 0;
+}
+.carriers >view {
+  color: #888895;
+}
+.carriers .time {
+  color: #A7A7B6;
+  font-size: 24rpx;
+  margin-top: 10rpx;
+}
+.carriers>view::before {
+  position: absolute;
+  left: 100rpx;
+  background: #E4E4EE;
+  width: 6rpx;
+  height: 100%;
+  display: block;
+  content: " ";
+}
+.carriers>view::after {
+  position: absolute;
+  left: 95rpx;
+  background: #E4E4EE;
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 50%;
+  display: block;
+  content: " ";
+}
