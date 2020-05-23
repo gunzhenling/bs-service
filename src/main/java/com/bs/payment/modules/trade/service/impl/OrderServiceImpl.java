@@ -24,6 +24,7 @@ import com.bs.payment.modules.trade.service.OrderService;
 import com.bs.payment.modules.trade.service.PayService;
 import com.bs.payment.modules.trade.service.UserAddressService;
 import com.bs.payment.modules.trade.vo.CarrierTracksVO;
+import com.bs.payment.modules.trade.vo.CustomMadeVO;
 import com.bs.payment.modules.trade.vo.OrderCarrierVO;
 import com.bs.payment.modules.trade.vo.OrderCommitReqVO;
 import com.bs.payment.modules.trade.vo.OrderCommitRespVO;
@@ -102,6 +103,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderInfoMapper , OrderInfoEnt
 			throw new BusinessException(message);
 			
 		}
+//	已发货
+		isShip(entity,shipStatus);
+//		已确认收货
+		hadShip(entity,shipStatus);
+//	退货中
+		refundingShip(entity, shipStatus);
+//	已退货
+		refundedShip(entity, shipStatus);
 		
 		Date date = new Date();
 		entity.setShipStatus(shipStatus);
@@ -113,6 +122,128 @@ public class OrderServiceImpl extends ServiceImpl<OrderInfoMapper , OrderInfoEnt
 		log.info("order-updateShipStatus-info: orderNo={}, shipStatus={}  success",orderNo,shipStatus);
 		 
 		return Consts.SUCCESS;
+	}
+	
+//退货中
+	private void refundingShip(OrderInfoEntity entity,Integer shipStatus){
+		
+		if(EnumConstants.ShipStatusEnum.REFUNDING_SHIP.getCode().equals(shipStatus)){
+			
+			entity.setRefundIncome(entity.getBuyerPayAmount());
+			entity.setRefundType(EnumConstants.OrderRefundStatusEnum.ORDER_PAY_REFUND_ALL.getCode());
+			entity.setPayStatus(EnumConstants.PayStatusEnum.ORDER_REFUND_ING.getCode());
+			
+		}
+		
+	}
+	
+//已退货
+	private void refundedShip(OrderInfoEntity entity,Integer shipStatus){
+		
+		if(EnumConstants.ShipStatusEnum.REFUNDED_SHIP.getCode().equals(shipStatus)){
+			
+			entity.setPayStatus(EnumConstants.PayStatusEnum.ORDER_REFUND_SUCCESS.getCode());
+			
+		}
+		
+	}
+	
+	
+//已确认收货
+			private void hadShip(OrderInfoEntity entity,Integer shipStatus){
+				
+				if(EnumConstants.ShipStatusEnum.HAD_SHIP.getCode().equals(shipStatus)){
+			
+				 String userAddressJson = entity.getUserAddressJson(); 
+				 UserAddressEntity userAddressEntity = JSON.parseObject(userAddressJson,UserAddressEntity.class);
+				 String province = userAddressEntity.getProvince();
+				 String city = userAddressEntity.getCity();
+				 String district = userAddressEntity.getDistrict();
+				 String address = userAddressEntity.getAddress();
+				 
+				  String carrierTracksJson = entity.getCarrierTracksJson();
+				OrderCarrierVO orderCarrierVO = JSON.parseObject(carrierTracksJson, OrderCarrierVO.class);
+				List<CarrierTracksVO> carrierTracks = orderCarrierVO.getCarrierTracks();
+				CarrierTracksVO carrierTracksVO = new CarrierTracksVO();
+				carrierTracksVO.setAcceptStation("您的快件已签收。"+city);
+				carrierTracksVO.setAcceptTime(DateKit.nowPlusMinutes(6));
+				carrierTracks.add(carrierTracksVO);
+				
+				orderCarrierVO.setCarrierTracks(carrierTracks);
+				
+				carrierTracksJson = JSON.toJSONString(orderCarrierVO);
+				entity.setCarrierTracksJson(carrierTracksJson);
+		}
+		
+	}
+		private void isShip(OrderInfoEntity entity,Integer shipStatus){
+		
+		if(EnumConstants.ShipStatusEnum.IS_SHIP.getCode().equals(shipStatus)){
+			
+			 String userAddressJson = entity.getUserAddressJson(); 
+			 UserAddressEntity userAddressEntity = JSON.parseObject(userAddressJson,UserAddressEntity.class);
+			 String province = userAddressEntity.getProvince();
+			 String city = userAddressEntity.getCity();
+			 String district = userAddressEntity.getDistrict();
+			 String address = userAddressEntity.getAddress();
+			
+			String carrierTracksJson = entity.getCarrierTracksJson();
+			OrderCarrierVO orderCarrierVO = JSON.parseObject(carrierTracksJson, OrderCarrierVO.class);
+			List<CarrierTracksVO> carrierTracks = orderCarrierVO.getCarrierTracks();
+			
+			int madeType = entity.getMadeType();
+			if(EnumConstants.MadeTypeEnum.MAN_MADE.getCode()==madeType){
+				
+				CarrierTracksVO carrier1 = new CarrierTracksVO();
+				carrier1.setAcceptStation("【订单已处理】上海市");
+				carrier1.setAcceptTime(DateKit.nowPlusMinutes(1));
+				carrierTracks.add(carrier1);
+				
+				CarrierTracksVO carrier2 = new CarrierTracksVO();
+				carrier2.setAcceptStation("【印刷中】上海市");
+				carrier2.setAcceptTime(DateKit.nowPlusMinutes(2));
+				carrierTracks.add(carrier2);
+				
+				CarrierTracksVO carrier3 = new CarrierTracksVO();
+				carrier3.setAcceptStation("【已出库】上海市");
+				carrier3.setAcceptTime(DateKit.nowPlusMinutes(3));
+				carrierTracks.add(carrier3);
+				
+			}
+			
+			CarrierTracksVO carrierTracksVO = new CarrierTracksVO();
+			carrierTracksVO.setAcceptStation("快件到达【上海浦东集散中心2】上海市");
+			carrierTracksVO.setAcceptTime(DateKit.nowPlusMinutes(4));
+			carrierTracks.add(carrierTracksVO);
+			
+			CarrierTracksVO carrierTracksVO2 = new CarrierTracksVO();
+			carrierTracksVO2.setAcceptStation("快件在【上海浦东集散中心2】已装车，准备发往【"+city+"中生中转场】上海市");
+			carrierTracksVO2.setAcceptTime(DateKit.nowPlusMinutes(5));
+			carrierTracks.add(carrierTracksVO2);
+			
+			CarrierTracksVO carrierTracksVO3 = new CarrierTracksVO();
+			carrierTracksVO3.setAcceptStation("快件到达【"+city+"中生中转场】"+city);
+			carrierTracksVO3.setAcceptTime(DateKit.nowPlusMinutes(6));
+			carrierTracks.add(carrierTracksVO3);
+			
+			CarrierTracksVO carrierTracksVO4 = new CarrierTracksVO();
+			carrierTracksVO4.setAcceptStation("快件到达【"+city+"物流园营业部】"+city);
+			carrierTracksVO4.setAcceptTime(DateKit.nowPlusMinutes(7));
+			carrierTracks.add(carrierTracksVO4);
+			
+			CarrierTracksVO carrierTracksVO5 = new CarrierTracksVO();
+			carrierTracksVO5.setAcceptStation("正在派送途中，请您准备签收(派送人：小明，电话：17812345678)"+city);
+			carrierTracksVO5.setAcceptTime(DateKit.nowPlusMinutes(8));
+			carrierTracks.add(carrierTracksVO5);
+			
+			
+			orderCarrierVO.setCarrierTracks(carrierTracks);
+			
+			carrierTracksJson = JSON.toJSONString(orderCarrierVO);
+			entity.setCarrierTracksJson(carrierTracksJson);
+			
+		}
+		
 	}
 
 	@Transactional(rollbackFor=Exception.class)
@@ -231,7 +362,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderInfoMapper , OrderInfoEnt
 		BigDecimal giftPrice = giftInfoEntity.getGiftPrice();
 		BigDecimal realGiftPrice = giftInfoEntity.getRealGiftPrice();
 		BigDecimal freightPrice =  BigDecimal.ZERO;
-		buyerPayAmount =buyerPayAmount.add(freightPrice);
+//		加上其他费用
+		buyerPayAmount =buyerPayAmount.add(freightPrice) ;
 		sellIncome =sellIncome.add(freightPrice);
 		
 		OrderInfoEntity entity = new OrderInfoEntity();

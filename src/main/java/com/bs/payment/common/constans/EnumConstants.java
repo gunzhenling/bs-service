@@ -83,8 +83,8 @@ public class EnumConstants {
 	public enum MadeTypeEnum{
 //	  "made_type": 0,//礼品定制类型，0成品，1定制
 		
-		DONE(0,"未结算"),
-		MAN_MADE(1,"可结算") ;
+		DONE(0,"成品"),
+		MAN_MADE(1,"定制") ;
 		
 		Integer code;
 		String message;

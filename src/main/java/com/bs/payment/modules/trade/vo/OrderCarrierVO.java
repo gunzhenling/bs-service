@@ -16,7 +16,7 @@ import lombok.Data;
  *
  */
 @Data
-@ApiModel(value="订单提交信息")
+@ApiModel(value="订单物流信息")
 public class OrderCarrierVO {
 	
 	/**

@@ -1,5 +1,6 @@
 package com.bs.payment.modules.trade.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import com.bs.payment.modules.trade.entity.BsGiftInfoEntity;
 import com.bs.payment.modules.trade.entity.UserShopCardEntity;
 import com.bs.payment.modules.trade.service.GiftInfoService;
 import com.bs.payment.modules.trade.service.UserShopCardService;
+import com.bs.payment.modules.trade.vo.CustomMadeVO;
 import com.bs.payment.modules.trade.vo.ShopCommitReqVO;
 import com.bs.payment.util.DateKit;
 import com.bs.payment.util.QueryBuilder;
@@ -125,6 +127,20 @@ public class UserShopCardServiceImpl extends ServiceImpl<UserShopCardMapper, Use
 			
 		}else{
 			
+			String customMadeJson = userShopCardEntity.getCustomMade();
+			CustomMadeVO customMade = JSON.parseObject(customMadeJson, CustomMadeVO.class);
+			String bFee = customMade.getBFee();
+			String madeFee = customMade.getMadeFee();
+			
+			
+			BigDecimal giftPrice = userShopCardEntity.getGiftPrice();
+			BigDecimal realGiftPrice = userShopCardEntity.getRealGiftPrice();
+			
+			BigDecimal  sellIncome= giftPrice.multiply(new BigDecimal(giftAmountReq)).add(new BigDecimal(bFee)).add(new BigDecimal(madeFee));
+			BigDecimal buyerPayAmount= realGiftPrice.multiply(new BigDecimal(giftAmountReq)).add(new BigDecimal(bFee)).add(new BigDecimal(madeFee));
+			
+			userShopCardEntity.setBuyerPayAmount(buyerPayAmount);
+			userShopCardEntity.setSellIncome(sellIncome);
 			userShopCardEntity.setGiftAmount(giftAmountReq);
 			userShopCardEntity.setUpdateTime(DateKit.now());
 			

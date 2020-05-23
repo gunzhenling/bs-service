@@ -150,7 +150,7 @@ public class OrderController {
 	public ZcResult<String> updateShopGiftAmount(@PathVariable(value="id",required=true) Long id,
 			@PathVariable(value="gift_amount",required=true) Integer  giftAmount) throws Exception {
 		
-		log.info("Order-updateShopGiftAmount-info: request  id={}",id);
+		log.info("Order-updateShopGiftAmount-info: request  id={},giftAmount={}",id,giftAmount);
 		
 		String result = userShopCardService.updateShopGiftAmount(id, giftAmount);
 		
