@@ -194,11 +194,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderInfoMapper , OrderInfoEnt
 			int madeType = entity.getMadeType();
 			if(EnumConstants.MadeTypeEnum.MAN_MADE.getCode()==madeType){
 				
-				CarrierTracksVO carrier1 = new CarrierTracksVO();
-				carrier1.setAcceptStation("【订单已处理】上海市");
-				carrier1.setAcceptTime(DateKit.nowPlusMinutes(1));
-				carrierTracks.add(carrier1);
-				
 				CarrierTracksVO carrier2 = new CarrierTracksVO();
 				carrier2.setAcceptStation("【印刷中】上海市");
 				carrier2.setAcceptTime(DateKit.nowPlusMinutes(2));
@@ -210,6 +205,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderInfoMapper , OrderInfoEnt
 				carrierTracks.add(carrier3);
 				
 			}
+			
+			CarrierTracksVO tracks = new CarrierTracksVO();
+			tracks.setAcceptStation("物流公司已揽件");
+			tracks.setAcceptTime(DateKit.nowPlusMinutes(3));
+			carrierTracks.add(tracks);
 			
 			CarrierTracksVO carrierTracksVO = new CarrierTracksVO();
 			carrierTracksVO.setAcceptStation("快件到达【上海浦东集散中心2】上海市");
@@ -286,7 +286,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderInfoMapper , OrderInfoEnt
 		OrderCarrierVO  orderCarrier = new OrderCarrierVO();
 		List<CarrierTracksVO> carrierTracks = Lists.newArrayList() ;
 		CarrierTracksVO tracks = new CarrierTracksVO();
-		tracks.setAcceptStation("物流公司已揽件");
+		tracks.setAcceptStation("【订单已处理】上海市");
 		tracks.setAcceptTime(date);
 		carrierTracks.add(tracks);
 		

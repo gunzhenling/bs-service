@@ -25,7 +25,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.11.0",
 	"appid": "wx6555c079827cb378",
-	"projectname": "wxapp2",
+	"projectname": "wxapp_source",
 	"isGameTourist": false,
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
@@ -197,13 +197,6 @@
 					"id": -1,
 					"name": "pages/helplist/index",
 					"pathName": "pages/helplist/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/order_carrier/index",
-					"pathName": "pages/order_carrier/index",
 					"scene": null
 				}
 			]
