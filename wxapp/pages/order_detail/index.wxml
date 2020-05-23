@@ -31,6 +31,14 @@
 	<view class="block">
 		<view class="order_title">订单信息</view>
 		<view class="cell">
+			<text>订单状态</text>
+			<view wx:if="{{order.pay_status == 2 && order.ship_status == 0}}">待发货</view>
+			<view wx:if="{{order.pay_status == 2 && order.ship_status == 1}}">待收货</view>
+			<view wx:if="{{order.pay_status == 2 && order.ship_status == 2}}">已完成</view>
+			<view wx:if="{{order.pay_status == 2 && order.ship_status == 3}}">退货中</view>
+			<view wx:if="{{order.pay_status == 2 && order.ship_status == 4}}">退货成功</view>
+		</view>
+		<view class="cell">
 			<text>订单编号</text>
 			<text>{{order._order_no}}</text>
 		</view>

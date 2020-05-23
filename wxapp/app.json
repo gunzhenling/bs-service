@@ -18,6 +18,7 @@
     "pages/addr/index",
     "pages/orderon/index",
     "pages/order_detail/index",
+    "pages/order_carrier/index",
     "pages/addr/addr_opt/index"
   ],
   "window": {

@@ -29,7 +29,7 @@ Page({
       return global.util.showToast.message('两次密码不一致');
     }
     wx.showLoading({title:'加载中'});
-    let res = await global.http.post('/api/user/update/password', {name: wx.getStorageSync('user').name, old_password, password, confirm_password,});
+    let res = await global.http.post('/api/bs/user/update/password', {name: wx.getStorageSync('user').name, old_password, password, confirm_password,});
     if (!res.code) {
       global.util.showToast.message('修改密码成功').then(e => wx.navigateBack());
     } else {
