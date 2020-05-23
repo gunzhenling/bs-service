@@ -143,7 +143,7 @@ Page({
   to_return: async function (e) {
     let item = e.currentTarget.dataset.item;
     global.util.showToast.loading();
-    let res = await global.http.post(`/api/bs/order/update/shipStatus`, {order_no: item.order_no, ship_status: 3});
+    let res = await global.http.post(`/api/bs/order/update/shipStatus`, {order_no: item.order_no, ship_status: 4});
     if (!res.code) {
       await global.util.showToast.message('申请退货成功');
       this.setData({offset: 0});

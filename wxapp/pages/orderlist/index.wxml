@@ -19,8 +19,8 @@
 					<view class='state' wx:if="{{item.pay_status == 2 && item.ship_status == 0}}" style="background:#EFD43A">待发货</view>
 					<view class='state' wx:if="{{item.pay_status == 2 && item.ship_status == 1}}" style="background:red">待收货</view>
 					<view class='state' wx:if="{{item.pay_status == 2 && item.ship_status == 2}}" style="background:green">已完成</view>
-					<view class='state' wx:if="{{item.pay_status == 2 && item.ship_status == 3}}" style="background:#EFD43A">退货中</view>
-					<view class='state' wx:if="{{item.pay_status == 2 && item.ship_status == 4}}" style="background:gray">退货成功</view>
+					<view class='state' wx:if="{{item.pay_status == 2 && item.ship_status == 4}}" style="background:#EFD43A">退货中</view>
+					<view class='state' wx:if="{{item.pay_status == 2 && item.ship_status == 3}}" style="background:gray">退货成功</view>
 				</view>
 				<view class="block ">
 					<view class="goods_info">
@@ -41,7 +41,7 @@
 				<view class='extend_btn' data-item="{{item}}" bindtap='pay' wx:if="{{item.pay_status == 0}}"  style="background:red;color:white">余额支付</view>
         <view class='extend_btn' data-item="{{item}}" bindtap='cancel' wx:if="{{item.pay_status == 0}}"  style="background:gray;color:white">取消</view>
 				<view class='extend_btn' data-item="{{item}}" bindtap='receive' wx:if="{{item.pay_status == 2 && item.ship_status == 1}}"  style="background:red;color:white">确认收货</view>
-				<view class='extend_btn' data-item="{{item}}" bindtap='to_return' wx:if="{{item.pay_status == 2 && item.ship_status == 2}}"  style="background:green;color:white">申请退货</view>
+				<view class='extend_btn' data-item="{{item}}" bindtap='to_return' wx:if="{{item.pay_status == 2 && item.ship_status == 2 && item.custom_made.made_type == 0}}"  style="background:green;color:white">申请退货</view>
 			</view>
 		</view>
 	</view>
