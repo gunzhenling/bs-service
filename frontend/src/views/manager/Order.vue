@@ -130,11 +130,12 @@ export default {
             item.order_status = "已发货";
           } else if (item.ship_status == 2) {
             item.order_status = "已收货";
-          } else if (item.ship_status == 3) {
-            item.order_status = "退货完成";
-          } else if (item.ship_status == 4) {
-            item.order_status = "申请退货";
           }
+        }
+        if (item.ship_status == 3) {
+          item.order_status = "退货完成";
+        } else if (item.ship_status == 4) {
+          item.order_status = "申请退货";
         }
       });
 

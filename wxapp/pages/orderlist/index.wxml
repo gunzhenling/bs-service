@@ -19,8 +19,8 @@
 					<view class='state' wx:if="{{item.pay_status == 2 && item.ship_status == 0}}" style="background:#EFD43A">待发货</view>
 					<view class='state' wx:if="{{item.pay_status == 2 && item.ship_status == 1}}" style="background:red">待收货</view>
 					<view class='state' wx:if="{{item.pay_status == 2 && item.ship_status == 2}}" style="background:green">已完成</view>
-					<view class='state' wx:if="{{item.pay_status == 2 && item.ship_status == 4}}" style="background:#EFD43A">退货中</view>
-					<view class='state' wx:if="{{item.pay_status == 2 && item.ship_status == 3}}" style="background:gray">退货成功</view>
+					<view class='state' wx:if="{{item.ship_status == 4}}" style="background:#EFD43A">退货中</view>
+					<view class='state' wx:if="{{item.ship_status == 3}}" style="background:gray">退货成功</view>
 				</view>
 				<view class="block ">
 					<view class="goods_info">
