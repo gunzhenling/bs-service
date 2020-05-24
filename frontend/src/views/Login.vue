@@ -5,8 +5,8 @@
     <div class="sub"> 登录您的账号 </div>
     <a-form :form="form" @submit="handleSubmit">
       <a-form-item @pressEnter="handleSubmit">
-        <a-input size="large" placeholder="请输入姓名或者邮箱号"
-          v-decorator="[ 'account', {rules: [{ required: true, message: '请输入姓名或者邮箱号' }]} ]">
+        <a-input size="large" placeholder="请输入帐号"
+          v-decorator="[ 'account', {rules: [{ required: true, message: '请输入帐号' }]} ]">
           <a-icon slot="prefix" type="user" />
           <!-- <a-icon v-if="userName" slot="suffix" type="close-circle" @click="emitEmpty" /> -->
         </a-input>
@@ -76,7 +76,10 @@ export default {
           }
           return ;
         }
-        this._http.post("/api/v3/login", {"account": values.account,"password":md5(values.pwd)}).then(res => {
+        if (values.account !== "admin") {
+          this.helpAccount = "请输入有效帐号"
+        }
+        this._http.post("/api/bs/user/login", {"name": values.account,"password":values.pwd}).then(res => {
           if (res.code) {
             this.$message.error(res.message);
           } else {

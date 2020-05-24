@@ -4,10 +4,10 @@
       <a-menu theme="dark" mode="horizontal" :defaultSelectedKeys="[0]" :style="{ lineHeight: '64px' }" >
         <a-menu-item :key="0">管理后台</a-menu-item>
       </a-menu>
-      <!-- <span :style="{ lineHeight: 'none' }">
+      <span :style="{ lineHeight: 'none' }">
         <a-dropdown>
           <a class="ant-dropdown-link" href="#">
-            {{user.admin.name}} <a-icon type="down" />
+            {{user.name}} <a-icon type="down" />
           </a>
           <a-menu slot="overlay">
             <a-menu-item>
@@ -18,7 +18,7 @@
             </a-menu-item>
           </a-menu>
         </a-dropdown>
-      </span> -->
+      </span>
     </a-layout-header>
     <a-layout>
       <a-layout-sider width="200" style="background: #fff;text-align:left;">
@@ -42,7 +42,19 @@
 <script>
 export default {
   data () {
+    let user = localStorage.user;
+    try {
+      user = JSON.parse(user);
+    } catch (e) {
+      user = "";
+    } finally {
+
+    }
+    if (!user) {
+      this.$router.replace('/login');
+    }
     return {
+      user: user,
       pathname: location.pathname,
       actions: [
         {title: "用户管理", link: "/manager/user"},

@@ -14,7 +14,7 @@
           <a-button :loading="loading" type="danger">删除</a-button>
         </a-popconfirm>
         <br/>
-        <a-button :loading="loading" @click="add(record)">编辑</a-button>
+        <a-button :loading="loading" style="margin-top:10px;" @click="add(record)">编辑</a-button>
       </template>
       <template slot="picture_url" slot-scope="text, record, index">
         <img :src="record.picture_url" style="width:100px;height:100px;">

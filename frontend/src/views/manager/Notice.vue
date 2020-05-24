@@ -5,7 +5,10 @@
       共 {{total}} 条
     </div>
     <a-button style="float:right;margin-top:-40px;" @click="add({})">新增公告</a-button>
-    <a-table :pagination="pagination" :loading="t_loading" :rowKey="(e,i) => i" :columns="columns" bordered :data-source="list" @change="changePage">
+      <a-popconfirm v-if="selectedRowKeys.length" placement="top" title="确定批量删除这些公告？" :okText="'确定'" :cancelText="'取消'" @confirm="delAll()"  style="float:right;margin-top:-40px;margin-right: 100px">
+        <a-button type="danger">批量删除({{selectedRowKeys.length}})</a-button>
+      </a-popconfirm>
+      <a-table :pagination="pagination" :loading="t_loading" :rowKey="(e,i) => e.id" :columns="columns" bordered :data-source="list" @change="changePage" :row-selection="rowSelection" >
       <template slot="oprate" slot-scope="text, record, index">
         <a-popconfirm placement="top" title="确定删除该公告？" :okText="'确定'" :cancelText="'取消'" @confirm="delItem(record)">
           <a-button :loading="loading" type="danger">删除</a-button>
@@ -31,6 +34,12 @@ export default {
   data () {
     // 函数编号	功能函数名	父级标签	访问级别	函数类型	函数状态	操作
     return {
+      rowSelection: {
+        onChange: (selectedRowKeys, selectedRows) => {
+          this.selectedRowKeys = selectedRowKeys;
+        },
+      },
+      selectedRowKeys: [],
       custom_made: [
         {name: "版费", value: "b_fee"},
         {name: "定制费", value: "made_fee"},
@@ -87,6 +96,26 @@ export default {
       this.page = 1;
       this.getData();
     },
+      delAll: async function (record){
+        this.loading = true;
+        let {selectedRowKeys} = this;
+        let fail = [];
+        for (let i = 0; i < selectedRowKeys.length; i++) {
+          let res = await this._http.post(`/api/bs/common/notice/delete/${selectedRowKeys[i]}`, );
+          if (res.code) {
+            let title = (this.list[this.list.findIndex(e => e.id == selectedRowKeys[i])] || {}).title;
+            fail.push(title);
+          }
+        }
+        if (fail.length) {
+          this.$message.error(`公告 ${fail.join("、")} 删除失败`);
+        } else {
+          this.$message.success(`公告批量删除成功`);
+        }
+        this.loading = false;
+        this.page = 1;
+        this.getData();
+      },
     add (record) {
       this.show = true;
       this.record = record;

@@ -53,17 +53,31 @@ export default {
   },
   methods: {
     handleSubmit(e) {
+      let user = localStorage.user;
+      try {
+        user = JSON.parse(user);
+      } catch (e) {
+        user = "";
+      } finally {
+
+      }
       e.preventDefault();
       this.form.validateFields((err, values) => {
         const {old_password, password, confirm} = values;
         if (!err) {
           this.confirmLoading = true;
-          this._http.put(`/api/v3/change-pwd`, {
-            old_password: md5(old_password),
-            new_password: md5(password)
+          this._http.post(`/api/bs/user/update/password`, {
+            name: user.name,
+            old_password: old_password,
+            password: password,
+            confirm_password: password,
           }).then(res => {
-            this.$message.success('密码修改成功');
             this.confirmLoading = false;
+            if (res.code) {
+              this.$message.error(res.message);
+              return ;
+            }
+            this.$message.success('密码修改成功');
           }, err => {
             this.$message.warning(err.message);
             this.confirmLoading = false;
